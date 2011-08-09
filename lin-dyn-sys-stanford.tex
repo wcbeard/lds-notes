@@ -1,0 +1,1893 @@
+% Created 2011-08-08 Mon 21:40
+% BEGIN My Article Defaults
+    \documentclass[10pt,letterpaper]{article}
+    
+    \usepackage[letterpaper,includeheadfoot,top=0.5in,bottom=0.5in,left=0.75in,right=0.75in]{geometry}
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{hyperref}
+    \usepackage{lastpage}
+    \usepackage{fancyhdr}
+    \usepackage[all]{xy}              %for doing graphics http://en.wikibooks.org/wiki/LaTeX/Creating_Graphics#Xy-pic
+    \pagestyle{fancy}
+    \renewcommand{\headrulewidth}{1pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+    
+    % For the engineering phasor symbol
+    % http://newsgroups.derkeiler.com/Archive/Comp/comp.text.tex/2006-02/msg00895.html
+    \makeatletter
+    \def\phase#1{{\vbox{\ialign{$\m@th\scriptstyle##$\crcr
+    \not\mathrel{\mkern10mu\smash{#1}}\crcr
+    \noalign{\nointerlineskip}
+    \mkern2.5mu\leaders\hrule height.34pt\hfill\mkern2.5mu\crcr}}}}
+    \makeatother
+    
+    % Default footer
+    \fancyfoot[L]{\small \jobname \\ \today}
+    \fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+    \fancyfoot[R]{\small \copyright \the\year\  Chris Beard}
+    % END My Article Defaults
+    
+    
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage[integrals]{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{amsmath}
+\providecommand{\alert}[1]{\textbf{#1}}
+\begin{document}
+
+
+
+\title{Linear Dynamic Systems Notes}
+\author{Chris Beard}
+\date{08 August 2011}
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+Following notes from the \href{file://.~/Desktop/Engineering/kiet-ee-downloads/current/ee263_course_reader.pdf}{EE263 Course Reader}. Orgmode $\rightarrow$ \LaTeXe
+
+\begin{center}
+\begin{tabular}{ll}
+ \href{http://www.stanford.edu/~boyd/ee263/matlab/}{Matlab files}                                       &  \href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/linear-algebra-notes.pdf}{Linear Algebra}  \\
+ \href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/index.html}{Index}  &                                                                                                      \\
+\end{tabular}
+\end{center}
+
+
+\section{Lecture 2}
+\label{sec-1}
+
+\href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/materials/lsoeldsee263/02-lin-fcts.pdf}{Official Lecture Notes}
+\subsection{Interpretation for $y=Ax$}
+\label{sec-1_1}
+
+\begin{itemize}
+\item $A$ a transformation matrix
+\item $y$ an observed measurement, $x$ an unknown
+\item $x$ is input, $y$ is output; for rows $i$ and columns $j$ in $A$, ${\bf i \rightarrow y}$, ${\bf j \rightarrow x}$
+
+\begin{itemize}
+\item indexed as \bf output, input
+\end{itemize}
+
+\item Lower diagonal Matrix should make you expect or have a vague thought about causality.
+
+\begin{itemize}
+\item $a_{ij}=0$ for $i<j \Rightarrow y_i$ only depends on $x_1,...,x_i$
+\item $A$ is diagonal; output only depends on input
+\end{itemize}
+
+\item Sparcity pattern (block of zeroes) in a matrix should have you wonder why\ldots{}usually not coincidental
+\item $A_{35}$ positive $\Rightarrow x_5$ increased corresponds to an increase in 3rd output, $y_3$
+\end{itemize}
+\subsection{Example in notes}
+\label{sec-1_2}
+\subsubsection{Linear elastic structure}
+\label{sec-1_2_1}
+
+\begin{itemize}
+\item $a_{11}$ probably positive
+
+\begin{itemize}
+\item $x_1$ input gives positive push to $y_1$ output
+\end{itemize}
+
+\end{itemize}
+\subsubsection{Force/Torque on rigid body}
+\label{sec-1_2_2}
+
+\begin{itemize}
+\item Net torque/force on body is linearly related to force inputs
+\end{itemize}
+\subsubsection{Thermal System}
+\label{sec-1_2_3}
+
+\begin{itemize}
+\item despite normally needing a Poisson equation, the steady state heat of the different locations can be represented as a linear system $Ax=y$
+\end{itemize}
+\section{Lecture 3}
+\label{sec-2}
+\subsection{Review of Linearization (affine approximation)}
+\label{sec-2_1}
+
+  \begin{enumerate}
+  \item  If $f: {\bf R}^{n} \rightarrow {\bf R}^{m} $ is differentiable at $x_{0} \in {\bf R} ^{n}$, then
+  $x$ near $x_{0} \Rightarrow f(x)$ very near $f(x_{0}) + D f(x_{0})(x-x_{0})$
+  where
+  $$
+  Df(x_{0})_{ij}= \frac{\partial f_{i}}{\partial x_{j}} \bigg|_{x_{0}}
+  $$
+  is the derivative (Jacobian) matrix.
+  
+  \item with $y=f(x), y_{0}=f(x_{0})$, define `input deviation' $\delta x := x-x_{0}$, `output deviation' $\delta y:= y-y_{0}$
+  \item then we have $\delta y \approx Df(x_{0})\delta x$
+  \subitem i.e., we get a linear function for looking at how the output changes with small changes in the input
+  \item When deviations are small, they are approximately related by a linear function
+  
+  \end{enumerate}
+\subsubsection{Good intuition range-finding problem}
+\label{sec-2_1_1}
+\subsection{Intepretations of $Ax=y$}
+\label{sec-2_2}
+
+\begin{itemize}
+\item Scaled combination of columns in $A$
+
+  $A=[ a_1 a_{2} ... a_{n}] \rightarrow y=x_{1}a_{1}+x_{2}a_{2}+...+x_{n}a_{n}$
+\item Looking at the rows: the multiplication is the inner product of rows and vector $x$
+\item I/O ordering is backwards in control; in $A_{ij}$, $j$ refers to input and $i$ refers to output
+
+\begin{itemize}
+\item indexing is likewise backwards in block diagram indexing
+\end{itemize}
+
+\end{itemize}
+  $AB=I$; $\tilde a_{i}^{T} \cdot b_{j}=0$ if $i\ne j$, where $\tilde a_{i}$ is the $ith$ row in $A$, and $b_{j}$ is $jth$ column in $B$ 
+\subsubsection{Computing $C=AB$}
+\label{sec-2_2_1}
+
+How to compute this faster than using formula $c_{ij}=\sum_{k=1} A_{ik} B_{kj}$: have computer break it up into submatrices and do the multiplication on them
+\subsubsection{Zero nullspace (in notes)}
+\label{sec-2_2_2}
+
+\begin{itemize}
+\item if 0 is only element in $\mathcal{N}(A)$
+
+\begin{itemize}
+\item $A$ is one-to-one
+
+\begin{itemize}
+\item linear transformation doesn't lose information
+\end{itemize}
+
+\item columns of $A$ are independent, and basis for their span
+\item $A$ has a left inverse $\Rightarrow$ you can use this to undo the transformation and find the input $x$, given the output $y$
+\item $|A^T A|\ne0$
+\end{itemize}
+
+\end{itemize}
+\subsubsection{Interpretations of nullspace}
+\label{sec-2_2_3}
+
+supposing $z \in \mathcal{N}(A)$ 
+\begin{itemize}
+\item Measurements
+
+\begin{itemize}
+\item $z$ is undetectable from sensors
+\item $x$ and $x+z$ are indistinguishable from sensors: $Ax = A(x+z)$
+\item the nullspace characterizes ambiguity in $x$ from measurement $y=Ax$
+
+\begin{itemize}
+\item large nullspace is bad
+\end{itemize}
+
+\end{itemize}
+
+\item $y=Ax$ is output from input $x$
+
+\begin{itemize}
+\item $z$ is input with no result
+\item $x$ and $x+z$ have same result
+\item the nullspace characterizes freedom of input choice for given result
+
+\begin{itemize}
+\item large nullspace is good: more room for optimization because of more input possibilities
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+\subsubsection{Range}
+\label{sec-2_2_4}
+
+Range of $A \in \mathbb{R}^{m\times n}$ defined as $\mathcal{R}(A)=\{Ax | x \in \mathbb{R}^n\} \subseteq \mathbb{R}^m$ 
+\begin{itemize}
+\item The set of vectors that can be `hit' by linear mapping $y=Ax$
+\item span of columns of $A$
+\item set of vectors $y$ for which $Ax=y$ has a solution
+\item possible sensor measurement
+
+\begin{itemize}
+\item in design, you'll want to throw an exception if a measurement is outside the range; the sensor is bad
+\item test for a bad 13th sensor: remove 13th row in $A$; if the reduced $y$ is in the range of the reduced matrix, the 13th sensor might not have been bad
+\end{itemize}
+
+\end{itemize}
+\begin{itemize}
+
+\item Onto matrices\\
+\label{sec-2_2_4_1}%
+$A$ is `onto' if $\mathcal{R}(A)=\mathbb{R}^m$
+\begin{itemize}
+\item you can solve $Ax=y$ for any $y$
+\item columns of $A$ span $\mathbb{R}^m$
+\item $A$ has a right inverse $B$ s.t. $AB=I$
+
+\begin{itemize}
+\item can do $ABy=A(By)=y$: you want an $x$ that gives you $y$? Here it is.
+\item Design procedure
+\end{itemize}
+
+\item rows of $A$ are independent
+
+\begin{itemize}
+\item a.k.a., $\mathcal{N}(A^T)=\{0\}$
+\end{itemize}
+
+\item $|AA^T|\ne 0$
+\end{itemize}
+
+\item Interpretations of range
+\label{sec-2_2_4_2}%
+\begin{itemize}
+\item supposing $v \in \mathcal{R}(A)$
+
+\begin{itemize}
+\item $v$ reachable
+\item else, not reachable
+\end{itemize}
+
+\end{itemize}
+
+
+\item Inverse\\
+\label{sec-2_2_4_3}%
+Note: square matrices are impractical for engineering. They don't let you take advantoge of redundant sensors/controllers, or let you build a robust system to take care of broken sensors
+\begin{itemize}
+\item $A \in \mathbb{R}^{n \times n}$ is invertible or nonsingular if det $A \ne 0$
+
+\begin{itemize}
+\item columns of $A$ are basis for $\mathbb{R}^n$
+\item rows of $A$ are basis for $\mathbb{R}^n$
+\item $y=Ax$ has a unique solution $x$ for every $y \in \mathbb{R}^n$
+\item $A$ has left and right inverse $A^{-1} \in \mathbb{R}^{n\times n}$, s.t. $AA^{-1}=A^{-1}A=I$
+\item $\mathcal{N}(A)= \{0\}$
+\item $\mathcal{R}(A)=\mathbb{R}^n$
+\item det $A^T A= |AA^T| \ne 0$
+\end{itemize}
+
+\end{itemize}
+\begin{itemize}
+
+\item Dual basis intepretation of inverse\\
+\label{sec-2_2_4_3_1}%
+$a_i$ are columns of $A$, and $\tilde b_i^T$ are rows of $B=A^{-1}$
+\begin{itemize}
+\item $y=Ax$, column by column, looks like $y=x_1 a_1 + ... + x_n a_n$
+
+\begin{itemize}
+\item multiply both sides of $y=Ax$ by $A^{-1}=B$ gives $x=By$
+\item so $x_i=\tilde b_i^T y$
+\end{itemize}
+
+\end{itemize}
+
+\[
+\begin{bmatrix}
+  \vdots & \vdots & \vdots & \vdots \\
+  a_1    & a_2    & ...    & a_n    \\
+  \vdots & \vdots & \vdots & \vdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+x=A^{-1} y
+\]
+
+\[
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \cdots & \tilde b^T_1 & \cdots \\
+  \cdots & \tilde b^T_2 & \cdots \\
+  \cdots & \vdots       & \cdots \\
+  \cdots & \tilde b^T_n & \cdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_1 a_1 + ... + x_n a_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+(\tilde b^T_1 y) a_1 + ... + (\tilde b^T_n y) a_n
+\end{bmatrix}
+\]
+
+Beautiful thing:
+\[
+y=\sum_{i=1}^n (\tilde b_i ^T y) a_i
+\]
+
+\end{itemize} % ends low level
+\end{itemize} % ends low level
+\subsubsection{Rank of matrix}
+\label{sec-2_2_5}
+
+Rank of $A \in \mathbb{R}^{m \times n}$ as ${\bf rank}(A)= {\bf dim} \mathcal{R}(A)$
+\begin{itemize}
+\item ${\bf rank} (A)= {\bf rank} (A^T)$
+\item ${\bf rank} (A)$ is maximum number of independent columns or rows of $A$: ${\bf rank} (A) \le {\bf min} (m,n)$
+\item ${\bf rank} (A)+ {\bf dim} \mathcal{N}(A)=n$
+\end{itemize}
+\begin{itemize}
+
+\item Conservation of degrees of freedom (dimension)
+\label{sec-2_2_5_1}%
+\begin{itemize}
+\item ${\bf rank} (A)$ is dimension of set `hit' by mapping $y=Ax$
+\item ${\bf dim} \mathcal{N}(A)$ is dimension of set of $x$ `crushed' to zero by $y=Ax$
+\end{itemize}
+\begin{itemize}
+
+\item Example
+\label{sec-2_2_5_1_1}%
+\begin{itemize}
+\item $A \in \mathbb{R}^{20 \times 10} {\bf rank} (A)=8$
+
+\begin{itemize}
+\item you can do 8 dimensions worth of stuff
+\item 10 knobs, 2 redundant knobs, which is ${\bf dim} \mathcal{N}(A)=2$
+\end{itemize}
+
+\end{itemize}
+\end{itemize} % ends low level
+
+\item Coding interpretation of rank
+\label{sec-2_2_5_2}%
+\begin{itemize}
+\item rank of product: ${\bf rank} (BC) \le {\bf min} \{ {\bf rank} (B), {\bf rank} (C)\}$
+\item supposedly really cool stuff based on this
+\item low rank matrices let you do fast computations
+\end{itemize}
+\end{itemize} % ends low level
+\subsubsection{Various wrap-up items}
+\label{sec-2_2_6}
+\begin{itemize}
+
+\item RMS\\
+\label{sec-2_2_6_1}%
+\[
+{\bf rms} (x) = \left( \frac{1}{n} \sum^n _{i=1} \right) ^{1/2} = \frac{\| x \|}{\sqrt{n}} 
+\]
+
+\item Inner product\\
+\label{sec-2_2_6_2}%
+$\langle x,y \rangle := x_1 y_1 + x_2 y_2 + \cdots + x_n y_n = x ^{T} y$ 
+\begin{itemize}
+\item intepretation of inner product signs:
+\item $x ^{T} y > 0$: acute; roughly point in same direction
+\item $x ^{T} y > 0$: obtuse; roughly point in opposite direction
+\end{itemize}
+
+\item Orthonormal set of vectors
+\label{sec-2_2_6_3}%
+\begin{itemize}
+\item set of $k$ vectors $u_1, u_2, ..., u_k \in \mathbb{R}^{n}$ orthonormal; $U= [u_1 \cdots u_k]$
+\item $U^T U= I_k \leftrightarrow$ set of column vectors of $U$ are orthonormal
+\item ${\bf warning}$: $U U ^{T} \ne I_k$ if $k<n$
+
+\begin{itemize}
+\item say $U$ is $10\times 3$, $U^T$ is $3 \times 10$, rank of $U$ is 3 $\Rightarrow$ rank of $UU^T$ is at most 3
+\item but $UU^T$ will be a $10\times 10$ matrix, so it can't be the identity matrix
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize} % ends low level
+\section{Lecture 5}
+\label{sec-3}
+
+A good source for more on orthogonality at \href{http://www.math.umn.edu/~olver/aims_/qr.pdf}{University of Minnesota}
+\subsection{Geometric properties of orthonormal vectors}
+\label{sec-3_1}
+
+\begin{itemize}
+\item columns of $U$ are ON $\Rightarrow$ mapping under $U$ preserves distances
+
+\begin{itemize}
+\item $w=Uz \Rightarrow \|w \| = \| z \|$
+\end{itemize}
+
+\item Also preserves inner product
+\item Also preserves angles
+\item Something like a rigid transformation
+\end{itemize}
+\subsection{Orthonormal basis for $\mathbb{R}^{n}$}
+\label{sec-3_2}
+
+\begin{itemize}
+\item if there are $n$ orthonormal vectors (remember, with dimension $n$), it forms an orthonormal basis for $\mathbb{R}^{n}$
+\item $U^{-1}=U^T$
+
+\begin{itemize}
+\item \fbox{$U^T U=I \Leftrightarrow U$'s column vectors form an orthonormal basis for $\mathbb{R}^{n}$}
+\item $\displaystyle \sum _{i=1} ^{n} u_i u_i^T = I \in \mathbb{R}^{n \times n}$ (known as a dyad, or outer product; inner products reverses the two and gives a scalar, outer gives a matrix)
+\item outer products take 2 vectors, possibly of different sizes, and multiplies every combination of elements one with another
+\end{itemize}
+
+\end{itemize}
+\subsection{Expansion in orthonormal basis}
+\label{sec-3_3}
+
+\begin{itemize}
+\item $U$ orthogonal $\Rightarrow x=UU^T$
+\item $\displaystyle x= \sum ^{n} _{i=1} \left( u ^{T} _{i} x\right) u _{i}$
+
+\begin{itemize}
+\item because $U^TU=I$, the thing in sum is really $u_i u_i^T x$
+\item $u_i^T x$ is really a scalar, so this can be moved to the front of $u_i$, giving our result
+\item This says $x$ is a linear combination of $u_i$'s
+\end{itemize}
+
+\end{itemize}
+\subsection{Gram-Schmidt procedure}
+\label{sec-3_4}
+
+\begin{itemize}
+\item $a_1, ..., a_k \in \mathbb{R}^{n}$ are LI; G-S finds ON vectors $q_1,..., q_k$ s.t. $$ {\bf span} (a_1,...,a_r)= {\bf span} (q_1,...,q_r)$$ for $r \le k$
+\item so $q_1, ..., q_r$ is an ON basis for span($a_1, ...,a_r$)
+\item Basic method: orthogonalize each vector wrt the previous ones, then normalize result
+
+\begin{enumerate}
+\item $\tilde q_1 = a_1$
+\item normalize: $q_1 = \tilde q_1/ \|\tilde q_1 \|$
+\item remove $q_1$ component from $a_2$: $\tilde q_2 = a_2 - (q_1^T a_2) q_1$
+\item normalize $q_2$
+\item remove $q_1, q_2$ components: $\tilde q_3= a_3 - (q_1^T a_3) q_1 - (q_2^T a_3)q_2$
+\item normalize $q_3$
+\end{enumerate}
+
+\item $a_i= (q_1^T a_i) q_1 + (q_2^T a_i)q_2 + \cdots + (q_{i-1}^T a_i)q_{i-1} + \| \tilde q_i \| q_i$
+
+\begin{itemize}
+\item $= r_{1i} q_1 + r_{2i} q_2 + \cdots + r_{ii} q_i$ ($r_{ii} \ge 0$ is the length of $\tilde q_i$)
+\end{itemize}
+
+\end{itemize}
+\subsection{$QR$ decomposition}
+\label{sec-3_5}
+
+This can be written as $A=QR$, where $A \in \mathbb{R}^{n \times k}, Q \in \mathbb{R}^{n \times k} , R \in \mathbb{R}^{k\times k}$
+
+\[
+\begin{bmatrix}
+  a_1 & a_2 & \cdots & a_k \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  q_1 & q_2 & \cdots & q_k \\
+\end{bmatrix}
+\begin{bmatrix}
+  r_{11} & r_{12} & \cdots & r_{1k} \\
+         0 & r_{22} & \cdots & r_{2k} \\
+    \vdots & \vdots   & \ddots & \vdots   \\
+         0 & 0        & \cdots & r_{kk} \\
+\end{bmatrix}
+\]
+\begin{itemize}
+\item $R$ triangular because computation of $a_i$ only involves up to $q_i$
+
+\begin{itemize}
+\item a sort of causality, since you can calculate $q_7$ without seeing $q_8$
+\end{itemize}
+
+\item Columns of $Q$ are ON basis for $\mathcal{R}(A)$
+\end{itemize}
+\subsection{General Gram Schmidt procedure (`rank revealing QR algorithm')}
+\label{sec-3_6}
+
+\begin{itemize}
+\item Basically the same, but if one of the $\tilde q_i$'s is zero (meaning $a_i$ is dependent on previous $a$ vectors), then just go to the next column
+\item referring to notes, upper staircase notation shows which vectors are dependent on previous ones (columns without the x's)
+
+\begin{itemize}
+\item entries with x are `corner' entries
+\end{itemize}
+
+\end{itemize}
+\subsection{Applications}
+\label{sec-3_7}
+
+\begin{itemize}
+\item check if $b \in {\bf span} (a_1, a2, ..., a_k)$
+\item Factorize matrix $A$
+\end{itemize}
+\subsection{Least Squares Approximation}
+\label{sec-3_8}
+
+\begin{itemize}
+\item Overdetermined linear equation (tall, skinny, more equations than unknowns, dimensionally redundant system of equations)
+\end{itemize}
+\section{Lecture 6}
+\label{sec-4}
+
+On skinny, full rank matrices
+\subsection{Overdetermined equations}
+\label{sec-4_1}
+
+\begin{itemize}
+\item Skinny, more equations than unknowns
+\item Given $y=Ax, A\in \mathbb{R}^{m\times n}$, a randomly-chosen $y$ in $\mathbb{R}^{m}$ has 0 probability of being in the range of $A$
+\item To $approximately$ solve for $y$, minimize norm of error (residual) $r=Ax-y$
+\item find $x=x _{ls}$ (least squares approx.) that minimizes $\|r\|$
+\end{itemize}
+\subsection{Least Squares `Solution'}
+\label{sec-4_2}
+
+\begin{itemize}
+\item square $\|r\|$, get expansion, set gradient wrt $x$ equal to zero
+\item \fbox{$x _{ls} = (A ^{T} A) ^{-1} A ^{T} y$ } $=B_{ls} y$ (linear operation)
+\item $A ^{T} A$ should be invertible, square, full rank
+\item $(A ^{T} A)^{-1} A ^{T}$ is a generalized inverse (is only inverse for square matrices, though)
+
+\begin{itemize}
+\item Also known as the $A^\dagger$, `pseudo-inverse'
+\item Which is a left inverse of $A$
+\end{itemize}
+
+\end{itemize}
+\subsection{Projection on $\mathcal{R}(A)$}
+\label{sec-4_3}
+
+$Ax _{ls}$ is the point closest to $y$ (i.e., projection of $y$ onto $\mathcal{R}(A)$)
+\begin{itemize}
+\item $A x _{ls} = {\bf proj} _{ \mathcal{R}(A)} (y)= \left(A(A ^{T} A) ^{-1} A ^{T} \right)y$
+\end{itemize}
+\subsection{Orthogonality principle}
+\label{sec-4_4}
+
+The optimal residual is orthogonal to $C(A)$
+\begin{itemize}
+\item $r = A x _{ls} -y = (A(A ^{T} A) ^{-1} A ^{T} -I)y$ orthogonal to $C(A)$
+\item $\langle r, Az \rangle = y ^{T} (A(A ^{T} A) ^{-1} A ^{T} -I) ^{T} Az = 0$ for all $z \in \mathbb{R}^{n}$
+\end{itemize}
+\subsection{Least-squares via $QR$ factorization}
+\label{sec-4_5}
+
+$A$ is still skinny, full rank
+\begin{itemize}
+\item Factor as $A=QR$; $Q^TQ=I_n, R \in \mathbb{R}^{n\times n}$ upper triangular, invertible
+\item pseudo-inverse: $(A ^{T} A) ^{-1} A ^{T} = R ^{-1} Q ^{T} \Rightarrow$ \fbox{$R ^{-1} Q ^{T} y = x _{ls}$}
+\item Pretty straight-forward
+\item Matlab for least squares approximation
+\begin{verbatim}
+     xl = inv(A' * A)*A'y; # So common that has shorthand in MATLAB
+     xl = A\y;                 # Works for non-skinny matrices, may do unexpected things
+\end{verbatim}
+
+\end{itemize}
+\subsection{Full $QR$ factorization}
+\label{sec-4_6}
+
+\begin{itemize}
+\item $A= \begin{bmatrix}Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix}$
+
+\begin{itemize}
+\item New $Q$ is square, orthogonal matrix; $R_1$ is square, upper triangular, invertible
+\end{itemize}
+
+\item Remember, multiplying by orthogonal matrix doesn't changet the norm:
+
+\begin{itemize}
+\item $\| A x-y \| ^{2} = \| R_1 x - Q ^{T} _{1} y \|^2 + \| Q ^{T} _{2} y \| ^{2}$
+\item Find least squares approximation with $x _{ls} = R ^{-1} _{1} Q ^{T} _{1} y$ (zeroes first term)
+\end{itemize}
+
+\end{itemize}
+\subsection{Applications for least squares approximations}
+\label{sec-4_7}
+
+\begin{itemize}
+\item if there is some noise $v$ in $y = Ax+v$
+
+\begin{itemize}
+\item you can't reconstruct $x$, but you can get close with the approximation
+\end{itemize}
+
+\item Estimation: choose some $\hat x$ that minimizes $\| A \hat x - y\|$, which is the deviation between the think we observed, and what we would have observed in the absence of noise
+\end{itemize}
+\subsection{BLUE: Best linear unbiased estimator}
+\label{sec-4_8}
+
+\begin{itemize}
+\item $A$ still full rank and skinny; have a `linear estimator' $\hat x= By$ ($B$ is fat)
+
+\begin{itemize}
+\item $\hat x = B(Ax+v)$
+\end{itemize}
+
+\item Called unbiased if there is no estimation error when there's no noise; the estimator works perfectly in the absence of noise
+
+\begin{itemize}
+\item if $v=0$ and $BA=I$; $B$ is left inverse/perfect reconstructor
+\end{itemize}
+
+\item Estimation error uf unbiased linear estimator is $x- \hat x= sBv$, so we want $B$ to be small and $BA=I$; small means error isn't sensitive to the noise
+\item The pseudo-inverse is the smallest left inverse of $A$:
+
+\begin{itemize}
+\item $A ^{\dagger} = (A ^{T} A) ^{-1} A ^{T}$
+\item $\displaystyle \sum _{i,j} B ^{2} _{ij} \ge \sum _{i,j} A _{ij} ^{\dagger 2}$
+\end{itemize}
+
+\end{itemize}
+\subsection{Range-finding example}
+\label{sec-4_9}
+
+\begin{itemize}
+\item Find ranges to 4 beacons from an unknown position $x$
+\item $y = - \begin{bmatrix}
+           k _{1} ^{T} \\ k _{2 } ^{T} \\ k _{3} ^{T} \\ k _{4} ^{T} 
+         \end{bmatrix} x + v$
+\item actual position $x=(5.59, 10.58)$; measurement $y=(-11.95, -2.84, -9.81, 2.81)$
+
+\begin{itemize}
+\item these numbers aren't consistent in $Ax=y$, since there's also the error; there is no such $x$ value that can give this $y$ value
+\end{itemize}
+
+\item There are 2 redundant sensors (2 more $y$ values than $x$ values); one method for estimating $\hat x$ is `just enough' method: you only need 2 $y$ values; take inverse of top half of $A$ and pad the rest of the matrix with 0's
+\item use $\hat x = B _{just enough} y = \begin{bmatrix}\begin{bmatrix} k_1 ^{T} \\ k_2 ^{T} \end{bmatrix} ^{-1} \begin{matrix} 0 & 0 \\ 0 & 0 \end{matrix}\end{bmatrix} = \begin{bmatrix}
+                                           0 & -1.0 & 0 & 0 \\ -1.12 &   .5 & 0 & 0 \\   
+                                     \end{bmatrix} y = \begin{bmatrix} 2.84 \\ 11.9 \end{bmatrix}$
+\item Least Squares method: $\hat x A ^{\dagger} y =$ this has a much smaller norm of error
+\item Just enough estimator doesn't seem to have good performance\ldots{}unless last two measurements were really off, since JEM only takes 2 measurements into account
+\end{itemize}
+\subsection{Quantizer example}
+\label{sec-4_10}
+
+Super-impressive least squares estimate; more precise than A-D converter
+\subsection{Least Squares data-fitting}
+\label{sec-4_11}
+
+\begin{itemize}
+\item use functions $f_1, f_2, ..., f_n:S \rightarrow \mathbb{R}$ are called regressors or basis functions
+\item applications
+
+\begin{itemize}
+\item interpolation- , extrapolation, smoothing of data
+\end{itemize}
+
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ll}
+ Applications                    &                                                                                    \\
+\hline
+ interpolation                   &  don't have sensors in specific location, but want the temperature                 \\
+ extrapolation                   &  get good basis functions for better interpolation                                 \\
+ data smoothing                  &  de-noise measurements                                                             \\
+ simple, approximate data model  &  Get a million samples, use the data-fitting to get a simple approximate function  \\
+\end{tabular}
+\end{center}
+\subsection{Least-squares polynomial fitting}
+\label{sec-4_12}
+
+\begin{itemize}
+\item Vandermonde matrix?
+\end{itemize}
+\section{Lecture 7}
+\label{sec-5}
+\subsection{Least-squares polynomial fitting, cont'd}
+\label{sec-5_1}
+
+\begin{itemize}
+\item have data samples $(t_i, y_i), i=1,...,m$
+\item fit coefficients $a_i$ of polynomial $p(t)= a_0 + a_1 t + \cdots + a _{n-1} t ^{t-1}$ so that when evaluated at $t_i$ it will give you the associated $y$ value
+\item basis functions are $f_j(t)= t ^{j-1}, j=1,...,n$
+\item use Vandermonde matrix $A$ (`polynomial evaluator matrix'):
+\end{itemize}
+\[
+A=
+\begin{bmatrix}
+  1 & t_1    & t_1^2 & ... & t_1^{n-1} \\
+  1 & t_2    & t_2^2 & ... & t_2^{n-1} \\
+    & \vdots &       &     & \vdots    \\
+  1 & t_m    & t_m^2 & ... & t_m^{n-1} \\
+\end{bmatrix}
+\]
+\begin{itemize}
+\item side note: use this when you want to fit throughout an interval, use a Taylor series fit if you want it close to a point
+\end{itemize}
+\subsection{Growing sets of regressors}
+\label{sec-5_2}
+
+\begin{itemize}
+\item Given ordered set of vectors; find best fit with first vector, then best fit with first and second, then best fit with first three\ldots{}
+\item These vectors called \emph{regressors}, or columns
+\item Say you have some \emph{master list} $A$ with $n$ columns, and $A ^{(p)}$ will be the matrix with the first $p$ columns of it
+
+\begin{itemize}
+\item we want to minimize different sets of $\| A ^{(p)} x-y \|$
+\item i.e., project $y$ onto a growing span $\{a_1, a_2, ..., a_p\}$
+\end{itemize}
+
+\item Solution for each $p \le n$ given by $x _{ls} ^{(p)} = (A ^{T} _{p} A _{p} )^{-1} A _{p} ^{T} y = R ^{-1} _{p} Q ^{T} _{p} y$
+
+\begin{itemize}
+\item In MATLAB, \texttt{A(:,1:p)\textbackslash{}y}, though technically it's faster to do a sort of \texttt{for} loop
+\end{itemize}
+
+\item Residual, $\| \sum ^{p} _{i=1} x_i a_i -y \|$ reduces as $p$ (number of columns) increases
+
+\begin{itemize}
+\item though it may be same as residual with previous value of $p$ if the optimal $x_1=0$, when $y \perp a_1$
+\item if the residual drops 15\% from that of previous value of $p$, you say that $a_1$ explains 15\% of $y$
+\end{itemize}
+
+\end{itemize}
+\subsection{Least-squares system identification (important topic)}
+\label{sec-5_3}
+
+\begin{itemize}
+\item measure input, output $u(t), y(t)$ for $t=0,...,N$ of unknown system, and try to get a model of system
+\item example: moving average (MA) model with $n$ delays (try to approximate what are the weights $h_i$ for each delay)
+
+\begin{itemize}
+\item see equation/matrix in notes, though there are different ways to write it
+\item get best answer with LSA
+\end{itemize}
+
+\end{itemize}
+\subsection{Model order selection}
+\label{sec-5_4}
+
+\begin{itemize}
+\item how large should $n$ be?
+\item the larger, the smaller prediction error on \emph{data used to form model}
+\item but at a certain point, predictive ability of model on other I/O data from same system worsens
+\item probably best to choose the `knee' on the graph on notes slide for prediction of new data
+\end{itemize}
+\subsubsection{Cross-validation}
+\label{sec-5_4_1}
+
+\begin{itemize}
+\item check with new data, only if you're getting small residuals on data you've already seen
+\item when $n$ gets too large (greater than $n=10$ on graph), the error with `validation data' actually gets larger
+\item this example is ideal, since $n=10$ is the obvious order for the model
+\item \textbf{Application note}: in medical, many industries, there's a firm wall between validation data and model-developing data, so someone \emph{else} tests your model
+\item in this example, it is known as \emph{overfit} when the validation data error gets larger for $n$ too large
+\end{itemize}
+\subsection{Growing sets of measurements}
+\label{sec-5_5}
+
+\begin{itemize}
+\item similar to GSo Regressors, except you add new rows, not columns
+\item this would happen if we're estimating a parameter $x$ (which is constant)
+\item Solution: $\displaystyle x_{ls} = \left( \sum ^{m} _{i=1} a_i a_i ^{T} \right) ^{-1} \sum ^{m} _{i=1} y_i a_i$
+\item new way to think of least squares equation
+\end{itemize}
+\subsection{Recursive ways to do least squares}
+\label{sec-5_6}
+
+\begin{itemize}
+\item don't have to re-add for each new measurement
+
+\begin{itemize}
+\item i.e., memory is bounded
+\item use equation from notes; solution is $x _{ls} (m) = P(m) ^{-1} q(m)$
+\end{itemize}
+
+\end{itemize}
+\subsection{Fast update algorithm for recursive LS}
+\label{sec-5_7}
+
+\begin{itemize}
+\item Was a big deal back in the day; somewhat still
+\end{itemize}
+\subsection{Multi-objective least squares}
+\label{sec-5_8}
+
+\begin{itemize}
+\item Sometimes you have 2+ objectives to minimize
+
+\begin{itemize}
+\item say $J_1 = \| Ax-y\| ^{2}$ (what we've done so far)
+\item and $J_2 = \| Fx-g\| ^{2}$
+\item these are usually competing (minimize one at cost of other)
+\end{itemize}
+
+\item Variable in question is $x \in \mathbb{R}^{n}$
+\item Plot in notes shows plot of $(J_1(x_i), J_2(x_i))$
+\item Some points are unambiguously worse than others, but there is some ambiguity when $J_1(x_1) < J_1(x_2)$, while $J_2(x_1) > J_2(x_2)$
+\item Fix this ambiguity with `weighted-sum objective'
+\item $J_1 + \mu J_2 = \| Ax-y\| ^{2} + \mu \| Fx-g\| ^{2}$
+
+\begin{itemize}
+\item Say, there's a trade-off between smoothness (no noise) and better fit; $\mu$ can have different dimensions if $J_2$ does
+\end{itemize}
+
+\item Use slope of $\mu$ in graph (`indifference curve', in economics) [slide 7-6]
+\end{itemize}
+\section{Lecture 8}
+\label{sec-6}
+
+Multi-objective least-squares
+\subsection{Plot of achievable objective pairs}
+\label{sec-6_1}
+
+\begin{itemize}
+\item if it approximates an L shape (has a `knee'), the knee is usually the obvious optimal location, so least-squares isn't as helpful
+
+\begin{itemize}
+\item optimal point isn't very sensitive to $\mu$
+\end{itemize}
+
+\item Other extreme: trade-off curve looks linear (negative slope), where it's zero-sum
+
+\begin{itemize}
+\item optimal point very sensitive to $\mu$
+\item slope commonly called \emph{exchange rate curve}
+\end{itemize}
+
+\item In this class, they must be convex curves (cup up/outward)
+\item To find Pareto optimal points, minimize $J_1 + \mu J_2 = \alpha$
+
+\begin{itemize}
+\item on plot, can have level curves with slope $\mu$
+\item Find point on Pareto Optimal Curve that has slope $\mu$
+\end{itemize}
+
+\end{itemize}
+\subsection{Minimizing weighted-sum objective}
+\label{sec-6_2}
+
+\begin{itemize}
+\item note: norm-squared of a stacked vector is norm-square of the top+norm-square of bottom
+\end{itemize}
+$$J_1+\mu J_2 = \| Ax - y \| ^{2} + \mu \| Fx - g \| ^{2} = \left\|
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+x-
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\right\| ^{2} 
+$$
+\[
+= \left\| \tilde Ax- \tilde y \right\|
+\]
+where
+\[
+\tilde A =
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+, \tilde y =
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\]
+If $\tilde A$ is full rank,
+\begin{eqnarray}
+x &=& \left( \tilde A ^{T} \tilde A \right)^{-1} \tilde A ^{T} \tilde y \\
+  &=& ( A ^{T} A + \mu F ^{T} F) ^{-1} (A ^{T} y + \mu F ^{T} g)
+\end{eqnarray}
+Note: to plot the tradeoff curve, calculate the minimizer $x_\mu$, and plot the resulting pairs $(J_1, J_2)$ 
+In MATLAB, \texttt{[A; sqrt(mu) * F]\textbackslash{}[y;sqrt(mu) * g]}
+\subsection{Example: frictionless table}
+\label{sec-6_3}
+
+\begin{itemize}
+\item $y$ is final position at $t=10$; $y=a ^{T} x$, $a\in \mathbb{R}^{10}$
+\item $J_1 = (y-1) ^{2}$, (final position difference from $y=1$ squared)
+\item $J_2 = \|x\| ^{2}$ sum of force squares
+\item Q: Why do we often care about sum of squares? A: \textbf{It's easy to analyze} (not necessarily because it corresponds to energy)
+
+\begin{itemize}
+\item max $| x_i |$ corresponds to maximum thrust
+\item $\sum |x_i|$ corresponds to fuel use
+\end{itemize}
+
+\item Optimal tradeoff curve is quadratic
+\end{itemize}
+\subsection{Regularized least-squares}
+\label{sec-6_4}
+
+\begin{itemize}
+\item famous example of multi-objective least squares
+
+\begin{itemize}
+\item second $J$ term is simply $J_2 = \|x\|$, though first is the same: $J_1 = \|Ax-y\| ^{2}$
+\end{itemize}
+
+\item Tychonov regularization works for \emph{any} $A$
+
+\begin{itemize}
+\item \emph{regularized} least-squares solution: \fbox{$x_\mu = (A ^{T} A + \mu I) ^{-1} A ^{T} y$}, for $F=I, g=0$
+\end{itemize}
+
+\end{itemize}
+Show $(A ^{T} A + \mu I)$ is invertible, no matter what size/values of $A$ (assuming $\mu > 0$ ): 
+If this is \emph{not} invertible (singular), it means some nonzero vector $z$ gets mapped to zero ($z \in \mathcal{N}(A)$)
+\begin{eqnarray}
+(A ^{T} A + \mu I) z= 0, z \ne 0 \\
+z ^{T} (A ^{T} A + \mu I) z = 0 \text{ since } z^T \vec{0} =0 \\
+z ^{T} A ^{T} A z + \mu z ^{T} z = 0 \\
+\| A z \| ^{2} + \mu \| z \| ^{2} = 0 \\
+z = \vec{0} 
+\end{eqnarray}
+So, $z$ can only be zero, meaning $\mathcal{N}(A) = \{0\} \Rightarrow (A ^{T} A -\mu I)$ is invertible. This is also why $\mu$ must be positive.
+Or, you know it's invertible, since it is full rank (and skinny) when you stack $\mu I$ below it (see definition of $\tilde A$).
+\begin{itemize}
+\item Application of Regularized least-squares
+
+\begin{itemize}
+\item estimation/inversion
+\item $Ax-y$ is sensor residual
+\item prior information that $x$ is really small
+\item or, model only accurate for small $x$
+\item Tychonov solution trades off sensor fit and size of $x$
+\end{itemize}
+
+\item Image processing example
+
+\begin{itemize}
+\item Laplacian regularization
+
+\begin{itemize}
+\item image reconstruction problem
+\end{itemize}
+
+\item $x$ is vectorized version of image
+\item $\|A x - y\| ^{2}$ is difference from real image
+\item Want new objective to minimize roughness
+
+\begin{itemize}
+\item vector $Dx$ (from new matrix $D$) which has difference between neighboring pixels as elements
+
+\begin{itemize}
+\item $D_v x$ measures vertical difference
+\item $D_h x$ measures horizontal difference
+\item Nullspace is vector where there is no variation between pixels
+\end{itemize}
+
+\end{itemize}
+
+\item minimize $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2}$
+
+\begin{itemize}
+\item if $\mu$ is turned way up, it'll be all smoothed out
+\item if you care about total size of image, you can add another parameter $\lambda$: $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2} + \lambda \|x\| ^{2}$
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+\subsection{Nonlinear least squares (NLLS) problem}
+\label{sec-6_5}
+
+\begin{itemize}
+\item find $x\in \mathbb{R}^{n}$ that minimizes $\displaystyle \| r(x) \| ^{2} = \sum ^{m} _{i=1} r _{i} (x) ^{2}$
+\item $r(x)$ is vector of residuals; $r(x)= Ax-y \Rightarrow$ problem reduces to linear least squares problem
+\item in general, can't \textbf{really} solve a NLLS problem, but can find good heuristics to get a locally optimal solution
+\end{itemize}
+\subsection{Gauss-Newton method for NLLS}
+\label{sec-6_6}
+
+\begin{itemize}
+\item Start guess for $x$
+\item Loop
+
+\begin{itemize}
+\item linearize $r$ near current guess
+\item new guess is linear LS solution, using linearized $r$
+\item if convergence, stop
+\end{itemize}
+
+\item Linearize?
+
+\begin{itemize}
+\item Jacobian: $(Dr) _{ij} = \partial r _{i} / \partial x_j$
+\item Linearization: $r (x) \approx r(x ^{(k)}) + Dr(x ^{(k)} ) (x-x ^{(k)} )$
+\item Set this linearized approximation equal to $r(x) \approx A ^{(k)} x-b ^{(k)}$
+
+\begin{itemize}
+\item $A ^{(k)} = Dr(x ^{(k)})$
+\item $b ^{(k)} = Dr (x ^{(k)}) x ^{(k)} -r(x ^{(k)})$
+\end{itemize}
+
+\item See rest in notes
+\item At $k$ th iteration, approximate NLLS problem by linear LS problem:
+
+\begin{itemize}
+\item $\| r (x) \| ^{2} \approx \left\| A ^{(k)} x-b ^{(k)} \right\| ^{2}$
+
+\begin{itemize}
+\item if you wanna make this really cool add a $\mu \|x-x ^{(k)} \| ^{2}$ term on RHS
+\item called a `trust region term';
+\item first (original) part says to minimize sum of squares for \emph{model}
+\item trust region term says `but don't go far from where you are now'
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+
+\item Could also linearize without calculus; works really well
+
+\begin{itemize}
+\item See `particle filter'
+\end{itemize}
+
+\end{itemize}
+\subsection{G-N example}
+\label{sec-6_7}
+
+\begin{itemize}
+\item Nice graph and residual plot
+\item As practical matter, good to run simulation several times (with different initial guesses)
+\item `exuastive simulation'
+\end{itemize}
+\subsection{Underdetermined linear equations}
+\label{sec-6_8}
+
+\begin{itemize}
+\item $A \in \mathbb{R}^{m \times n}, m<n$ ($A$ is fat)
+\item more variables than equations
+\item $x$ is underspecified
+\item For this sectian \textbf{assume $A$ is full rank}
+\item Set of all solutions has form $\{x | Ax=y\} = \{x_p + z | z \in \mathcal{N}(A) \}$
+\item solution has dim $\mathcal{N}(A)= n-m$ `degrees of freedom'
+
+\begin{itemize}
+\item many DOF: good for design (flexibility), bad for estimation (stuff you don't/can't know with available measurements)
+\end{itemize}
+
+\end{itemize}
+\subsection{Least norm solution}
+\label{sec-6_9}
+
+\begin{itemize}
+\item \fbox{$x _{ls} = A ^{T} (AA ^{T}) ^{-1} y$}
+
+\begin{itemize}
+\item similar to our familiar skinny $A$ version: $x _{ls} = (A^{T} A) ^{-1} A ^{T} y$
+\item mnemonic: $(\cdot) ^{-1}$ thing must be square
+
+\begin{itemize}
+\item if $A$ skinny, both \$A A $^{T}$ and \$ $A^TA$ could be square (syntactically)
+\item semantically, you need the up and down patterns that will form the smallest square, i.e., full rank matrix
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+\section{Lecture 9 pt 2}
+\label{sec-7}
+
+Thank you fucking Suncheon.
+\subsection{General norm minimization with equality constraints}
+\label{sec-7_1}
+
+\begin{itemize}
+\item Problem: \fbox{minimize $\|A x-b\|$ subject to $Cx=d$, with variable $x$}
+\item Least squares/least norm are special cases
+
+\begin{itemize}
+\item Least norm: set $A=I, b=0$, then you just have norm of $x$ subject to some linear equations
+\end{itemize}
+
+\item Same as: minimize $(1/2) \|Ax-b\| ^{2}$ subject to $Cx=d$
+\item Lagrangian is\ldots{}long ugly thing\ldots{}look at notes
+
+\begin{itemize}
+\item a bit easier to look at block matrix format
+\end{itemize}
+
+\end{itemize}
+$$
+\begin{bmatrix}
+  A ^{T} A & C ^{T} \\
+  C        & 0      \\
+\end{bmatrix}
+\begin{bmatrix}
+  x       \\
+  \lambda \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  A ^{T} b \\
+  d        \\
+\end{bmatrix}
+$$
+\begin{itemize}
+\item recover least squares (maybe) by eliminating $C$ from matrix (not setting to zero, but only having 1 row/column in first matrix)
+\end{itemize}
+\subsection{Autonomous linear dynamical systems}
+\label{sec-7_2}
+
+``What the class is nominally about''
+\begin{itemize}
+\item In continuous time, autonomous LDS has form $\dot x = Ax$
+\item Solution: $x(t) = e ^{ta} x(0)$
+\item $x(t) \in \mathbb{R}^{n}$ is called the state
+
+\begin{itemize}
+\item $n$ is state dimension
+\end{itemize}
+
+\item $A$ basically maps where you are ($x$) to where you're going ($\dot x$)
+
+\begin{itemize}
+\item has units of s$^{-1}$, frequency
+\end{itemize}
+
+\item Example illustration: vector fields
+\end{itemize}
+\subsection{Block diagrams}
+\label{sec-7_3}
+
+\begin{itemize}
+\item use integrators to express $\dot x =Ax$ instead of differentiators
+
+\begin{itemize}
+\item block called `bank of integrators'
+\item historically used because of analog, mechanical computers
+\end{itemize}
+
+\item notches to express $n$ signals
+\end{itemize}
+\subsection{Linear circuit example}
+\label{sec-7_4}
+\section{Lecture 10}
+\label{sec-8}
+
+Examples of autonomous linear dynamical systems, $\dot x = Ax$ 
+\subsection{Example: Series reaction $A \rightarrow B \rightarrow C$}
+\label{sec-8_1}
+
+$$
+\dot x=
+\begin{bmatrix}
+  -k_1 & 0    & 0 \\
+  k_1  & -k_2 & 0 \\
+  0    & k_2  & 0 \\
+\end{bmatrix}
+x
+$$
+\begin{itemize}
+\item For second row, first term on rhs of $\dot x_2 = k_1 x_1 - k_2 x_1$ is \emph{buildup}
+\item Note: Column sums are 0 implies conservation of mass/materials;
+\end{itemize}
+\subsection{Discrete time Markov chain}
+\label{sec-8_2}
+
+\begin{itemize}
+\item $x(t+1) = Ax(t)$
+\item $x(t) = A ^{t} x(0)$
+\item Given current state, the matrix of \emph{transition probabilities} $P$ will tell you probabilities of the next state, given the current state
+\end{itemize}
+\subsection{Numerical integration of continuous system}
+\label{sec-8_3}
+
+\begin{itemize}
+\item for a small time step $h$, find about where you'll be in $h$ seconds b
+\item $x(t+h) \approx x(t) + h \dot x(t) = (I + hA) x(t)$
+\item problem: when you do it for a long time, error can build up pretty high
+\end{itemize}
+\subsection{Higher order linear dynamical systems ($\dot x=Ax$)}
+\label{sec-8_4}
+
+$x ^{(k)} = A _{k-1} x ^{(k-1)} + \cdots + A _{1} x ^{(1)} + A _{0} x, x(t) \in \mathbb{R}^{n}$
+\begin{itemize}
+\item define new variable
+\end{itemize}
+$$
+z =
+\begin{bmatrix}
+  x          \\
+  x ^{(1)}   \\
+  \vdots     \\
+  x ^{(k-1)} \\
+\end{bmatrix}
+\in \mathbb{R}^{nk},
+\dot z =
+\begin{bmatrix}
+  x ^{(1)}   \\
+  \vdots     \\
+  x ^{(k)} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+       0 &   I &   0 & \cdots & 0        \\
+       0 &   0 &   I & \cdots & 0        \\
+  \vdots &     &     &        & \vdots   \\
+       0 &   0 &   0 & \cdots & I        \\
+     A_0 & A_1 & A_2 & \cdots & A _{k-1} \\
+\end{bmatrix}
+z
+$$
+\begin{itemize}
+\item `upshift $x$, and zero-pad'
+\item $z$ is the state, not $x$
+\item in notes, black diagram with chain of integrators
+\end{itemize}
+\subsection{Example: Mechanical systems}
+\label{sec-8_5}
+
+\begin{itemize}
+\item Ex: $K _{12}$ is `cross-stiffness', how much stiffness you'd feel at node 1 from node 2
+\end{itemize}
+\subsection{Linearization near equilibrium point}
+\label{sec-8_6}
+
+Equilibrium point corresponds to constant solution ($f(x_e)= 0, x(t)=x_e$)
+\begin{itemize}
+\item if you start at an equilibrium point, you'll stay there
+\item if you start \emph{near} equilibrium point
+
+\begin{itemize}
+\item veer off (unstable)
+\item go towards equilibrium (stable)
+\item something in between
+\end{itemize}
+
+\item but, you never stay at an unstable equilibrium position, since equation is really $\dot x = f(x) + w(t)$, where $w(t)$ is noise
+\item Near equilibrium point, $\dot{\delta x}(t) \approx Df(x_e) \delta x(t)$, where $D$ is the Jacobian
+
+\begin{itemize}
+\item similar to euler forward equation
+\end{itemize}
+
+\item Don't fully trust approximations on approximations (but hope they work)
+\end{itemize}
+\subsection{Example: pendulum linearization}
+\label{sec-8_7}
+
+\begin{itemize}
+\item $ml ^{2} \ddot{\theta}=-lmg \sin \theta$
+\item rewrite as 1st order DE with state $x=[\theta \text{ } \dot \theta] ^{T} = [x_1 \text{ } x_2] ^{T}$:
+\end{itemize}
+$$
+\dot x =
+\begin{bmatrix}
+  x _{2}          \\
+  -(g/l) \sin x_1 \\
+\end{bmatrix}
+$$ 
+\begin{itemize}
+\item $\exists$ equilibrium point at $x=0$ (and $\pi$), so we linearize system near $x _{e} =0$, using a Jacobian matrix:
+\end{itemize}
+$$
+\dot{\delta x}=
+\begin{bmatrix}
+  \frac{\partial x_2}{\partial x_1}               & \frac{\partial x_2}{\partial x_2}               \\
+  \frac{\partial}{\partial x_1} \left(-(g/l) \sin x_1 \right)|_{x_1=0} & \frac{\partial}{\partial x_2} (-(g/l) \sin x_1) \\
+\end{bmatrix}
+\delta x  
+=
+\begin{bmatrix}
+     0 & 1 \\
+  -g/l & 0 \\
+\end{bmatrix}
+\delta x  
+$$
+\section{Lecture 11}
+\label{sec-9}
+
+Solution via Laplace transform and matrix exponential
+Remember, we've already overloaded $\dot x =ax$. Now, we'll overload exponentials to apply to matrices $x(t) = e ^{ta} x(0)$.
+\subsection{Laplace transform}
+\label{sec-9_1}
+
+\begin{itemize}
+\item $z: \mathbb{R} _{+} \rightarrow \mathbb{R}^{p\times q}$ (function that maps non-negative real scalars to matrices)
+\item Laplace transform: $Z= \mathcal{L}(z)$, defined by $\displaystyle Z(s) = \int _{0} ^{\infty} e ^{-st} z(t) dt$
+\item Region of convergence of $Z$ is mostly for confusing students
+\item Derivative property: $\mathcal{L}(\dot z) = sZ(s)-z(0)$
+\end{itemize}
+So, we can use the Laplace transform to solve $\dot x=Ax$. Take Laplace: $sX(s)-x(0)=AX(s)$, rewrite as $(sI-A)X(s) = x(0)$, so $X(s) = (sI-A) ^{-1} x(0)$. Then take the inverse transform: \fbox{$x(t) = \mathcal{L} ^{-1} \left( (sI-A) ^{-1} \right) x(0)$}
+\begin{itemize}
+\item takes advantage if linearity of the Laplace transform
+\item $(sI-A) ^{-1}$ is called the \emph{resolvent} of $A$
+
+\begin{itemize}
+\item but not defined for eigenvalues of $A$; $s$, ST det($sI-A$)=0
+\end{itemize}
+
+\item \fbox{$\Phi = \mathcal{L} ^{-1} ((sI-A) ^{-1} )$ } is called the \emph{state-transition matrix}, which maps the initial state to state at time $t$: \fbox{$x(t) = \Phi(t)x(0)$ }
+\end{itemize}
+\subsection{Example: Harmonic oscillator}
+\label{sec-9_2}
+
+$$
+\dot x =
+\begin{bmatrix}
+   0 & 1 \\
+  -1 & 0 \\
+\end{bmatrix}
+x
+$$ 
+\begin{itemize}
+\item To solve for $s$, get the resolvent, then apply the Laplacion to it \emph{elementwise}, getting
+\end{itemize}
+$$
+x(t) =
+\begin{bmatrix}
+  \cos t  & \sin t \\
+  -\sin t & \cos t \\
+\end{bmatrix}
+x(0)
+$$
+Which is a circular rotation matrix. The solutions to $\dot x = ax$ is $x(t) = e ^{ta} x(0)$
+\begin{itemize}
+\item $a$ positive: exponential growth
+\item $a$ negative: exponential decay
+\item $a=0$: constant
+\end{itemize}
+\subsection{Example: Double Integrator}
+\label{sec-9_3}
+
+\begin{itemize}
+\item Note, with scalars, $x$ in $\dot x=ax$ grows exponentially in time, and cannot grow linearly, as with matrices (can have a $t$ element in matrix)
+\item What is first column of $\Phi(t)$ say? It tells what the state trajectory is if the initial condition was $e_1$ (second column tells what it is if $x(0)= e_2$)
+\item First row says the linear combination that $x_1$ is at time $t$ given $x(0)$
+\end{itemize}
+\subsection{Characteristic polynomial}
+\label{sec-9_4}
+
+$\mathcal X(s) = {\bf det} (sI-A)$; called a \emph{monic} polynomial
+\begin{itemize}
+\item roots of $\mathcal X$ are eigenvalues of $A$, and $\mathcal X$ has real coefficients, so e-values are real or occur in conjugate pairs
+\end{itemize}
+\subsection{Get eigenvalues of $A$ and poles of resolvent}
+\label{sec-9_5}
+
+Use Cramer's rule to get $i,j$ entry:
+$$
+(-1) ^{i+j} \frac{\text{det} \Delta _{ij}}{\text{det}(sI-A)},
+$$
+where $\Delta _{ij}$ is $sI-A$ with $j$ th row and $i$ th column deleted. Poles of entries of resolvent \textbf{must} be eigenvalues of $A$.
+\subsection{Matrix exponential}
+\label{sec-9_6}
+
+How to overload exponentials for matrices; start with $(I-C) ^{-1}= I + C + C ^{2} +$ \ldots{} Series converges if |eigenvalues of $C$ |<1.
+Do series expansion of resolvent, then take the Laplacian of the series, which looks like the form for the expansion of $e ^{ta}$ (though square matrices replace scalars). So we end by learning that the state transition matrix, $\Phi(t)$ is the matrix exponential $e ^{tA}$.
+\begin{itemize}
+\item Many scalar exponential properties don't extend to matrix exponential; with scalars, this is wrong: $e ^{A+B} = e ^{A} e ^{B}$ (unless $A$ and $B$ commute: $AB=BA$)
+\item But this is ok: $e ^{-A} = (e ^{A} ) ^{-1}$
+\item So, how do you find the matrix exponential:
+\end{itemize}
+Find $e^A$,
+$$
+A=
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0 \\
+\end{bmatrix}
+$$ 
+Found $e ^{tA} = \mathcal L ^{-1} (sI-A) ^{-1}$ in earlier example, so just plug in $t=1$.
+\begin{itemize}
+\item Matlab: \texttt{expm(A)}, not elementwise \texttt{exp(A)}
+\end{itemize}
+\subsection{Time transfer property}
+\label{sec-9_7}
+
+Summary: for $\dot x = Ax$, $x(t) = \Phi (t)x(0) =$ \fbox{$e ^{tA} x(0)$}. \fbox{The matrix $e ^{tA}$ propagates initial condition into state at time $t$.} Also propagates backward in time if $t<0$.
+
+If given $x(12)$, find $x(0)$ via $e ^{-12A} x(12)$.
+\begin{itemize}
+\item Can use first order forward Euler approximate state update for small $t$
+\item Discretized autonomous LDS: $z(k+1) = e ^{hA} z(k)$ (not an approximation for these equations)
+\end{itemize}
+\subsection{Application: sampling a continuous time system}
+\label{sec-9_8}
+\section{Lecture 12}
+\label{sec-10}
+
+Piecewise constant system: $A$ is constant for certain intervals of time.
+\begin{itemize}
+\item Qualitative behavior of $x(t)$
+
+\begin{itemize}
+\item Eigenvalues determine (possible) behavior of $x$
+\item Can plot eigenvalues on complex axes; like pole plot
+\item Can put $x$ in summation form with polynomial coefficient and exponential terms
+\end{itemize}
+
+\end{itemize}
+\subsection{Stability}
+\label{sec-10_1}
+
+\begin{itemize}
+\item $\dot x=Ax$ is stable if $e ^{tA} \rightarrow 0$ as $t \rightarrow \infty$
+
+\begin{itemize}
+\item means that state $x(t)$ converges to 0 as $t \rightarrow \infty$, no matter $x(0)$
+\item all trajectories of $\dot x = Ax$ converge to 0 as $t \rightarrow \infty$
+\item $\dot x=Ax$ is stable iff all eigenvalues of $A$ have negative real part
+\end{itemize}
+
+\end{itemize}
+\subsection{Eigenvectors and diagonalization}
+\label{sec-10_2}
+
+\begin{itemize}
+\item $\lambda \in \mathbb C$ is an eigenvalue of $A \in \mathbb C ^{n\times n}$ if (characteristic polynomial)
+\end{itemize}
+$$
+\mathcal X(\lambda) = \text{det}(\lambda I-A) = 0
+$$
+\begin{itemize}
+\item i.e., $(\lambda I-A)$ is singular, not invertible, $\mathcal{N}$ not equal to the 0 set
+\end{itemize}
+Equivalent to:
+\begin{itemize}
+\item $\exists$ nonzero $v \in \mathbb C ^{n}$ s.t. $(\lambda I -A) v = 0$: \fbox{$Av=\lambda v$} ($v$ is the eigenvector)
+
+\begin{itemize}
+\item columns are dependent
+\end{itemize}
+
+\item $\exists$ nonzero $w \in \mathbb C ^{n}$ s.t. $w ^{T} (\lambda I -A) = 0$: \fbox{$w^T A=\lambda w ^{T}$} ($w$ is the \emph{left eigenvector})
+
+\begin{itemize}
+\item rows are dependent
+\end{itemize}
+
+\item real $A$ can still have complex e-pairs
+\item $A,\lambda$ real $\Rightarrow$ $\lambda$ is associated with a real $v$
+\item conjugate (negate imaginary term of complex number[s])
+\item hermitian conjugate (and transpose)
+\end{itemize}
+\subsection{Scaling intepretation}
+\label{sec-10_3}
+
+$Av$ is simply scaled version of $v$ ($\lambda$ times); all components get magnified by the same amount
+\subsection{Dynamic intepretation}
+\label{sec-10_4}
+
+For $Av=\lambda v$, if $\dot x= Ax,x(0)=v$ $\Rightarrow$ \fbox{$x(t) = e ^{\lambda t} v$} $= e ^{tA} v$.
+\begin{itemize}
+\item $A ^{2} v = \lambda ^{2} v$
+\item So you just need a scalar in front of the $v$ to calculate $x(t)!$
+\item \fbox{An eigenvector is an initial condition $x(0)$ for which the entire trajectory is really simple.}
+\item solution $x(t) = e ^{\lambda t} v$ is a mode of $\dot x=Ax$ (associated with eigenvalue $\lambda$)
+\end{itemize}
+\subsection{Invariant set}
+\label{sec-10_5}
+
+a set $S \subseteq \mathbb{R}^{n}$ is \emph{invariant} under $\dot x = Ax$ if whenever $x(t) \in S$, then $x(\tau) \in S$ for all $\tau \ge t$ (you stay stuck within the set)
+\begin{itemize}
+\item vector field intepretation: trajectories only cut \emph{into} $S$
+\end{itemize}
+If a single point is an invariant set, it must be in the nullspace; $S=\{x_0\} \Leftrightarrow x_0 \in \mathcal{N}(A)$, so $Ax_0=0=\dot x$.
+\begin{itemize}
+\item line $\{tv | t \in \mathbb{R}\}$ is invariant for eigenvector $v$
+\end{itemize}
+\subsection{Complex eigenvectors}
+\label{sec-10_6}
+
+\begin{itemize}
+\item for $a \in \mathbb C$, complex trajectory $a e ^{\lambda t} v$ satisfies $\dot x = Ax$, as well as \emph{real} part
+\end{itemize}
+$$
+x(t) = \text{Re}(ae ^{\lambda t} v)
+$$
+$$
+= e ^{\sigma t}
+\begin{bmatrix}
+  v _{re} & v _{im} \\
+\end{bmatrix}
+\begin{bmatrix}
+  \cos \omega t  & \sin \omega t \\
+  -\sin \omega t & \cos \omega t \\
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  -\beta \\
+\end{bmatrix}
+$$ 
+where
+$$
+v= v _{re} + jv _{im} , \lambda = \sigma + j \omega, a = \alpha + j \beta
+$$ 
+\begin{itemize}
+\item $\sigma$ gives logarithmic growth/decay factor
+\item $\omega$ gives angular velocity of rotation in plane
+\item trajectory stays in \emph{invariant plane} span $\{v _{re} ,v _{im}\}$
+\end{itemize}
+\subsection{Dynamic interpretation: left eigenvectors}
+\label{sec-10_7}
+\subsection{Summary:}
+\label{sec-10_8}
+
+\begin{itemize}
+\item \emph{right eigenvectors} are initial conditions from which resulting motion is simple (i.e., remains on line or in plane)
+\item \emph{left eigenvectors} give linear functions of state that are simple, for any initial condition
+\end{itemize}
+\subsection{Example- companion matrix}
+\label{sec-10_9}
+
+\begin{itemize}
+\item Easy to get the characteristic polynomial
+\item General truth: with these matrices you can't generally tell the system behavior by just looking at it
+\item If you push a signal through an integrator, it gets less wiggly
+\item By multiplying by the left eigenvector, you've filtered out the sinusoid?
+\end{itemize}
+\section{Lecture 13}
+\label{sec-11}
+\subsection{Example: Markov chain}
+\label{sec-11_1}
+
+Probability vector $p \in \mathbb{R}^{n}$ that you're in each of $n$ states: $p(t+1)=Pp(t)$. This probability evolves in time by being multiplied by state transition matrix $P$.
+\begin{itemize}
+\item $p _{i} (t)= {\bf Prob} (z(t)=i) \Rightarrow \sum ^{n} _{i=1} p _{i} (t) =1$
+\item sum of each column is 1
+
+\begin{itemize}
+\item called stochastic
+\end{itemize}
+
+\item i.e., $[1\text{ }1\text{ } \cdots 1]$ is a left eigenvector of $P$ with $\lambda = 1$
+\item so det($I-P$)=0, so there's also a nonzero right eigenvector s.t. $Pv=v$
+
+\begin{itemize}
+\item $v$ can always be chosen to have non-negative elements, and can be normalized
+\end{itemize}
+
+\item \textbf{Interpretation}: $v$ is an equilibrium distribution; you don't change your \emph{probability} distribution in time; always in $v$
+
+\begin{itemize}
+\item if $v$ unique, it's called the steady-state distribution of the Markov chain
+\end{itemize}
+
+\end{itemize}
+\subsection{Diagonalization}
+\label{sec-11_2}
+
+\begin{itemize}
+\item $v_1,...,v_n$ is LI set of eigenvectors of $A \in \mathbb{R}^{n\times n}$: $Av_i=\lambda_i v_i$
+\item Concatenate in matrix language:
+\end{itemize}
+$$
+A
+\begin{bmatrix}
+  v_1 & \cdots & v_n \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  v_1 & \cdots & v_n \\
+\end{bmatrix}
+\begin{bmatrix}
+  \lambda_1 &           &        &           \\
+            & \lambda_2 &        &           \\
+            &           & \ddots &           \\
+            &           &        & \lambda_n \\
+\end{bmatrix}
+$$
+or, $AT=T\Lambda$, or $T ^{-1} AT=\Lambda$
+\begin{itemize}
+\item note, $T$ is invertible, since its columns are linearly independent
+\item This is why, while $Av=\lambda v$ is more commonly used for a scalar eigenvalue, \fbox{$Av=v\lambda$} is more general, as it can represent a vector of eigenvalues $\lambda$.
+\item so, $A$ is diagonalizable if
+
+\begin{itemize}
+\item $\exists$ $T$ s.t. $T ^{-1} AT=\Lambda$ is diagonal
+\item $A$ has a set of linearly independent eigenvectors
+
+\begin{itemize}
+\item if $A$ not diagonalizable, it is called defective
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+\subsection{Not all matrices diagonalizable}
+\label{sec-11_3}
+
+i.e.,
+$$
+A=
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0 \\
+\end{bmatrix}
+$$ 
+\subsection{Distinct eigenvalues}
+\label{sec-11_4}
+
+\textbf{fact}: distinct eigenvalues in $A$ $\Rightarrow$ $A$ diagonalizable
+\begin{itemize}
+\item converse not true, i.e., $I \in \mathbb{R}^{7\times 7}$
+\end{itemize}
+\subsection{Diagonalization and left eigenvectors}
+\label{sec-11_5}
+
+rewrite $T ^{-1} AT = \Lambda$ as $T ^{-1} A = \Lambda T ^{-1}$:
+$$ 
+\begin{bmatrix}
+  w ^{T} _1 \\
+  \vdots    \\
+  w ^{T} _n \\
+\end{bmatrix}
+A=\Lambda
+\begin{bmatrix}
+  w ^{T} _1 \\
+  \vdots    \\
+  w ^{T} _n \\
+\end{bmatrix}
+$$
+\begin{itemize}
+\item remember that $\Lambda$ is diagonal matrix, and multiplying by a diagonal matrix on the left is equivalent to scaling rows of the matrix
+
+\begin{itemize}
+\item on the right scales the columns
+\end{itemize}
+
+\end{itemize}
+Remeber left/right multiplication results (whether it scales columns or rows) with $2 \times 2$ matrix multiplication:
+$$
+\begin{bmatrix}
+    2 &   0 \\
+    0 &   3 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1 & x_2 \\
+  y_1 & y_2 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  2x_1 & 2x_2 \\
+  3y_1 & 3y_2 \\
+\end{bmatrix}
+$$
+I.e., right multiplication of diagonal matrix scales the rows.
+\begin{itemize}
+\item Take LI set of eigenvectors as columns, invert that matrix, then the rows are \textbf{left} eigenvectors
+\item An eigenvector is still an eigenvector after being scaled; so any can be normalized
+\end{itemize}
+\subsection{Modal form}
+\label{sec-11_6}
+
+Take a LI set of eigenvectors from $A$, shove them together as columns of new matrix $T$ = ``$A$ is diagonalizable by $T$''
+\begin{itemize}
+\item can define new coordinates by $x=T \tilde x$:
+\item $\tilde x$ is coordinates of $x$ in the $T$ expansion; modal (or eigenvector) expansion
+
+\begin{itemize}
+\item $\tilde x$ is $x$ in terms of the eigenvectors
+\end{itemize}
+
+\end{itemize}
+$$
+T \dot{\tilde x}=AT \tilde x \Leftrightarrow \dot{ \tilde x}= T ^{-1} AT \tilde x \Leftrightarrow \dot{ \tilde x} = \Lambda \tilde x
+$$
+\begin{itemize}
+\item in new coordinate system, system is diagonal (decoupled)
+\item normally, with $\dot x=Ax$, there's a ton of cross-gains from input $x_i$ to output $y_j$, where all the outputs depend on all the inputs (assuming $A$ has only non-zero entries)
+
+\begin{itemize}
+\item diagonalized system decouples it; trajectory consists of $n$ independent modes:
+\end{itemize}
+
+\end{itemize}
+$$
+\tilde x_i (t) = e ^{\lambda_i t} \tilde x _{i} (0)
+$$
+\subsection{Real modal form}
+\label{sec-11_7}
+
+when eigenvalues ($\Rightarrow$ $T$) are complex
+\begin{itemize}
+\item notes show block diagram of complex mode (note if real parts $\sigma$ are removed, you get harmonic oscillator)
+\end{itemize}
+\subsection{Diagonalization simplification}
+\label{sec-11_8}
+
+Simplifies calculation of:
+\begin{itemize}
+\item resolvent
+\item powers ($A^k$)
+\item exponential ($e ^{A}=T {\bf diag} (e ^{\lambda_1},\dots, e ^{\lambda_n}) T ^{-1}$)
+\item So, diagonalization is largely a conceptual tool, and sometimes gives great computational advantage
+\end{itemize}
+\subsection{Simplify for analytical functions of a matrix}
+\label{sec-11_9}
+\subsection{Solution via diagonalization}
+\label{sec-11_10}
+
+$\dot x=Ax$ solution is $x(t)=e ^{tA} x(0)$
+\begin{itemize}
+\item with diagonalization, solution given as
+\end{itemize}
+$$
+x(t) = \sum ^{n} _{i=1} e ^{\lambda_i t} (w_i ^{T} x(0))v_i
+$$ 
+\subsection{Interpretation}
+\label{sec-11_11}
+
+\begin{itemize}
+\item (left eigenvectors) decompose initial state $x(0)$ into modal components $w ^{T} _{i} x(0)$
+\item $e ^{\lambda_i t}$ term propagates $i$ th mode forward $t$ seconds
+\item reconstruct state as linear combination of (right eigenvectors)
+\end{itemize}
+\subsection{Application}
+\label{sec-11_12}
+
+Finding $x(0)$ that gives stable solution.
+\subsection{Stability of discrete-time systems}
+\label{sec-11_13}
+
+\begin{itemize}
+\item powers of complex numbers $s^k$ go to zero if $|s|<1$
+
+\begin{itemize}
+\item imaginary part tells how much of a rotation at each step you get
+\end{itemize}
+
+\item \fbox{$x(t+1) = Ax(t)$ is stable iff all eigenvalues of $A$ have magnitude less than one}
+\item spectral radius of $A:\rho (A)= {\bf max} |\lambda _i |$
+
+\begin{itemize}
+\item so it is a stable system iff $\rho(A)<1$
+\item $\rho$ gives rough growth or decay
+\end{itemize}
+
+\end{itemize}
+\subsection{Jordan Canonical form}
+\label{sec-11_14}
+
+\begin{itemize}
+\item \emph{Any} matrix $A \in \mathbb{R}^{n\times n}$ can be expressed in Jordan-canonical form (via `similarity transformation,' for some invertible matrix $T ^{-1}$)
+\end{itemize}
+$$
+T ^{-1} AT=J=
+\begin{bmatrix}
+  J_1 &        &     \\
+      & \ddots &     \\
+      &        & J_q \\
+\end{bmatrix}
+$$ 
+where
+$$
+J_i =
+\begin{bmatrix}
+  \lambda_i &         1 &        &           \\
+            & \lambda_i & \ddots &           \\
+            &           & \ddots &         1 \\
+            &           &        & \lambda_i \\
+\end{bmatrix}
+\in \mathbb C ^{n_i \times n_i}
+$$ 
+
+\begin{itemize}
+\item $J$ is `upper bidiagonal'
+\item Jordan form is unique (up to permutations of blocks- blocks might be in different places in the diagonal)
+\item \emph{Almost} strictly a conceptual tool; almost never used for numerical computations
+\item Jordan forms are inutil if the matrix is already diagonalizable
+\item When you get into Jordan form, you can use a chain of integrators to represent it in block diagram form
+\item Jordan blocks refer to dynamics blocks that cannot be decoupled
+\item Jordan blocks yield:
+
+\begin{itemize}
+\item repeated poles in resolvent
+\item terms of form $t ^{p} e ^{t\lambda}$ in $e ^{tA}$
+\end{itemize}
+
+\end{itemize}
+\section{Appendix}
+\label{sec-12}
+
+Some special things to remember.
+\subsection{Inverse, transpose properties}
+\label{sec-12_1}
+
+\begin{itemize}
+\item $(AB) ^{-1} = B ^{-1} A ^{-1}$
+\item $(A ^{-1}) ^{T} = (A ^{T}) ^{-1}= A ^{-T}$
+\end{itemize}
+\subsection{Invertibility implications}
+\label{sec-12_2}
+
+For an $n$-by-$n$ matrix $A$ 
+
+\begin{center}
+\begin{tabular}{ll}
+ Invertible                                &  mnemonic                                                                                       \\
+\hline
+ $\vert A\vert \ne 0$                      &  $\vert A\vert = 0$ $\Rightarrow$ you can't compute the inverse                                 \\
+                                           &  - (remember base case 2 \texttimes{} 2 matrix inverse involves $1/\vert A\vert$ term)          \\
+ non-singular                              &  singular $\Rightarrow$ the matrix sends a nontrivial subspace to the singular subspace, \{0\}  \\
+ $A$ is full rank                          &  linearly independent columns (invertibility $\Rightarrow$ 1-to-1/injective)                    \\
+ $\mathcal{N}(A)=\{0\}$                    &  linearly independent columns                                                                   \\
+ $\mathcal R (A)= \mathbb{R}^{n}$          &  linearly independent columns                                                                   \\
+ $Ax=b$ has unique solution for every $b$  &  - no more than one solution (can't add members of $\mathcal N (A)$ for multiple $b$)           \\
+                                           &  - one solution, since $\mathcal R (A)= \mathbb{R}^{n}$; everything reachable/surjective        \\
+                                           &  - one solution found using the unique inverse of \emph{A}                                      \\
+ rref($A)=I_n$                             &                                                                                                 \\
+ $A$ is a product of elementary matrices   &                                                                                                 \\
+\end{tabular}
+\end{center}
+\section{Homework assignments}
+\label{sec-13}
+
+
+\begin{center}
+\begin{tabular}{lll}
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw1sol.pdf}{Homework 1}  &  Lecture 4   &  2.1–2.4, 2.6, 2.9, 2.12, +                                                \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw2sol.pdf}{Homework 2}  &  Lecture 6   &  3.2, 3.3, 3.10, 3.11, 3.16, 3.17, +                                       \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw3sol.pdf}{Homework 3}  &  Lecture 8   &  2.17, 3.13, 4.1–4.3, 5.1, 6.9, +                                          \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw4sol.pdf}{Homework 4}  &  Lecture 10  &  5.2, 6.2, 6.5, 6.12, 6.14, 6.26, 7.3, 8.2                                 \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw5sol.pdf}{Homework 5}  &  Lecture 13  &  10.2, 10.3, 10.4, +                                                       \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw6sol.pdf}{Homework 6}  &  Lecture 14  &  9.9, 10.5, 10.6, 10.8, 10.14, 11.3, and 11.6a                             \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw7sol.pdf}{Homework 7}  &  Lecture 16  &  10.9, 10.11, 10.19, 11.13, 12.1, 13.1, +                                  \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw8sol.pdf}{Homework 8}  &  Lecture 18  &  13.17, 14.2, 14.3, 14.4, 14.6, 14.8, 14.9, 14.11, 14.13, 14.21, 14.33, +  \\
+ \href{file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw9sol.pdf}{Homework 9}  &  Lecture 20  &  14.16, 14.26, 15.2, 15.3, 15.6, 15.8, 15.10, and 15.11                    \\
+\end{tabular}
+\end{center}
+
+\end{document}
