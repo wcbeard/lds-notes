@@ -1,1 +1,3 @@
-These are notes based on Stanford EE263, written up in Emac's org mode, outputted to LaTeX and html.
+These are notes based on Stanford EE263, written up in Emac's Orgmode, outputted to LaTeX and html.
+
+See [[https://github.com/d10genes/emacs-starter-kit/blob/master/starter-kit-latex.org][starter-kit-latex.org]], but especially 'My LaTeX stuff' in [[https://github.com/d10genes/emacs-starter-kit/blob/master/starter-kit-org.org][starter-kit-org.org]] for implementation details.
