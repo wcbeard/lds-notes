@@ -1,0 +1,3655 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Linear Dynamic Systems Notes</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-08-09 03:56:11 EDT"/>
+<meta name="author" content="Chris Beard"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Linear Dynamic Systems Notes</h1>
+
+<p>Following notes from the <a href="file:///Users/FingerMan/Desktop/Engineering/kiet-ee-downloads/current/ee263_course_reader.pdf">EE263 Course Reader</a>. Orgmode &rarr; \LaTeXe
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left"><a href="http://www.stanford.edu/~boyd/ee263/matlab/">Matlab files</a></td><td class="left"><a href="file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/linear-algebra-notes.pdf">Linear Algebra</a></td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/index.html">Index</a></td><td class="left"></td></tr>
+</tbody>
+</table>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Lecture 2 </a>
+<ul>
+<li><a href="#sec-1_1">1.1 Interpretation for \(y=Ax\) </a></li>
+<li><a href="#sec-1_2">1.2 Example in notes </a>
+<ul>
+<li><a href="#sec-1_2_1">1.2.1 Linear elastic structure </a></li>
+<li><a href="#sec-1_2_2">1.2.2 Force/Torque on rigid body </a></li>
+<li><a href="#sec-1_2_3">1.2.3 Thermal System </a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Lecture 3 </a>
+<ul>
+<li><a href="#sec-2_1">2.1 Review of Linearization (affine approximation) </a>
+<ul>
+<li><a href="#sec-2_1_1">2.1.1 Good intuition range-finding problem </a></li>
+</ul>
+</li>
+<li><a href="#sec-2_2">2.2 Intepretations of \(Ax=y\) </a>
+<ul>
+<li><a href="#sec-2_2_1">2.2.1 Computing \(C=AB\) </a></li>
+<li><a href="#sec-2_2_2">2.2.2 Zero nullspace (in notes) </a></li>
+<li><a href="#sec-2_2_3">2.2.3 Interpretations of nullspace </a></li>
+<li><a href="#sec-2_2_4">2.2.4 Range </a></li>
+<li><a href="#sec-2_2_5">2.2.5 Rank of matrix </a></li>
+<li><a href="#sec-2_2_6">2.2.6 Various wrap-up items </a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 Lecture 5 </a>
+<ul>
+<li><a href="#sec-3_1">3.1 Geometric properties of orthonormal vectors </a></li>
+<li><a href="#sec-3_2">3.2 Orthonormal basis for \(\mathbb{R}^{n}\) </a></li>
+<li><a href="#sec-3_3">3.3 Expansion in orthonormal basis </a></li>
+<li><a href="#sec-3_4">3.4 Gram-Schmidt procedure </a></li>
+<li><a href="#sec-3_5">3.5 \(QR\) decomposition </a></li>
+<li><a href="#sec-3_6">3.6 General Gram Schmidt procedure (`rank revealing QR algorithm') </a></li>
+<li><a href="#sec-3_7">3.7 Applications </a></li>
+<li><a href="#sec-3_8">3.8 Least Squares Approximation </a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 Lecture 6 </a>
+<ul>
+<li><a href="#sec-4_1">4.1 Overdetermined equations </a></li>
+<li><a href="#sec-4_2">4.2 Least Squares `Solution' </a></li>
+<li><a href="#sec-4_3">4.3 Projection on \(\mathcal{R}(A)\) </a></li>
+<li><a href="#sec-4_4">4.4 Orthogonality principle </a></li>
+<li><a href="#sec-4_5">4.5 Least-squares via \(QR\) factorization </a></li>
+<li><a href="#sec-4_6">4.6 Full \(QR\) factorization </a></li>
+<li><a href="#sec-4_7">4.7 Applications for least squares approximations </a></li>
+<li><a href="#sec-4_8">4.8 BLUE: Best linear unbiased estimator </a></li>
+<li><a href="#sec-4_9">4.9 Range-finding example </a></li>
+<li><a href="#sec-4_10">4.10 Quantizer example </a></li>
+<li><a href="#sec-4_11">4.11 Least Squares data-fitting </a></li>
+<li><a href="#sec-4_12">4.12 Least-squares polynomial fitting </a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 Lecture 7 </a>
+<ul>
+<li><a href="#sec-5_1">5.1 Least-squares polynomial fitting, cont'd </a></li>
+<li><a href="#sec-5_2">5.2 Growing sets of regressors </a></li>
+<li><a href="#sec-5_3">5.3 Least-squares system identification (important topic) </a></li>
+<li><a href="#sec-5_4">5.4 Model order selection </a>
+<ul>
+<li><a href="#sec-5_4_1">5.4.1 Cross-validation </a></li>
+</ul>
+</li>
+<li><a href="#sec-5_5">5.5 Growing sets of measurements </a></li>
+<li><a href="#sec-5_6">5.6 Recursive ways to do least squares </a></li>
+<li><a href="#sec-5_7">5.7 Fast update algorithm for recursive LS </a></li>
+<li><a href="#sec-5_8">5.8 Multi-objective least squares </a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6 Lecture 8 </a>
+<ul>
+<li><a href="#sec-6_1">6.1 Plot of achievable objective pairs </a></li>
+<li><a href="#sec-6_2">6.2 Minimizing weighted-sum objective </a></li>
+<li><a href="#sec-6_3">6.3 Example: frictionless table </a></li>
+<li><a href="#sec-6_4">6.4 Regularized least-squares </a></li>
+<li><a href="#sec-6_5">6.5 Nonlinear least squares (NLLS) problem </a></li>
+<li><a href="#sec-6_6">6.6 Gauss-Newton method for NLLS </a></li>
+<li><a href="#sec-6_7">6.7 G-N example </a></li>
+<li><a href="#sec-6_8">6.8 Underdetermined linear equations </a></li>
+<li><a href="#sec-6_9">6.9 Least norm solution </a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7 Lecture 9 pt 2 </a>
+<ul>
+<li><a href="#sec-7_1">7.1 General norm minimization with equality constraints </a></li>
+<li><a href="#sec-7_2">7.2 Autonomous linear dynamical systems </a></li>
+<li><a href="#sec-7_3">7.3 Block diagrams </a></li>
+<li><a href="#sec-7_4">7.4 Linear circuit example </a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8 Lecture 10 </a>
+<ul>
+<li><a href="#sec-8_1">8.1 Example: Series reaction \(A \rightarrow B \rightarrow C\) </a></li>
+<li><a href="#sec-8_2">8.2 Discrete time Markov chain </a></li>
+<li><a href="#sec-8_3">8.3 Numerical integration of continuous system </a></li>
+<li><a href="#sec-8_4">8.4 Higher order linear dynamical systems (\(\dot x=Ax\)) </a></li>
+<li><a href="#sec-8_5">8.5 Example: Mechanical systems </a></li>
+<li><a href="#sec-8_6">8.6 Linearization near equilibrium point </a></li>
+<li><a href="#sec-8_7">8.7 Example: pendulum linearization </a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9 Lecture 11 </a>
+<ul>
+<li><a href="#sec-9_1">9.1 Laplace transform </a></li>
+<li><a href="#sec-9_2">9.2 Example: Harmonic oscillator </a></li>
+<li><a href="#sec-9_3">9.3 Example: Double Integrator </a></li>
+<li><a href="#sec-9_4">9.4 Characteristic polynomial </a></li>
+<li><a href="#sec-9_5">9.5 Get eigenvalues of \(A\) and poles of resolvent </a></li>
+<li><a href="#sec-9_6">9.6 Matrix exponential </a></li>
+<li><a href="#sec-9_7">9.7 Time transfer property </a></li>
+<li><a href="#sec-9_8">9.8 Application: sampling a continuous time system </a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10 Lecture 12 </a>
+<ul>
+<li><a href="#sec-10_1">10.1 Stability </a></li>
+<li><a href="#sec-10_2">10.2 Eigenvectors and diagonalization </a></li>
+<li><a href="#sec-10_3">10.3 Scaling intepretation </a></li>
+<li><a href="#sec-10_4">10.4 Dynamic intepretation </a></li>
+<li><a href="#sec-10_5">10.5 Invariant set </a></li>
+<li><a href="#sec-10_6">10.6 Complex eigenvectors </a></li>
+<li><a href="#sec-10_7">10.7 Dynamic interpretation: left eigenvectors </a></li>
+<li><a href="#sec-10_8">10.8 Summary: </a></li>
+<li><a href="#sec-10_9">10.9 Example- companion matrix </a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11 Lecture 13 </a>
+<ul>
+<li><a href="#sec-11_1">11.1 Example: Markov chain </a></li>
+<li><a href="#sec-11_2">11.2 Diagonalization </a></li>
+<li><a href="#sec-11_3">11.3 Not all matrices diagonalizable </a></li>
+<li><a href="#sec-11_4">11.4 Distinct eigenvalues </a></li>
+<li><a href="#sec-11_5">11.5 Diagonalization and left eigenvectors </a></li>
+<li><a href="#sec-11_6">11.6 Modal form </a></li>
+<li><a href="#sec-11_7">11.7 Real modal form </a></li>
+<li><a href="#sec-11_8">11.8 Diagonalization simplification </a></li>
+<li><a href="#sec-11_9">11.9 Simplify for analytical functions of a matrix </a></li>
+<li><a href="#sec-11_10">11.10 Solution via diagonalization </a></li>
+<li><a href="#sec-11_11">11.11 Interpretation </a></li>
+<li><a href="#sec-11_12">11.12 Application </a></li>
+<li><a href="#sec-11_13">11.13 Stability of discrete-time systems </a></li>
+<li><a href="#sec-11_14">11.14 Jordan Canonical form </a></li>
+</ul>
+</li>
+<li><a href="#sec-12">12 Appendix </a>
+<ul>
+<li><a href="#sec-12_1">12.1 Inverse, transpose properties </a></li>
+<li><a href="#sec-12_2">12.2 Invertibility implications </a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13 Homework assignments </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Lecture 2 </h2>
+<div class="outline-text-2" id="text-1">
+
+<p><a href="file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/materials/lsoeldsee263/02-lin-fcts.pdf">Official Lecture Notes</a>
+</p>
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> Interpretation for \(y=Ax\) </h3>
+<div class="outline-text-3" id="text-1_1">
+
+<ul>
+<li>
+\(A\) a transformation matrix
+</li>
+<li>
+\(y\) an observed measurement, \(x\) an unknown
+</li>
+<li>
+\(x\) is input, \(y\) is output; for rows \(i\) and columns \(j\) in \(A\), \({\bf i \rightarrow y}\), \({\bf j \rightarrow x}\)
+<ul>
+<li>
+indexed as \bf output, input
+</li>
+</ul>
+</li>
+<li>
+Lower diagonal Matrix should make you expect or have a vague thought about causality.
+<ul>
+<li>
+\(a_{ij}=0\) for \(i&lt;j \Rightarrow y_i\) only depends on \(x_1,...,x_i\) 
+</li>
+<li>
+\(A\) is diagonal; output only depends on input
+</li>
+</ul>
+</li>
+<li>
+Sparcity pattern (block of zeroes) in a matrix should have you wonder why&hellip;usually not coincidental
+</li>
+<li>
+\(A_{35}\) positive \(\Rightarrow x_5\) increased corresponds to an increase in 3rd output, \(y_3\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> Example in notes </h3>
+<div class="outline-text-3" id="text-1_2">
+
+
+</div>
+
+<div id="outline-container-1_2_1" class="outline-4">
+<h4 id="sec-1_2_1"><span class="section-number-4">1.2.1</span> Linear elastic structure </h4>
+<div class="outline-text-4" id="text-1_2_1">
+
+<ul>
+<li>
+\(a_{11}\) probably positive
+<ul>
+<li>
+\(x_1\) input gives positive push to \(y_1\) output
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_2" class="outline-4">
+<h4 id="sec-1_2_2"><span class="section-number-4">1.2.2</span> Force/Torque on rigid body </h4>
+<div class="outline-text-4" id="text-1_2_2">
+
+<ul>
+<li>
+Net torque/force on body is linearly related to force inputs
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2_3" class="outline-4">
+<h4 id="sec-1_2_3"><span class="section-number-4">1.2.3</span> Thermal System </h4>
+<div class="outline-text-4" id="text-1_2_3">
+
+<ul>
+<li>
+despite normally needing a Poisson equation, the steady state heat of the different locations can be represented as a linear system \(Ax=y\)
+</li>
+</ul>
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Lecture 3 </h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2_1" class="outline-3">
+<h3 id="sec-2_1"><span class="section-number-3">2.1</span> Review of Linearization (affine approximation) </h3>
+<div class="outline-text-3" id="text-2_1">
+
+
+</div>
+
+<div id="outline-container-2_1_1" class="outline-4">
+<h4 id="sec-2_1_1"><span class="section-number-4">2.1.1</span> Good intuition range-finding problem </h4>
+<div class="outline-text-4" id="text-2_1_1">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2_2" class="outline-3">
+<h3 id="sec-2_2"><span class="section-number-3">2.2</span> Intepretations of \(Ax=y\) </h3>
+<div class="outline-text-3" id="text-2_2">
+
+<ul>
+<li>
+Scaled combination of columns in \(A\)
+</li>
+</ul>
+
+
+<ul>
+<li>
+Looking at the rows: the multiplication is the inner product of rows and vector \(x\)
+</li>
+<li>
+I/O ordering is backwards in control; in \(A_{ij}\), \(j\) refers to input and \(i\) refers to output
+<ul>
+<li>
+indexing is likewise backwards in block diagram indexing
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+</div>
+
+<div id="outline-container-2_2_1" class="outline-4">
+<h4 id="sec-2_2_1"><span class="section-number-4">2.2.1</span> Computing \(C=AB\) </h4>
+<div class="outline-text-4" id="text-2_2_1">
+
+<p>How to compute this faster than using formula \(c_{ij}=\sum_{k=1} A_{ik} B_{kj}\): have computer break it up into submatrices and do the multiplication on them
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2_2_2" class="outline-4">
+<h4 id="sec-2_2_2"><span class="section-number-4">2.2.2</span> Zero nullspace (in notes) </h4>
+<div class="outline-text-4" id="text-2_2_2">
+
+<ul>
+<li>
+if 0 is only element in \(\mathcal{N}(A)\) 
+<ul>
+<li>
+\(A\) is one-to-one
+<ul>
+<li>
+linear transformation doesn't lose information
+</li>
+</ul>
+</li>
+<li>
+columns of \(A\) are independent, and basis for their span
+</li>
+<li>
+\(A\) has a left inverse \(\Rightarrow\) you can use this to undo the transformation and find the input \(x\), given the output \(y\)
+</li>
+<li>
+\(|A^T A|\ne0\) 
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2_2_3" class="outline-4">
+<h4 id="sec-2_2_3"><span class="section-number-4">2.2.3</span> Interpretations of nullspace </h4>
+<div class="outline-text-4" id="text-2_2_3">
+
+<p>supposing \(z \in \mathcal{N}(A)\) 
+</p><ul>
+<li>
+Measurements
+<ul>
+<li>
+\(z\) is undetectable from sensors
+</li>
+<li>
+\(x\) and \(x+z\) are indistinguishable from sensors: \(Ax = A(x+z)\)
+</li>
+<li>
+the nullspace characterizes ambiguity in \(x\) from measurement \(y=Ax\)
+<ul>
+<li>
+large nullspace is bad
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+\(y=Ax\) is output from input \(x\)
+<ul>
+<li>
+\(z\) is input with no result
+</li>
+<li>
+\(x\) and \(x+z\) have same result
+</li>
+<li>
+the nullspace characterizes freedom of input choice for given result
+<ul>
+<li>
+large nullspace is good: more room for optimization because of more input possibilities
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2_2_4" class="outline-4">
+<h4 id="sec-2_2_4"><span class="section-number-4">2.2.4</span> Range </h4>
+<div class="outline-text-4" id="text-2_2_4">
+
+<p>Range of \(A \in \mathbb{R}^{m\times n}\) defined as \(\mathcal{R}(A)=\{Ax | x \in \mathbb{R}^n\} \subseteq \mathbb{R}^m\) 
+</p><ul>
+<li>
+The set of vectors that can be `hit' by linear mapping \(y=Ax\)
+</li>
+<li>
+span of columns of \(A\)
+</li>
+<li>
+set of vectors \(y\) for which \(Ax=y\) has a solution
+</li>
+<li>
+possible sensor measurement
+<ul>
+<li>
+in design, you'll want to throw an exception if a measurement is outside the range; the sensor is bad
+</li>
+<li>
+test for a bad 13th sensor: remove 13th row in \(A\); if the reduced \(y\) is in the range of the reduced matrix, the 13th sensor might not have been bad
+</li>
+</ul>
+</li>
+</ul>
+
+
+<ul>
+<li id="sec-2_2_4_1">Onto matrices <br/>
+\(A\) is `onto' if \(\mathcal{R}(A)=\mathbb{R}^m\)
+<ul>
+<li>
+you can solve \(Ax=y\) for any \(y\)
+</li>
+<li>
+columns of \(A\) span \(\mathbb{R}^m\)
+</li>
+<li>
+\(A\) has a right inverse \(B\) s.t. \(AB=I\)
+<ul>
+<li>
+can do \(ABy=A(By)=y\): you want an \(x\) that gives you \(y\)? Here it is.
+</li>
+<li>
+Design procedure
+</li>
+</ul>
+</li>
+<li>
+rows of \(A\) are independent
+<ul>
+<li>
+a.k.a., \(\mathcal{N}(A^T)=\{0\}\)
+</li>
+</ul>
+</li>
+<li>
+\(|AA^T|\ne 0\) 
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-2_2_4_2">Interpretations of range <br/>
+<ul>
+<li>
+supposing \(v \in \mathcal{R}(A)\)
+<ul>
+<li>
+\(v\) reachable
+</li>
+<li>
+else, not reachable
+</li>
+</ul>
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-2_2_4_3">Inverse <br/>
+Note: square matrices are impractical for engineering. They don't let you take advantoge of redundant sensors/controllers, or let you build a robust system to take care of broken sensors
+<ul>
+<li>
+\(A \in \mathbb{R}^{n \times n}\) is invertible or nonsingular if det \(A \ne 0\)
+<ul>
+<li>
+columns of \(A\) are basis for \(\mathbb{R}^n\) 
+</li>
+<li>
+rows of \(A\) are basis for \(\mathbb{R}^n\)
+</li>
+<li>
+\(y=Ax\) has a unique solution \(x\) for every \(y \in \mathbb{R}^n\)
+</li>
+<li>
+\(A\) has left and right inverse \(A^{-1} \in \mathbb{R}^{n\times n}\), s.t. \(AA^{-1}=A^{-1}A=I\)
+</li>
+<li>
+\(\mathcal{N}(A)= \{0\}\)
+</li>
+<li>
+\(\mathcal{R}(A)=\mathbb{R}^n\)
+</li>
+<li>
+det \(A^T A= |AA^T| \ne 0\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+<ul>
+<li id="sec-2_2_4_3_1">Dual basis intepretation of inverse <br/>
+\(a_i\) are columns of \(A\), and \(\tilde b_i^T\) are rows of \(B=A^{-1}\)
+<ul>
+<li>
+\(y=Ax\), column by column, looks like \(y=x_1 a_1 + ... + x_n a_n\)
+<ul>
+<li>
+multiply both sides of \(y=Ax\) by \(A^{-1}=B\) gives \(x=By\)
+</li>
+<li>
+so \(x_i=\tilde b_i^T y\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+\[
+\begin{bmatrix}
+  \vdots & \vdots & \vdots & \vdots \\
+  a_1    & a_2    & ...    & a_n    \\
+  \vdots & \vdots & \vdots & \vdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+x=A^{-1} y
+\]
+
+\[
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \cdots & \tilde b^T_1 & \cdots \\
+  \cdots & \tilde b^T_2 & \cdots \\
+  \cdots & \vdots       & \cdots \\
+  \cdots & \tilde b^T_n & \cdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_1 a_1 + ... + x_n a_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+(\tilde b^T_1 y) a_1 + ... + (\tilde b^T_n y) a_n
+\end{bmatrix}
+\]
+
+<p>
+Beautiful thing:
+\[
+y=\sum_{i=1}^n (\tilde b_i ^T y) a_i
+\]
+
+</p></li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-2_2_5" class="outline-4">
+<h4 id="sec-2_2_5"><span class="section-number-4">2.2.5</span> Rank of matrix </h4>
+<div class="outline-text-4" id="text-2_2_5">
+
+<p>Rank of \(A \in \mathbb{R}^{m \times n}\) as \({\bf rank}(A)= {\bf dim} \mathcal{R}(A)\)
+</p><ul>
+<li>
+\({\bf rank} (A)= {\bf rank} (A^T)\)
+</li>
+<li>
+\({\bf rank} (A)\) is maximum number of independent columns or rows of \(A\): \({\bf rank} (A) \le {\bf min} (m,n)\)
+</li>
+<li>
+\({\bf rank} (A)+ {\bf dim} \mathcal{N}(A)=n\)
+</li>
+</ul>
+
+
+<ul>
+<li id="sec-2_2_5_1">Conservation of degrees of freedom (dimension) <br/>
+<ul>
+<li>
+\({\bf rank} (A)\) is dimension of set `hit' by mapping \(y=Ax\)
+</li>
+<li>
+\({\bf dim} \mathcal{N}(A)\) is dimension of set of \(x\) `crushed' to zero by \(y=Ax\)
+</li>
+</ul>
+
+
+<ul>
+<li id="sec-2_2_5_1_1">Example <br/>
+<ul>
+<li>
+\(A \in \mathbb{R}^{20 \times 10} {\bf rank} (A)=8\)
+<ul>
+<li>
+you can do 8 dimensions worth of stuff
+</li>
+<li>
+10 knobs, 2 redundant knobs, which is \({\bf dim} \mathcal{N}(A)=2\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li id="sec-2_2_5_2">Coding interpretation of rank <br/>
+<ul>
+<li>
+rank of product: \({\bf rank} (BC) \le {\bf min} \{ {\bf rank} (B), {\bf rank} (C)\}\)
+</li>
+<li>
+supposedly really cool stuff based on this
+</li>
+<li>
+low rank matrices let you do fast computations
+</li>
+</ul>
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-2_2_6" class="outline-4">
+<h4 id="sec-2_2_6"><span class="section-number-4">2.2.6</span> Various wrap-up items </h4>
+<div class="outline-text-4" id="text-2_2_6">
+
+<ul>
+<li id="sec-2_2_6_1">RMS <br/>
+\[
+{\bf rms} (x) = \left( \frac{1}{n} \sum^n _{i=1} \right) ^{1/2} = \frac{\| x \|}{\sqrt{n}} 
+\]
+</li>
+</ul>
+<ul>
+<li id="sec-2_2_6_2">Inner product <br/>
+\(\langle x,y \rangle := x_1 y_1 + x_2 y_2 + \cdots + x_n y_n = x ^{T} y\) 
+<ul>
+<li>
+intepretation of inner product signs:
+</li>
+<li>
+\(x ^{T} y &gt; 0\): acute; roughly point in same direction
+</li>
+<li>
+\(x ^{T} y &gt; 0\): obtuse; roughly point in opposite direction
+</li>
+</ul>
+
+
+</li>
+</ul>
+<ul>
+<li id="sec-2_2_6_3">Orthonormal set of vectors <br/>
+<ul>
+<li>
+set of \(k\) vectors \(u_1, u_2, ..., u_k \in \mathbb{R}^{n}\) orthonormal; \(U= [u_1 \cdots u_k]\)
+</li>
+<li>
+\(U^T U= I_k \leftrightarrow\) set of column vectors of \(U\) are orthonormal
+</li>
+<li>
+\({\bf warning}\): \(U U ^{T} \ne I_k\) if \(k&lt;n\) 
+<ul>
+<li>
+say \(U\) is \(10\times 3\), \(U^T\) is \(3 \times 10\), rank of \(U\) is 3 \(\Rightarrow\) rank of \(UU^T\) is at most 3
+</li>
+<li>
+but \(UU^T\) will be a \(10\times 10\) matrix, so it can't be the identity matrix
+</li>
+</ul>
+</li>
+</ul>
+
+
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Lecture 5 </h2>
+<div class="outline-text-2" id="text-3">
+
+<p>A good source for more on orthogonality at <a href="http://www.math.umn.edu/~olver/aims_/qr.pdf">University of Minnesota</a>
+</p>
+
+</div>
+
+<div id="outline-container-3_1" class="outline-3">
+<h3 id="sec-3_1"><span class="section-number-3">3.1</span> Geometric properties of orthonormal vectors </h3>
+<div class="outline-text-3" id="text-3_1">
+
+<ul>
+<li>
+columns of \(U\) are ON \(\Rightarrow\) mapping under \(U\) preserves distances
+<ul>
+<li>
+\(w=Uz \Rightarrow \|w \| = \| z \|\)
+</li>
+</ul>
+</li>
+<li>
+Also preserves inner product
+</li>
+<li>
+Also preserves angles
+</li>
+<li>
+Something like a rigid transformation
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_2" class="outline-3">
+<h3 id="sec-3_2"><span class="section-number-3">3.2</span> Orthonormal basis for \(\mathbb{R}^{n}\) </h3>
+<div class="outline-text-3" id="text-3_2">
+
+<ul>
+<li>
+if there are \(n\) orthonormal vectors (remember, with dimension \(n\)), it forms an orthonormal basis for \(\mathbb{R}^{n}\)
+</li>
+<li>
+\(U^{-1}=U^T\)
+<ul>
+<li>
+\fbox{\(U^T U=I \Leftrightarrow U\)'s column vectors form an orthonormal basis for $\mathbb{R}<sup>n</sup>$}
+</li>
+<li>
+\(\displaystyle \sum _{i=1} ^{n} u_i u_i^T = I \in \mathbb{R}^{n \times n}\) (known as a dyad, or outer product; inner products reverses the two and gives a scalar, outer gives a matrix)
+</li>
+<li>
+outer products take 2 vectors, possibly of different sizes, and multiplies every combination of elements one with another
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_3" class="outline-3">
+<h3 id="sec-3_3"><span class="section-number-3">3.3</span> Expansion in orthonormal basis </h3>
+<div class="outline-text-3" id="text-3_3">
+
+<ul>
+<li>
+\(U\) orthogonal \(\Rightarrow x=UU^T\)
+</li>
+<li>
+\(\displaystyle x= \sum ^{n} _{i=1} \left( u ^{T} _{i} x\right) u _{i}\)
+<ul>
+<li>
+because \(U^TU=I\), the thing in sum is really \(u_i u_i^T x\)
+</li>
+<li>
+\(u_i^T x\) is really a scalar, so this can be moved to the front of \(u_i\), giving our result
+</li>
+<li>
+This says \(x\) is a linear combination of \(u_i\)'s
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_4" class="outline-3">
+<h3 id="sec-3_4"><span class="section-number-3">3.4</span> Gram-Schmidt procedure </h3>
+<div class="outline-text-3" id="text-3_4">
+
+<ul>
+<li>
+\(a_1, ..., a_k \in \mathbb{R}^{n}\) are LI; G-S finds ON vectors \(q_1,..., q_k\) s.t. $$ {\bf span} (a_1,...,a_r)= {\bf span} (q_1,...,q_r)$$ for \(r \le k\)
+</li>
+<li>
+so \(q_1, ..., q_r\) is an ON basis for span(\(a_1, ...,a_r\))
+</li>
+<li>
+Basic method: orthogonalize each vector wrt the previous ones, then normalize result
+<ol>
+<li>
+\(\tilde q_1 = a_1\)
+</li>
+<li>
+normalize: \(q_1 = \tilde q_1/ \|\tilde q_1 \|\)
+</li>
+<li>
+remove \(q_1\) component from \(a_2\): \(\tilde q_2 = a_2 - (q_1^T a_2) q_1\)
+</li>
+<li>
+normalize \(q_2\)
+</li>
+<li>
+remove \(q_1, q_2\) components: \(\tilde q_3= a_3 - (q_1^T a_3) q_1 - (q_2^T a_3)q_2\) 
+</li>
+<li>
+normalize \(q_3\) 
+</li>
+</ol>
+</li>
+<li>
+\(a_i= (q_1^T a_i) q_1 + (q_2^T a_i)q_2 + \cdots + (q_{i-1}^T a_i)q_{i-1} + \| \tilde q_i \| q_i\)
+<ul>
+<li>
+\(= r_{1i} q_1 + r_{2i} q_2 + \cdots + r_{ii} q_i\) (\(r_{ii} \ge 0\) is the length of \(\tilde q_i\))
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_5" class="outline-3">
+<h3 id="sec-3_5"><span class="section-number-3">3.5</span> \(QR\) decomposition </h3>
+<div class="outline-text-3" id="text-3_5">
+
+<p>This can be written as \(A=QR\), where \(A \in \mathbb{R}^{n \times k}, Q \in \mathbb{R}^{n \times k} , R \in \mathbb{R}^{k\times k}\)
+</p>
+
+
+\[
+\begin{bmatrix}
+  a_1 & a_2 & \cdots & a_k \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  q_1 & q_2 & \cdots & q_k \\
+\end{bmatrix}
+\begin{bmatrix}
+  r_{11} & r_{12} & \cdots & r_{1k} \\
+         0 & r_{22} & \cdots & r_{2k} \\
+    \vdots & \vdots   & \ddots & \vdots   \\
+         0 & 0        & \cdots & r_{kk} \\
+\end{bmatrix}
+\]
+<ul>
+<li>
+\(R\) triangular because computation of \(a_i\) only involves up to \(q_i\)
+<ul>
+<li>
+a sort of causality, since you can calculate \(q_7\) without seeing \(q_8\)
+</li>
+</ul>
+</li>
+<li>
+Columns of \(Q\) are ON basis for \(\mathcal{R}(A)\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_6" class="outline-3">
+<h3 id="sec-3_6"><span class="section-number-3">3.6</span> General Gram Schmidt procedure (`rank revealing QR algorithm') </h3>
+<div class="outline-text-3" id="text-3_6">
+
+<ul>
+<li>
+Basically the same, but if one of the \(\tilde q_i\)'s is zero (meaning \(a_i\) is dependent on previous \(a\) vectors), then just go to the next column
+</li>
+<li>
+referring to notes, upper staircase notation shows which vectors are dependent on previous ones (columns without the x's)
+<ul>
+<li>
+entries with x are `corner' entries
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_7" class="outline-3">
+<h3 id="sec-3_7"><span class="section-number-3">3.7</span> Applications </h3>
+<div class="outline-text-3" id="text-3_7">
+
+<ul>
+<li>
+check if \(b \in {\bf span} (a_1, a2, ..., a_k)\)
+</li>
+<li>
+Factorize matrix \(A\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3_8" class="outline-3">
+<h3 id="sec-3_8"><span class="section-number-3">3.8</span> Least Squares Approximation </h3>
+<div class="outline-text-3" id="text-3_8">
+
+<ul>
+<li>
+Overdetermined linear equation (tall, skinny, more equations than unknowns, dimensionally redundant system of equations)
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Lecture 6 </h2>
+<div class="outline-text-2" id="text-4">
+
+<p>On skinny, full rank matrices
+</p>
+</div>
+
+<div id="outline-container-4_1" class="outline-3">
+<h3 id="sec-4_1"><span class="section-number-3">4.1</span> Overdetermined equations </h3>
+<div class="outline-text-3" id="text-4_1">
+
+<ul>
+<li>
+Skinny, more equations than unknowns
+</li>
+<li>
+Given \(y=Ax, A\in \mathbb{R}^{m\times n}\), a randomly-chosen \(y\) in \(\mathbb{R}^{m}\) has 0 probability of being in the range of \(A\)
+</li>
+<li>
+To \(approximately\) solve for \(y\), minimize norm of error (residual) \(r=Ax-y\)
+</li>
+<li>
+find \(x=x _{ls}\) (least squares approx.) that minimizes \(\|r\|\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_2" class="outline-3">
+<h3 id="sec-4_2"><span class="section-number-3">4.2</span> Least Squares `Solution' </h3>
+<div class="outline-text-3" id="text-4_2">
+
+<ul>
+<li>
+square \(\|r\|\), get expansion, set gradient wrt \(x\) equal to zero
+</li>
+<li>
+\fbox{\(x _{ls} = (A ^{T} A) ^{-1} A ^{T} y\) } \(=B_{ls} y\) (linear operation)
+</li>
+<li>
+\(A ^{T} A\) should be invertible, square, full rank
+</li>
+<li>
+\((A ^{T} A)^{-1} A ^{T}\) is a generalized inverse (is only inverse for square matrices, though)
+<ul>
+<li>
+Also known as the \(A^\dagger\), `pseudo-inverse'
+</li>
+<li>
+Which is a left inverse of \(A\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_3" class="outline-3">
+<h3 id="sec-4_3"><span class="section-number-3">4.3</span> Projection on \(\mathcal{R}(A)\) </h3>
+<div class="outline-text-3" id="text-4_3">
+
+<p>\(Ax _{ls}\) is the point closest to \(y\) (i.e., projection of \(y\) onto \(\mathcal{R}(A)\))
+</p><ul>
+<li>
+\(A x _{ls} = {\bf proj} _{ \mathcal{R}(A)} (y)= \left(A(A ^{T} A) ^{-1} A ^{T} \right)y\) 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_4" class="outline-3">
+<h3 id="sec-4_4"><span class="section-number-3">4.4</span> Orthogonality principle </h3>
+<div class="outline-text-3" id="text-4_4">
+
+<p>The optimal residual is orthogonal to \(C(A)\)
+</p><ul>
+<li>
+\(r = A x _{ls} -y = (A(A ^{T} A) ^{-1} A ^{T} -I)y\) orthogonal to \(C(A)\)
+</li>
+<li>
+\(\langle r, Az \rangle = y ^{T} (A(A ^{T} A) ^{-1} A ^{T} -I) ^{T} Az = 0\) for all \(z \in \mathbb{R}^{n}\) 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_5" class="outline-3">
+<h3 id="sec-4_5"><span class="section-number-3">4.5</span> Least-squares via \(QR\) factorization </h3>
+<div class="outline-text-3" id="text-4_5">
+
+<p>\(A\) is still skinny, full rank
+</p><ul>
+<li>
+Factor as \(A=QR\); \(Q^TQ=I_n, R \in \mathbb{R}^{n\times n}\) upper triangular, invertible
+</li>
+<li>
+pseudo-inverse: \((A ^{T} A) ^{-1} A ^{T} = R ^{-1} Q ^{T} \Rightarrow\) \fbox{$R <sup>-1</sup> Q <sup>T</sup> y = x <sub>ls</sub>$}
+</li>
+<li>
+Pretty straight-forward
+</li>
+<li>
+Matlab for least squares approximation
+<pre class="example">
+xl = inv(A' * A)*A'y; # So common that has shorthand in MATLAB
+xl = A\y;                 # Works for non-skinny matrices, may do unexpected things
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_6" class="outline-3">
+<h3 id="sec-4_6"><span class="section-number-3">4.6</span> Full \(QR\) factorization </h3>
+<div class="outline-text-3" id="text-4_6">
+
+<ul>
+<li>
+\(A= \begin{bmatrix}Q_1 &amp; Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix}\)
+<ul>
+<li>
+New \(Q\) is square, orthogonal matrix; \(R_1\) is square, upper triangular, invertible
+</li>
+</ul>
+</li>
+<li>
+Remember, multiplying by orthogonal matrix doesn't changet the norm:
+<ul>
+<li>
+\(\| A x-y \| ^{2} = \| R_1 x - Q ^{T} _{1} y \|^2 + \| Q ^{T} _{2} y \| ^{2}\)
+</li>
+<li>
+Find least squares approximation with \(x _{ls} = R ^{-1} _{1} Q ^{T} _{1} y\) (zeroes first term)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_7" class="outline-3">
+<h3 id="sec-4_7"><span class="section-number-3">4.7</span> Applications for least squares approximations </h3>
+<div class="outline-text-3" id="text-4_7">
+
+<ul>
+<li>
+if there is some noise \(v\) in \(y = Ax+v\)
+<ul>
+<li>
+you can't reconstruct \(x\), but you can get close with the approximation
+</li>
+</ul>
+</li>
+<li>
+Estimation: choose some \(\hat x\) that minimizes \(\| A \hat x - y\|\), which is the deviation between the think we observed, and what we would have observed in the absence of noise
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_8" class="outline-3">
+<h3 id="sec-4_8"><span class="section-number-3">4.8</span> BLUE: Best linear unbiased estimator </h3>
+<div class="outline-text-3" id="text-4_8">
+
+<ul>
+<li>
+\(A\) still full rank and skinny; have a `linear estimator' \(\hat x= By\) (\(B\) is fat)
+<ul>
+<li>
+\(\hat x = B(Ax+v)\)
+</li>
+</ul>
+</li>
+<li>
+Called unbiased if there is no estimation error when there's no noise; the estimator works perfectly in the absence of noise
+<ul>
+<li>
+if \(v=0\) and \(BA=I\); \(B\) is left inverse/perfect reconstructor
+</li>
+</ul>
+</li>
+<li>
+Estimation error uf unbiased linear estimator is \(x- \hat x= sBv\), so we want \(B\) to be small and \(BA=I\); small means error isn't sensitive to the noise
+</li>
+<li>
+The pseudo-inverse is the smallest left inverse of \(A\):
+<ul>
+<li>
+\(A ^{\dagger} = (A ^{T} A) ^{-1} A ^{T}\)
+</li>
+<li>
+\(\displaystyle \sum _{i,j} B ^{2} _{ij} \ge \sum _{i,j} A _{ij} ^{\dagger 2}\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_9" class="outline-3">
+<h3 id="sec-4_9"><span class="section-number-3">4.9</span> Range-finding example </h3>
+<div class="outline-text-3" id="text-4_9">
+
+<ul>
+<li>
+Find ranges to 4 beacons from an unknown position \(x\)
+</li>
+<li>
+\(y = - \begin{bmatrix}
+           k _{1} ^{T} \\ k _{2 } ^{T} \\ k _{3} ^{T} \\ k _{4} ^{T} 
+         \end{bmatrix} x + v\)
+</li>
+<li>
+actual position \(x=(5.59, 10.58)\); measurement \(y=(-11.95, -2.84, -9.81, 2.81)\)
+<ul>
+<li>
+these numbers aren't consistent in \(Ax=y\), since there's also the error; there is no such \(x\) value that can give this \(y\) value
+</li>
+</ul>
+</li>
+<li>
+There are 2 redundant sensors (2 more \(y\) values than \(x\) values); one method for estimating \(\hat x\) is `just enough' method: you only need 2 \(y\) values; take inverse of top half of \(A\) and pad the rest of the matrix with 0's
+</li>
+<li>
+use \(\hat x = B _{just enough} y = \begin{bmatrix}\begin{bmatrix} k_1 ^{T} \\ k_2 ^{T} \end{bmatrix} ^{-1} \begin{matrix} 0 &amp; 0 \\ 0 &amp; 0 \end{matrix}\end{bmatrix} = \begin{bmatrix}
+                                           0 & -1.0 & 0 & 0 \\ -1.12 &   .5 & 0 & 0 \\   
+                                     \end{bmatrix} y = \begin{bmatrix} 2.84 \\ 11.9 \end{bmatrix}\)
+</li>
+<li>
+Least Squares method: \(\hat x A ^{\dagger} y =\) this has a much smaller norm of error
+</li>
+<li>
+Just enough estimator doesn't seem to have good performance&hellip;unless last two measurements were really off, since JEM only takes 2 measurements into account
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_10" class="outline-3">
+<h3 id="sec-4_10"><span class="section-number-3">4.10</span> Quantizer example </h3>
+<div class="outline-text-3" id="text-4_10">
+
+<p>Super-impressive least squares estimate; more precise than A-D converter
+</p></div>
+
+</div>
+
+<div id="outline-container-4_11" class="outline-3">
+<h3 id="sec-4_11"><span class="section-number-3">4.11</span> Least Squares data-fitting </h3>
+<div class="outline-text-3" id="text-4_11">
+
+<ul>
+<li>
+use functions \(f_1, f_2, ..., f_n:S \rightarrow \mathbb{R}\) are called regressors or basis functions
+</li>
+<li>
+applications
+<ul>
+<li>
+interpolation- , extrapolation, smoothing of data
+</li>
+</ul>
+</li>
+</ul>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Applications</th><th scope="col" class="left"></th></tr>
+</thead>
+<tbody>
+<tr><td class="left">interpolation</td><td class="left">don't have sensors in specific location, but want the temperature</td></tr>
+<tr><td class="left">extrapolation</td><td class="left">get good basis functions for better interpolation</td></tr>
+<tr><td class="left">data smoothing</td><td class="left">de-noise measurements</td></tr>
+<tr><td class="left">simple, approximate data model</td><td class="left">Get a million samples, use the data-fitting to get a simple approximate function</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4_12" class="outline-3">
+<h3 id="sec-4_12"><span class="section-number-3">4.12</span> Least-squares polynomial fitting </h3>
+<div class="outline-text-3" id="text-4_12">
+
+<ul>
+<li>
+Vandermonde matrix?
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Lecture 7 </h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5_1" class="outline-3">
+<h3 id="sec-5_1"><span class="section-number-3">5.1</span> Least-squares polynomial fitting, cont'd </h3>
+<div class="outline-text-3" id="text-5_1">
+
+<ul>
+<li>
+have data samples \((t_i, y_i), i=1,...,m\)
+</li>
+<li>
+fit coefficients \(a_i\) of polynomial \(p(t)= a_0 + a_1 t + \cdots + a _{n-1} t ^{t-1}\) so that when evaluated at \(t_i\) it will give you the associated \(y\) value
+</li>
+<li>
+basis functions are \(f_j(t)= t ^{j-1}, j=1,...,n\)
+</li>
+<li>
+use Vandermonde matrix \(A\) (`polynomial evaluator matrix'):
+</li>
+</ul>
+
+
+
+
+\[
+A=
+\begin{bmatrix}
+  1 & t_1    & t_1^2 & ... & t_1^{n-1} \\
+  1 & t_2    & t_2^2 & ... & t_2^{n-1} \\
+    & \vdots &       &     & \vdots    \\
+  1 & t_m    & t_m^2 & ... & t_m^{n-1} \\
+\end{bmatrix}
+\]
+<ul>
+<li>
+side note: use this when you want to fit throughout an interval, use a Taylor series fit if you want it close to a point
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_2" class="outline-3">
+<h3 id="sec-5_2"><span class="section-number-3">5.2</span> Growing sets of regressors </h3>
+<div class="outline-text-3" id="text-5_2">
+
+<ul>
+<li>
+Given ordered set of vectors; find best fit with first vector, then best fit with first and second, then best fit with first three&hellip;
+</li>
+<li>
+These vectors called <i>regressors</i>, or columns
+</li>
+<li>
+Say you have some <i>master list</i> \(A\) with \(n\) columns, and \(A ^{(p)}\) will be the matrix with the first \(p\) columns of it
+<ul>
+<li>
+we want to minimize different sets of \(\| A ^{(p)} x-y \|\)
+</li>
+<li>
+i.e., project \(y\) onto a growing span \(\{a_1, a_2, ..., a_p\}\)
+</li>
+</ul>
+</li>
+<li>
+Solution for each \(p \le n\) given by \(x _{ls} ^{(p)} = (A ^{T} _{p} A _{p} )^{-1} A _{p} ^{T} y = R ^{-1} _{p} Q ^{T} _{p} y\)
+<ul>
+<li>
+In MATLAB, <code>A(:,1:p)\y</code>, though technically it's faster to do a sort of <code>for</code> loop
+</li>
+</ul>
+</li>
+<li>
+Residual, \(\| \sum ^{p} _{i=1} x_i a_i -y \|\) reduces as \(p\) (number of columns) increases
+<ul>
+<li>
+though it may be same as residual with previous value of \(p\) if the optimal \(x_1=0\), when \(y \perp a_1\)
+</li>
+<li>
+if the residual drops 15% from that of previous value of \(p\), you say that \(a_1\) explains 15% of \(y\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_3" class="outline-3">
+<h3 id="sec-5_3"><span class="section-number-3">5.3</span> Least-squares system identification (important topic) </h3>
+<div class="outline-text-3" id="text-5_3">
+
+<ul>
+<li>
+measure input, output \(u(t), y(t)\) for \(t=0,...,N\) of unknown system, and try to get a model of system
+</li>
+<li>
+example: moving average (MA) model with \(n\) delays (try to approximate what are the weights \(h_i\) for each delay)
+<ul>
+<li>
+see equation/matrix in notes, though there are different ways to write it
+</li>
+<li>
+get best answer with LSA
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_4" class="outline-3">
+<h3 id="sec-5_4"><span class="section-number-3">5.4</span> Model order selection </h3>
+<div class="outline-text-3" id="text-5_4">
+
+<ul>
+<li>
+how large should \(n\) be?
+</li>
+<li>
+the larger, the smaller prediction error on <i>data used to form model</i>
+</li>
+<li>
+but at a certain point, predictive ability of model on other I/O data from same system worsens
+</li>
+<li>
+probably best to choose the `knee' on the graph on notes slide for prediction of new data
+</li>
+</ul>
+
+
+
+</div>
+
+<div id="outline-container-5_4_1" class="outline-4">
+<h4 id="sec-5_4_1"><span class="section-number-4">5.4.1</span> Cross-validation </h4>
+<div class="outline-text-4" id="text-5_4_1">
+
+<ul>
+<li>
+check with new data, only if you're getting small residuals on data you've already seen
+</li>
+<li>
+when \(n\) gets too large (greater than \(n=10\) on graph), the error with `validation data' actually gets larger
+</li>
+<li>
+this example is ideal, since \(n=10\) is the obvious order for the model
+</li>
+<li>
+<b>Application note</b>: in medical, many industries, there's a firm wall between validation data and model-developing data, so someone <i>else</i> tests your model
+</li>
+<li>
+in this example, it is known as <i>overfit</i> when the validation data error gets larger for \(n\) too large
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5_5" class="outline-3">
+<h3 id="sec-5_5"><span class="section-number-3">5.5</span> Growing sets of measurements </h3>
+<div class="outline-text-3" id="text-5_5">
+
+<ul>
+<li>
+similar to GSo Regressors, except you add new rows, not columns
+</li>
+<li>
+this would happen if we're estimating a parameter \(x\) (which is constant)
+</li>
+<li>
+Solution: \(\displaystyle x_{ls} = \left( \sum ^{m} _{i=1} a_i a_i ^{T} \right) ^{-1} \sum ^{m} _{i=1} y_i a_i\)
+</li>
+<li>
+new way to think of least squares equation
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_6" class="outline-3">
+<h3 id="sec-5_6"><span class="section-number-3">5.6</span> Recursive ways to do least squares </h3>
+<div class="outline-text-3" id="text-5_6">
+
+<ul>
+<li>
+don't have to re-add for each new measurement
+<ul>
+<li>
+i.e., memory is bounded
+</li>
+<li>
+use equation from notes; solution is \(x _{ls} (m) = P(m) ^{-1} q(m)\)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_7" class="outline-3">
+<h3 id="sec-5_7"><span class="section-number-3">5.7</span> Fast update algorithm for recursive LS </h3>
+<div class="outline-text-3" id="text-5_7">
+
+<ul>
+<li>
+Was a big deal back in the day; somewhat still
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5_8" class="outline-3">
+<h3 id="sec-5_8"><span class="section-number-3">5.8</span> Multi-objective least squares </h3>
+<div class="outline-text-3" id="text-5_8">
+
+<ul>
+<li>
+Sometimes you have 2+ objectives to minimize
+<ul>
+<li>
+say \(J_1 = \| Ax-y\| ^{2}\) (what we've done so far)
+</li>
+<li>
+and \(J_2 = \| Fx-g\| ^{2}\)
+</li>
+<li>
+these are usually competing (minimize one at cost of other)
+</li>
+</ul>
+</li>
+<li>
+Variable in question is \(x \in \mathbb{R}^{n}\)
+</li>
+<li>
+Plot in notes shows plot of \((J_1(x_i), J_2(x_i))\)
+</li>
+<li>
+Some points are unambiguously worse than others, but there is some ambiguity when \(J_1(x_1) &lt; J_1(x_2)\), while \(J_2(x_1) &gt; J_2(x_2)\)
+</li>
+<li>
+Fix this ambiguity with `weighted-sum objective'
+</li>
+<li>
+\(J_1 + \mu J_2 = \| Ax-y\| ^{2} + \mu \| Fx-g\| ^{2}\)
+<ul>
+<li>
+Say, there's a trade-off between smoothness (no noise) and better fit; \(\mu\) can have different dimensions if \(J_2\) does
+</li>
+</ul>
+</li>
+<li>
+Use slope of \(\mu\) in graph (`indifference curve', in economics) [slide 7-6]
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Lecture 8 </h2>
+<div class="outline-text-2" id="text-6">
+
+<p>Multi-objective least-squares
+</p>
+</div>
+
+<div id="outline-container-6_1" class="outline-3">
+<h3 id="sec-6_1"><span class="section-number-3">6.1</span> Plot of achievable objective pairs </h3>
+<div class="outline-text-3" id="text-6_1">
+
+<ul>
+<li>
+if it approximates an L shape (has a `knee'), the knee is usually the obvious optimal location, so least-squares isn't as helpful
+<ul>
+<li>
+optimal point isn't very sensitive to &mu;
+</li>
+</ul>
+</li>
+<li>
+Other extreme: trade-off curve looks linear (negative slope), where it's zero-sum
+<ul>
+<li>
+optimal point very sensitive to &mu;
+</li>
+<li>
+slope commonly called <i>exchange rate curve</i>
+</li>
+</ul>
+</li>
+<li>
+In this class, they must be convex curves (cup up/outward)
+</li>
+<li>
+To find Pareto optimal points, minimize \(J_1 + \mu J_2 = \alpha\)
+<ul>
+<li>
+on plot, can have level curves with slope &mu;
+</li>
+<li>
+Find point on Pareto Optimal Curve that has slope &mu;
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_2" class="outline-3">
+<h3 id="sec-6_2"><span class="section-number-3">6.2</span> Minimizing weighted-sum objective </h3>
+<div class="outline-text-3" id="text-6_2">
+
+<ul>
+<li>
+note: norm-squared of a stacked vector is norm-square of the top+norm-square of bottom
+</li>
+</ul>
+
+
+
+
+$$J_1+\mu J_2 = \| Ax - y \| ^{2} + \mu \| Fx - g \| ^{2} = \left\|
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+x-
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\right\| ^{2} 
+$$
+\[
+= \left\| \tilde Ax- \tilde y \right\|
+\]
+<p>
+where
+\[
+\tilde A =
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+, \tilde y =
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\]
+If \(\tilde A\) is full rank,
+\begin{eqnarray}
+x &=& \left( \tilde A ^{T} \tilde A \right)^{-1} \tilde A ^{T} \tilde y \\
+  &=& ( A ^{T} A + \mu F ^{T} F) ^{-1} (A ^{T} y + \mu F ^{T} g)
+\end{eqnarray}
+Note: to plot the tradeoff curve, calculate the minimizer \(x_\mu\), and plot the resulting pairs \((J_1, J_2)\) 
+In MATLAB, <code>[A; sqrt(mu) * F]\[y;sqrt(mu) * g]</code>
+</p></div>
+
+</div>
+
+<div id="outline-container-6_3" class="outline-3">
+<h3 id="sec-6_3"><span class="section-number-3">6.3</span> Example: frictionless table </h3>
+<div class="outline-text-3" id="text-6_3">
+
+<ul>
+<li>
+\(y\) is final position at \(t=10\); \(y=a ^{T} x\), \(a\in \mathbb{R}^{10}\) 
+</li>
+<li>
+\(J_1 = (y-1) ^{2}\), (final position difference from \(y=1\) squared)
+</li>
+<li>
+\(J_2 = \|x\| ^{2}\) sum of force squares
+</li>
+<li>
+Q: Why do we often care about sum of squares? A: <b>It's easy to analyze</b> (not necessarily because it corresponds to energy)
+<ul>
+<li>
+max \(| x_i |\) corresponds to maximum thrust
+</li>
+<li>
+\(\sum |x_i|\) corresponds to fuel use
+</li>
+</ul>
+</li>
+<li>
+Optimal tradeoff curve is quadratic
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_4" class="outline-3">
+<h3 id="sec-6_4"><span class="section-number-3">6.4</span> Regularized least-squares </h3>
+<div class="outline-text-3" id="text-6_4">
+
+<ul>
+<li>
+famous example of multi-objective least squares
+<ul>
+<li>
+second \(J\) term is simply \(J_2 = \|x\|\), though first is the same: \(J_1 = \|Ax-y\| ^{2}\) 
+</li>
+</ul>
+</li>
+<li>
+Tychonov regularization works for <i>any</i> \(A\)
+<ul>
+<li>
+<i>regularized</i> least-squares solution: \fbox{$x<sub>&mu;</sub> = (A <sup>T</sup> A + &mu; I) <sup>-1</sup> A <sup>T</sup> y$}, for \(F=I, g=0\) 
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>
+Show \((A ^{T} A + \mu I)\) is invertible, no matter what size/values of \(A\) (assuming \(\mu &gt; 0\) ): 
+If this is <i>not</i> invertible (singular), it means some nonzero vector \(z\) gets mapped to zero (\(z \in \mathcal{N}(A)\))
+\begin{eqnarray}
+(A ^{T} A + \mu I) z= 0, z \ne 0 \\
+z ^{T} (A ^{T} A + \mu I) z = 0 \text{ since } z^T \vec{0} =0 \\
+z ^{T} A ^{T} A z + \mu z ^{T} z = 0 \\
+\| A z \| ^{2} + \mu \| z \| ^{2} = 0 \\
+z = \vec{0} 
+\end{eqnarray}
+So, \(z\) can only be zero, meaning \(\mathcal{N}(A) = \{0\} \Rightarrow (A ^{T} A -\mu I)\) is invertible. This is also why &mu; must be positive.
+Or, you know it's invertible, since it is full rank (and skinny) when you stack \(\mu I\) below it (see definition of \(\tilde A\)).
+</p><ul>
+<li>
+Application of Regularized least-squares
+<ul>
+<li>
+estimation/inversion
+</li>
+<li>
+\(Ax-y\) is sensor residual
+</li>
+<li>
+prior information that \(x\) is really small
+</li>
+<li>
+or, model only accurate for small \(x\)
+</li>
+<li>
+Tychonov solution trades off sensor fit and size of \(x\)
+</li>
+</ul>
+</li>
+<li>
+Image processing example
+<ul>
+<li>
+Laplacian regularization
+<ul>
+<li>
+image reconstruction problem
+</li>
+</ul>
+</li>
+<li>
+\(x\) is vectorized version of image
+</li>
+<li>
+\(\|A x - y\| ^{2}\) is difference from real image
+</li>
+<li>
+Want new objective to minimize roughness
+<ul>
+<li>
+vector \(Dx\) (from new matrix \(D\)) which has difference between neighboring pixels as elements
+<ul>
+<li>
+\(D_v x\) measures vertical difference 
+</li>
+<li>
+\(D_h x\) measures horizontal difference 
+</li>
+<li>
+Nullspace is vector where there is no variation between pixels
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+minimize \(\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2}\)
+<ul>
+<li>
+if \(\mu\) is turned way up, it'll be all smoothed out
+</li>
+<li>
+if you care about total size of image, you can add another parameter &lambda;: \(\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2} + \lambda \|x\| ^{2}\)
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_5" class="outline-3">
+<h3 id="sec-6_5"><span class="section-number-3">6.5</span> Nonlinear least squares (NLLS) problem </h3>
+<div class="outline-text-3" id="text-6_5">
+
+<ul>
+<li>
+find \(x\in \mathbb{R}^{n}\) that minimizes \(\displaystyle \| r(x) \| ^{2} = \sum ^{m} _{i=1} r _{i} (x) ^{2}\)
+</li>
+<li>
+\(r(x)\) is vector of residuals; \(r(x)= Ax-y \Rightarrow\) problem reduces to linear least squares problem
+</li>
+<li>
+in general, can't <b>really</b> solve a NLLS problem, but can find good heuristics to get a locally optimal solution
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_6" class="outline-3">
+<h3 id="sec-6_6"><span class="section-number-3">6.6</span> Gauss-Newton method for NLLS </h3>
+<div class="outline-text-3" id="text-6_6">
+
+<ul>
+<li>
+Start guess for \(x\)
+</li>
+<li>
+Loop
+<ul>
+<li>
+linearize \(r\) near current guess
+</li>
+<li>
+new guess is linear LS solution, using linearized \(r\)
+</li>
+<li>
+if convergence, stop
+</li>
+</ul>
+</li>
+<li>
+Linearize?
+<ul>
+<li>
+Jacobian: \((Dr) _{ij} = \partial r _{i} / \partial x_j\)
+</li>
+<li>
+Linearization: \(r (x) \approx r(x ^{(k)}) + Dr(x ^{(k)} ) (x-x ^{(k)} )\)
+</li>
+<li>
+Set this linearized approximation equal to \(r(x) \approx A ^{(k)} x-b ^{(k)}\)
+<ul>
+<li>
+\(A ^{(k)} = Dr(x ^{(k)})\)
+</li>
+<li>
+\(b ^{(k)} = Dr (x ^{(k)}) x ^{(k)} -r(x ^{(k)})\) 
+</li>
+</ul>
+</li>
+<li>
+See rest in notes
+</li>
+<li>
+At \(k\) th iteration, approximate NLLS problem by linear LS problem:
+<ul>
+<li>
+\(\| r (x) \| ^{2} \approx \left\| A ^{(k)} x-b ^{(k)} \right\| ^{2}\)
+<ul>
+<li>
+if you wanna make this really cool add a \(\mu \|x-x ^{(k)} \| ^{2}\) term on RHS
+</li>
+<li>
+called a `trust region term';
+</li>
+<li>
+first (original) part says to minimize sum of squares for <i>model</i>
+</li>
+<li>
+trust region term says `but don't go far from where you are now'
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+Could also linearize without calculus; works really well 
+<ul>
+<li>
+See `particle filter'
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_7" class="outline-3">
+<h3 id="sec-6_7"><span class="section-number-3">6.7</span> G-N example </h3>
+<div class="outline-text-3" id="text-6_7">
+
+<ul>
+<li>
+Nice graph and residual plot
+</li>
+<li>
+As practical matter, good to run simulation several times (with different initial guesses)
+</li>
+<li>
+`exuastive simulation'
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_8" class="outline-3">
+<h3 id="sec-6_8"><span class="section-number-3">6.8</span> Underdetermined linear equations </h3>
+<div class="outline-text-3" id="text-6_8">
+
+<ul>
+<li>
+\(A \in \mathbb{R}^{m \times n}, m&lt;n\) (\(A\) is fat)
+</li>
+<li>
+more variables than equations
+</li>
+<li>
+\(x\) is underspecified
+</li>
+<li>
+For this sectian <b>assume \(A\) is full rank</b>
+</li>
+<li>
+Set of all solutions has form \(\{x | Ax=y\} = \{x_p + z | z \in \mathcal{N}(A) \}\)
+</li>
+<li>
+solution has dim \(\mathcal{N}(A)= n-m\) `degrees of freedom'
+<ul>
+<li>
+many DOF: good for design (flexibility), bad for estimation (stuff you don't/can't know with available measurements)
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6_9" class="outline-3">
+<h3 id="sec-6_9"><span class="section-number-3">6.9</span> Least norm solution </h3>
+<div class="outline-text-3" id="text-6_9">
+
+<ul>
+<li>
+\fbox{$x <sub>ls</sub> = A <sup>T</sup> (AA <sup>T</sup>) <sup>-1</sup> y$}
+<ul>
+<li>
+similar to our familiar skinny \(A\) version: \(x _{ls} = (A^{T} A) ^{-1} A ^{T} y\)
+</li>
+<li>
+mnemonic: \((\cdot) ^{-1}\) thing must be square
+<ul>
+<li>
+if \(A\) skinny, both $A A <sup>T</sup> and $ \(A^TA\) could be square (syntactically)
+</li>
+<li>
+semantically, you need the up and down patterns that will form the smallest square, i.e., full rank matrix
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Lecture 9 pt 2 </h2>
+<div class="outline-text-2" id="text-7">
+
+<p>Thank you fucking Suncheon.
+</p>
+</div>
+
+<div id="outline-container-7_1" class="outline-3">
+<h3 id="sec-7_1"><span class="section-number-3">7.1</span> General norm minimization with equality constraints </h3>
+<div class="outline-text-3" id="text-7_1">
+
+<ul>
+<li>
+Problem: \fbox{minimize \(\|A x-b\|\) subject to \(Cx=d\), with variable $x$}
+</li>
+<li>
+Least squares/least norm are special cases
+<ul>
+<li>
+Least norm: set \(A=I, b=0\), then you just have norm of \(x\) subject to some linear equations
+</li>
+</ul>
+</li>
+<li>
+Same as: minimize \((1/2) \|Ax-b\| ^{2}\) subject to \(Cx=d\)
+</li>
+<li>
+Lagrangian is&hellip;long ugly thing&hellip;look at notes
+<ul>
+<li>
+a bit easier to look at block matrix format
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+$$
+\begin{bmatrix}
+  A ^{T} A & C ^{T} \\
+  C        & 0      \\
+\end{bmatrix}
+\begin{bmatrix}
+  x       \\
+  \lambda \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  A ^{T} b \\
+  d        \\
+\end{bmatrix}
+$$
+<ul>
+<li>
+recover least squares (maybe) by eliminating \(C\) from matrix (not setting to zero, but only having 1 row/column in first matrix)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7_2" class="outline-3">
+<h3 id="sec-7_2"><span class="section-number-3">7.2</span> Autonomous linear dynamical systems </h3>
+<div class="outline-text-3" id="text-7_2">
+
+<p>``What the class is nominally about''
+</p><ul>
+<li>
+In continuous time, autonomous LDS has form \(\dot x = Ax\)
+</li>
+<li>
+Solution: \(x(t) = e ^{ta} x(0)\)
+</li>
+<li>
+\(x(t) \in \mathbb{R}^{n}\) is called the state
+<ul>
+<li>
+\(n\) is state dimension
+</li>
+</ul>
+</li>
+<li>
+\(A\) basically maps where you are (\(x\)) to where you're going (\(\dot x\))
+<ul>
+<li>
+has units of s\(^{-1}\), frequency
+</li>
+</ul>
+</li>
+<li>
+Example illustration: vector fields
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7_3" class="outline-3">
+<h3 id="sec-7_3"><span class="section-number-3">7.3</span> Block diagrams </h3>
+<div class="outline-text-3" id="text-7_3">
+
+<ul>
+<li>
+use integrators to express \(\dot x =Ax\) instead of differentiators
+<ul>
+<li>
+block called `bank of integrators'
+</li>
+<li>
+historically used because of analog, mechanical computers
+</li>
+</ul>
+</li>
+<li>
+notches to express \(n\) signals
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7_4" class="outline-3">
+<h3 id="sec-7_4"><span class="section-number-3">7.4</span> Linear circuit example </h3>
+<div class="outline-text-3" id="text-7_4">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Lecture 10 </h2>
+<div class="outline-text-2" id="text-8">
+
+<p>Examples of autonomous linear dynamical systems, \(\dot x = Ax\) 
+</p>
+</div>
+
+<div id="outline-container-8_1" class="outline-3">
+<h3 id="sec-8_1"><span class="section-number-3">8.1</span> Example: Series reaction \(A \rightarrow B \rightarrow C\) </h3>
+<div class="outline-text-3" id="text-8_1">
+
+
+$$
+\dot x=
+\begin{bmatrix}
+  -k_1 & 0    & 0 \\
+  k_1  & -k_2 & 0 \\
+  0    & k_2  & 0 \\
+\end{bmatrix}
+x
+$$
+<ul>
+<li>
+For second row, first term on rhs of \(\dot x_2 = k_1 x_1 - k_2 x_1\) is <i>buildup</i>
+</li>
+<li>
+Note: Column sums are 0 implies conservation of mass/materials;
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_2" class="outline-3">
+<h3 id="sec-8_2"><span class="section-number-3">8.2</span> Discrete time Markov chain </h3>
+<div class="outline-text-3" id="text-8_2">
+
+<ul>
+<li>
+\(x(t+1) = Ax(t)\)
+</li>
+<li>
+\(x(t) = A ^{t} x(0)\)
+</li>
+<li>
+Given current state, the matrix of <i>transition probabilities</i> \(P\) will tell you probabilities of the next state, given the current state
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_3" class="outline-3">
+<h3 id="sec-8_3"><span class="section-number-3">8.3</span> Numerical integration of continuous system </h3>
+<div class="outline-text-3" id="text-8_3">
+
+<ul>
+<li>
+for a small time step \(h\), find about where you'll be in \(h\) seconds b
+</li>
+<li>
+\(x(t+h) \approx x(t) + h \dot x(t) = (I + hA) x(t)\)
+</li>
+<li>
+problem: when you do it for a long time, error can build up pretty high
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_4" class="outline-3">
+<h3 id="sec-8_4"><span class="section-number-3">8.4</span> Higher order linear dynamical systems (\(\dot x=Ax\)) </h3>
+<div class="outline-text-3" id="text-8_4">
+
+
+\(x ^{(k)} = A _{k-1} x ^{(k-1)} + \cdots + A _{1} x ^{(1)} + A _{0} x, x(t) \in \mathbb{R}^{n}\)
+<ul>
+<li>
+define new variable
+</li>
+</ul>
+
+
+
+
+$$
+z =
+\begin{bmatrix}
+  x          \\
+  x ^{(1)}   \\
+  \vdots     \\
+  x ^{(k-1)} \\
+\end{bmatrix}
+\in \mathbb{R}^{nk},
+\dot z =
+\begin{bmatrix}
+  x ^{(1)}   \\
+  \vdots     \\
+  x ^{(k)} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+       0 &   I &   0 & \cdots & 0        \\
+       0 &   0 &   I & \cdots & 0        \\
+  \vdots &     &     &        & \vdots   \\
+       0 &   0 &   0 & \cdots & I        \\
+     A_0 & A_1 & A_2 & \cdots & A _{k-1} \\
+\end{bmatrix}
+z
+$$
+<ul>
+<li>
+`upshift \(x\), and zero-pad'
+</li>
+<li>
+\(z\) is the state, not \(x\)
+</li>
+<li>
+in notes, black diagram with chain of integrators
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_5" class="outline-3">
+<h3 id="sec-8_5"><span class="section-number-3">8.5</span> Example: Mechanical systems </h3>
+<div class="outline-text-3" id="text-8_5">
+
+<ul>
+<li>
+Ex: \(K _{12}\) is `cross-stiffness', how much stiffness you'd feel at node 1 from node 2
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_6" class="outline-3">
+<h3 id="sec-8_6"><span class="section-number-3">8.6</span> Linearization near equilibrium point </h3>
+<div class="outline-text-3" id="text-8_6">
+
+<p>Equilibrium point corresponds to constant solution (\(f(x_e)= 0, x(t)=x_e\))
+</p><ul>
+<li>
+if you start at an equilibrium point, you'll stay there
+</li>
+<li>
+if you start <i>near</i> equilibrium point
+<ul>
+<li>
+veer off (unstable)
+</li>
+<li>
+go towards equilibrium (stable)
+</li>
+<li>
+something in between
+</li>
+</ul>
+</li>
+<li>
+but, you never stay at an unstable equilibrium position, since equation is really \(\dot x = f(x) + w(t)\), where \(w(t)\) is noise
+</li>
+<li>
+Near equilibrium point, \(\dot{\delta x}(t) \approx Df(x_e) \delta x(t)\), where \(D\) is the Jacobian
+<ul>
+<li>
+similar to euler forward equation
+</li>
+</ul>
+</li>
+<li>
+Don't fully trust approximations on approximations (but hope they work)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8_7" class="outline-3">
+<h3 id="sec-8_7"><span class="section-number-3">8.7</span> Example: pendulum linearization </h3>
+<div class="outline-text-3" id="text-8_7">
+
+<ul>
+<li>
+\(ml ^{2} \ddot{\theta}=-lmg \sin \theta\)
+</li>
+<li>
+rewrite as 1st order DE with state \(x=[\theta \text{ } \dot \theta] ^{T} = [x_1 \text{ } x_2] ^{T}\):
+</li>
+</ul>
+
+
+
+
+$$
+\dot x =
+\begin{bmatrix}
+  x _{2}          \\
+  -(g/l) \sin x_1 \\
+\end{bmatrix}
+$$ 
+<ul>
+<li>
+\(\exists\) equilibrium point at \(x=0\) (and &pi;), so we linearize system near \(x _{e} =0\), using a Jacobian matrix:
+</li>
+</ul>
+
+
+
+
+$$
+\dot{\delta x}=
+\begin{bmatrix}
+  \frac{\partial x_2}{\partial x_1}               & \frac{\partial x_2}{\partial x_2}               \\
+  \frac{\partial}{\partial x_1} \left(-(g/l) \sin x_1 \right)|_{x_1=0} & \frac{\partial}{\partial x_2} (-(g/l) \sin x_1) \\
+\end{bmatrix}
+\delta x  
+=
+\begin{bmatrix}
+     0 & 1 \\
+  -g/l & 0 \\
+\end{bmatrix}
+\delta x  
+$$
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Lecture 11 </h2>
+<div class="outline-text-2" id="text-9">
+
+<p>Solution via Laplace transform and matrix exponential
+Remember, we've already overloaded \(\dot x =ax\). Now, we'll overload exponentials to apply to matrices \(x(t) = e ^{ta} x(0)\).
+</p>
+</div>
+
+<div id="outline-container-9_1" class="outline-3">
+<h3 id="sec-9_1"><span class="section-number-3">9.1</span> Laplace transform </h3>
+<div class="outline-text-3" id="text-9_1">
+
+<ul>
+<li>
+\(z: \mathbb{R} _{+} \rightarrow \mathbb{R}^{p\times q}\) (function that maps non-negative real scalars to matrices)
+</li>
+<li>
+Laplace transform: \(Z= \mathcal{L}(z)\), defined by \(\displaystyle Z(s) = \int _{0} ^{\infty} e ^{-st} z(t) dt\)
+</li>
+<li>
+Region of convergence of \(Z\) is mostly for confusing students
+</li>
+<li>
+Derivative property: \(\mathcal{L}(\dot z) = sZ(s)-z(0)\)
+</li>
+</ul>
+
+
+<p>
+So, we can use the Laplace transform to solve \(\dot x=Ax\). Take Laplace: \(sX(s)-x(0)=AX(s)\), rewrite as \((sI-A)X(s) = x(0)\), so \(X(s) = (sI-A) ^{-1} x(0)\). Then take the inverse transform: \fbox{$x(t) = \mathcal{L} <sup>-1</sup> \left( (sI-A) <sup>-1</sup> \right) x(0)$}
+</p><ul>
+<li>
+takes advantage if linearity of the Laplace transform
+</li>
+<li>
+\((sI-A) ^{-1}\) is called the <i>resolvent</i> of \(A\)
+<ul>
+<li>
+but not defined for eigenvalues of \(A\); \(s\), ST det(\(sI-A\))=0
+</li>
+</ul>
+</li>
+<li>
+\fbox{\(\Phi = \mathcal{L} ^{-1} ((sI-A) ^{-1} )\) } is called the <i>state-transition matrix</i>, which maps the initial state to state at time \(t\): \fbox{\(x(t) = \Phi(t)x(0)\) }
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_2" class="outline-3">
+<h3 id="sec-9_2"><span class="section-number-3">9.2</span> Example: Harmonic oscillator </h3>
+<div class="outline-text-3" id="text-9_2">
+
+
+$$
+\dot x =
+\begin{bmatrix}
+   0 & 1 \\
+  -1 & 0 \\
+\end{bmatrix}
+x
+$$ 
+<ul>
+<li>
+To solve for \(s\), get the resolvent, then apply the Laplacion to it <i>elementwise</i>, getting
+</li>
+</ul>
+
+
+
+
+$$
+x(t) =
+\begin{bmatrix}
+  \cos t  & \sin t \\
+  -\sin t & \cos t \\
+\end{bmatrix}
+x(0)
+$$
+<p>
+Which is a circular rotation matrix. The solutions to \(\dot x = ax\) is \(x(t) = e ^{ta} x(0)\)
+</p><ul>
+<li>
+\(a\) positive: exponential growth
+</li>
+<li>
+\(a\) negative: exponential decay
+</li>
+<li>
+\(a=0\): constant
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_3" class="outline-3">
+<h3 id="sec-9_3"><span class="section-number-3">9.3</span> Example: Double Integrator </h3>
+<div class="outline-text-3" id="text-9_3">
+
+<ul>
+<li>
+Note, with scalars, \(x\) in \(\dot x=ax\) grows exponentially in time, and cannot grow linearly, as with matrices (can have a \(t\) element in matrix)
+</li>
+<li>
+What is first column of \(\Phi(t)\) say? It tells what the state trajectory is if the initial condition was \(e_1\) (second column tells what it is if \(x(0)= e_2\))
+</li>
+<li>
+First row says the linear combination that \(x_1\) is at time \(t\) given \(x(0)\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_4" class="outline-3">
+<h3 id="sec-9_4"><span class="section-number-3">9.4</span> Characteristic polynomial </h3>
+<div class="outline-text-3" id="text-9_4">
+
+<p>\(\mathcal X(s) = {\bf det} (sI-A)\); called a <i>monic</i> polynomial
+</p><ul>
+<li>
+roots of \(\mathcal X\) are eigenvalues of \(A\), and \(\mathcal X\) has real coefficients, so e-values are real or occur in conjugate pairs
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_5" class="outline-3">
+<h3 id="sec-9_5"><span class="section-number-3">9.5</span> Get eigenvalues of \(A\) and poles of resolvent </h3>
+<div class="outline-text-3" id="text-9_5">
+
+<p>Use Cramer's rule to get \(i,j\) entry:
+$$
+(-1) ^{i+j} \frac{\text{det} \Delta _{ij}}{\text{det}(sI-A)},
+$$
+where \(\Delta _{ij}\) is \(sI-A\) with \(j\) th row and \(i\) th column deleted. Poles of entries of resolvent <b>must</b> be eigenvalues of \(A\).
+</p></div>
+
+</div>
+
+<div id="outline-container-9_6" class="outline-3">
+<h3 id="sec-9_6"><span class="section-number-3">9.6</span> Matrix exponential </h3>
+<div class="outline-text-3" id="text-9_6">
+
+<p>How to overload exponentials for matrices; start with \((I-C) ^{-1}= I + C + C ^{2} +\) &hellip; Series converges if |eigenvalues of \(C\) |&lt;1.
+Do series expansion of resolvent, then take the Laplacian of the series, which looks like the form for the expansion of \(e ^{ta}\) (though square matrices replace scalars). So we end by learning that the state transition matrix, \(\Phi(t)\) is the matrix exponential \(e ^{tA}\).
+</p><ul>
+<li>
+Many scalar exponential properties don't extend to matrix exponential; with scalars, this is wrong: \(e ^{A+B} = e ^{A} e ^{B}\) (unless \(A\) and \(B\) commute: \(AB=BA\))
+</li>
+<li>
+But this is ok: \(e ^{-A} = (e ^{A} ) ^{-1}\)
+</li>
+<li>
+So, how do you find the matrix exponential:
+</li>
+</ul>
+
+
+<p>
+Find \(e^A\),
+$$
+A=
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0 \\
+\end{bmatrix}
+$$ 
+Found \(e ^{tA} = \mathcal L ^{-1} (sI-A) ^{-1}\) in earlier example, so just plug in \(t=1\).
+</p><ul>
+<li>
+Matlab: <code>expm(A)</code>, not elementwise <code>exp(A)</code>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_7" class="outline-3">
+<h3 id="sec-9_7"><span class="section-number-3">9.7</span> Time transfer property </h3>
+<div class="outline-text-3" id="text-9_7">
+
+<p>Summary: for \(\dot x = Ax\), \(x(t) = \Phi (t)x(0) =\) \fbox{$e <sup>tA</sup> x(0)$}. \fbox{The matrix \(e ^{tA}\) propagates initial condition into state at time \(t\).} Also propagates backward in time if \(t&lt;0\).
+</p>
+<p>
+If given \(x(12)\), find \(x(0)\) via \(e ^{-12A} x(12)\).
+</p><ul>
+<li>
+Can use first order forward Euler approximate state update for small \(t\)
+</li>
+<li>
+Discretized autonomous LDS: \(z(k+1) = e ^{hA} z(k)\) (not an approximation for these equations)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-9_8" class="outline-3">
+<h3 id="sec-9_8"><span class="section-number-3">9.8</span> Application: sampling a continuous time system </h3>
+<div class="outline-text-3" id="text-9_8">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Lecture 12 </h2>
+<div class="outline-text-2" id="text-10">
+
+<p>Piecewise constant system: \(A\) is constant for certain intervals of time.
+</p><ul>
+<li>
+Qualitative behavior of \(x(t)\)
+<ul>
+<li>
+Eigenvalues determine (possible) behavior of \(x\)
+</li>
+<li>
+Can plot eigenvalues on complex axes; like pole plot
+</li>
+<li>
+Can put \(x\) in summation form with polynomial coefficient and exponential terms
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+</div>
+
+<div id="outline-container-10_1" class="outline-3">
+<h3 id="sec-10_1"><span class="section-number-3">10.1</span> Stability </h3>
+<div class="outline-text-3" id="text-10_1">
+
+<ul>
+<li>
+\(\dot x=Ax\) is stable if \(e ^{tA} \rightarrow 0\) as \(t \rightarrow \infty\)
+<ul>
+<li>
+means that state \(x(t)\) converges to 0 as \(t \rightarrow \infty\), no matter \(x(0)\)
+</li>
+<li>
+all trajectories of \(\dot x = Ax\) converge to 0 as \(t \rightarrow \infty\)
+</li>
+<li>
+\(\dot x=Ax\) is stable iff all eigenvalues of \(A\) have negative real part
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_2" class="outline-3">
+<h3 id="sec-10_2"><span class="section-number-3">10.2</span> Eigenvectors and diagonalization </h3>
+<div class="outline-text-3" id="text-10_2">
+
+<ul>
+<li>
+\(\lambda \in \mathbb C\) is an eigenvalue of \(A \in \mathbb C ^{n\times n}\) if (characteristic polynomial)
+</li>
+</ul>
+
+
+
+
+$$
+\mathcal X(\lambda) = \text{det}(\lambda I-A) = 0
+$$
+<ul>
+<li>
+i.e., \((\lambda I-A)\) is singular, not invertible, \(\mathcal{N}\) not equal to the 0 set
+</li>
+</ul>
+
+
+<p>
+Equivalent to:
+</p><ul>
+<li>
+&exist; nonzero \(v \in \mathbb C ^{n}\) s.t. \((\lambda I -A) v = 0\): \fbox{$Av=&lambda; v$} (\(v\) is the eigenvector)
+<ul>
+<li>
+columns are dependent
+</li>
+</ul>
+</li>
+<li>
+&exist; nonzero \(w \in \mathbb C ^{n}\) s.t. \(w ^{T} (\lambda I -A) = 0\): \fbox{$w<sup>T</sup> A=&lambda; w <sup>T</sup>$} (\(w\) is the <i>left eigenvector</i>)
+<ul>
+<li>
+rows are dependent
+</li>
+</ul>
+</li>
+<li>
+real \(A\) can still have complex e-pairs
+</li>
+<li>
+\(A,\lambda\) real &rArr; &lambda; is associated with a real \(v\)
+</li>
+<li>
+conjugate (negate imaginary term of complex number[s])
+</li>
+<li>
+hermitian conjugate (and transpose)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_3" class="outline-3">
+<h3 id="sec-10_3"><span class="section-number-3">10.3</span> Scaling intepretation </h3>
+<div class="outline-text-3" id="text-10_3">
+
+<p>\(Av\) is simply scaled version of \(v\) (&lambda; times); all components get magnified by the same amount
+</p></div>
+
+</div>
+
+<div id="outline-container-10_4" class="outline-3">
+<h3 id="sec-10_4"><span class="section-number-3">10.4</span> Dynamic intepretation </h3>
+<div class="outline-text-3" id="text-10_4">
+
+<p>For \(Av=\lambda v\), if \(\dot x= Ax,x(0)=v\) &rArr; \fbox{$x(t) = e <sup>&lambda; t</sup> v$} \(= e ^{tA} v\).
+</p><ul>
+<li>
+\(A ^{2} v = \lambda ^{2} v\)
+</li>
+<li>
+So you just need a scalar in front of the \(v\) to calculate \(x(t)!\)
+</li>
+<li>
+\fbox{An eigenvector is an initial condition \(x(0)\) for which the entire trajectory is really simple.}
+</li>
+<li>
+solution \(x(t) = e ^{\lambda t} v\) is a mode of \(\dot x=Ax\) (associated with eigenvalue &lambda;)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_5" class="outline-3">
+<h3 id="sec-10_5"><span class="section-number-3">10.5</span> Invariant set </h3>
+<div class="outline-text-3" id="text-10_5">
+
+<p>a set \(S \subseteq \mathbb{R}^{n}\) is <i>invariant</i> under \(\dot x = Ax\) if whenever \(x(t) \in S\), then \(x(\tau) \in S\) for all \(\tau \ge t\) (you stay stuck within the set)
+</p><ul>
+<li>
+vector field intepretation: trajectories only cut <i>into</i> \(S\)
+</li>
+</ul>
+
+
+<p>
+If a single point is an invariant set, it must be in the nullspace; \(S=\{x_0\} \Leftrightarrow x_0 \in \mathcal{N}(A)\), so \(Ax_0=0=\dot x\).
+</p><ul>
+<li>
+line \(\{tv | t \in \mathbb{R}\}\) is invariant for eigenvector \(v\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_6" class="outline-3">
+<h3 id="sec-10_6"><span class="section-number-3">10.6</span> Complex eigenvectors </h3>
+<div class="outline-text-3" id="text-10_6">
+
+<ul>
+<li>
+for \(a \in \mathbb C\), complex trajectory \(a e ^{\lambda t} v\) satisfies \(\dot x = Ax\), as well as <i>real</i> part
+</li>
+</ul>
+
+
+
+
+$$
+x(t) = \text{Re}(ae ^{\lambda t} v)
+$$
+$$
+= e ^{\sigma t}
+\begin{bmatrix}
+  v _{re} & v _{im} \\
+\end{bmatrix}
+\begin{bmatrix}
+  \cos \omega t  & \sin \omega t \\
+  -\sin \omega t & \cos \omega t \\
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  -\beta \\
+\end{bmatrix}
+$$ 
+<p>
+where
+$$
+v= v _{re} + jv _{im} , \lambda = \sigma + j \omega, a = \alpha + j \beta
+$$ 
+</p><ul>
+<li>
+&sigma; gives logarithmic growth/decay factor
+</li>
+<li>
+&omega; gives angular velocity of rotation in plane
+</li>
+<li>
+trajectory stays in <i>invariant plane</i> span \(\{v _{re} ,v _{im}\}\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_7" class="outline-3">
+<h3 id="sec-10_7"><span class="section-number-3">10.7</span> Dynamic interpretation: left eigenvectors </h3>
+<div class="outline-text-3" id="text-10_7">
+
+</div>
+
+</div>
+
+<div id="outline-container-10_8" class="outline-3">
+<h3 id="sec-10_8"><span class="section-number-3">10.8</span> Summary: </h3>
+<div class="outline-text-3" id="text-10_8">
+
+<ul>
+<li>
+<i>right eigenvectors</i> are initial conditions from which resulting motion is simple (i.e., remains on line or in plane)
+</li>
+<li>
+<i>left eigenvectors</i> give linear functions of state that are simple, for any initial condition
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10_9" class="outline-3">
+<h3 id="sec-10_9"><span class="section-number-3">10.9</span> Example- companion matrix </h3>
+<div class="outline-text-3" id="text-10_9">
+
+<ul>
+<li>
+Easy to get the characteristic polynomial
+</li>
+<li>
+General truth: with these matrices you can't generally tell the system behavior by just looking at it
+</li>
+<li>
+If you push a signal through an integrator, it gets less wiggly
+</li>
+<li>
+By multiplying by the left eigenvector, you've filtered out the sinusoid?
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Lecture 13 </h2>
+<div class="outline-text-2" id="text-11">
+
+
+</div>
+
+<div id="outline-container-11_1" class="outline-3">
+<h3 id="sec-11_1"><span class="section-number-3">11.1</span> Example: Markov chain </h3>
+<div class="outline-text-3" id="text-11_1">
+
+<p>Probability vector \(p \in \mathbb{R}^{n}\) that you're in each of \(n\) states: \(p(t+1)=Pp(t)\). This probability evolves in time by being multiplied by state transition matrix \(P\).
+</p><ul>
+<li>
+\(p _{i} (t)= {\bf Prob} (z(t)=i) \Rightarrow \sum ^{n} _{i=1} p _{i} (t) =1\) 
+</li>
+<li>
+sum of each column is 1
+<ul>
+<li>
+called stochastic
+</li>
+</ul>
+</li>
+<li>
+i.e., \([1\text{ }1\text{ } \cdots 1]\) is a left eigenvector of \(P\) with \(\lambda = 1\)
+</li>
+<li>
+so det(\(I-P\))=0, so there's also a nonzero right eigenvector s.t. \(Pv=v\)
+<ul>
+<li>
+\(v\) can always be chosen to have non-negative elements, and can be normalized
+</li>
+</ul>
+</li>
+<li>
+<b>Interpretation</b>: \(v\) is an equilibrium distribution; you don't change your <i>probability</i> distribution in time; always in \(v\) 
+<ul>
+<li>
+if \(v\) unique, it's called the steady-state distribution of the Markov chain
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_2" class="outline-3">
+<h3 id="sec-11_2"><span class="section-number-3">11.2</span> Diagonalization </h3>
+<div class="outline-text-3" id="text-11_2">
+
+<ul>
+<li>
+\(v_1,...,v_n\) is LI set of eigenvectors of \(A \in \mathbb{R}^{n\times n}\): \(Av_i=\lambda_i v_i\)
+</li>
+<li>
+Concatenate in matrix language:
+</li>
+</ul>
+
+
+
+
+$$
+A
+\begin{bmatrix}
+  v_1 & \cdots & v_n \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  v_1 & \cdots & v_n \\
+\end{bmatrix}
+\begin{bmatrix}
+  \lambda_1 &           &        &           \\
+            & \lambda_2 &        &           \\
+            &           & \ddots &           \\
+            &           &        & \lambda_n \\
+\end{bmatrix}
+$$
+<p>
+or, \(AT=T\Lambda\), or \(T ^{-1} AT=\Lambda\)
+</p><ul>
+<li>
+note, \(T\) is invertible, since its columns are linearly independent
+</li>
+<li>
+This is why, while \(Av=\lambda v\) is more commonly used for a scalar eigenvalue, \fbox{$Av=v&lambda;$} is more general, as it can represent a vector of eigenvalues &lambda;.
+</li>
+<li>
+so, \(A\) is diagonalizable if
+<ul>
+<li>
+&exist; \(T\) s.t. \(T ^{-1} AT=\Lambda\) is diagonal
+</li>
+<li>
+\(A\) has a set of linearly independent eigenvectors
+<ul>
+<li>
+if \(A\) not diagonalizable, it is called defective
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_3" class="outline-3">
+<h3 id="sec-11_3"><span class="section-number-3">11.3</span> Not all matrices diagonalizable </h3>
+<div class="outline-text-3" id="text-11_3">
+
+<p>i.e.,
+$$
+A=
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0 \\
+\end{bmatrix}
+$$ 
+</p></div>
+
+</div>
+
+<div id="outline-container-11_4" class="outline-3">
+<h3 id="sec-11_4"><span class="section-number-3">11.4</span> Distinct eigenvalues </h3>
+<div class="outline-text-3" id="text-11_4">
+
+<p><b>fact</b>: distinct eigenvalues in \(A\) &rArr; \(A\) diagonalizable
+</p><ul>
+<li>
+converse not true, i.e., \(I \in \mathbb{R}^{7\times 7}\)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_5" class="outline-3">
+<h3 id="sec-11_5"><span class="section-number-3">11.5</span> Diagonalization and left eigenvectors </h3>
+<div class="outline-text-3" id="text-11_5">
+
+<p>rewrite \(T ^{-1} AT = \Lambda\) as \(T ^{-1} A = \Lambda T ^{-1}\):
+$$ 
+\begin{bmatrix}
+  w ^{T} _1 \\
+  \vdots    \\
+  w ^{T} _n \\
+\end{bmatrix}
+A=\Lambda
+\begin{bmatrix}
+  w ^{T} _1 \\
+  \vdots    \\
+  w ^{T} _n \\
+\end{bmatrix}
+$$
+</p><ul>
+<li>
+remember that &Lambda; is diagonal matrix, and multiplying by a diagonal matrix on the left is equivalent to scaling rows of the matrix
+<ul>
+<li>
+on the right scales the columns
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>
+Remeber left/right multiplication results (whether it scales columns or rows) with \(2 \times 2\) matrix multiplication:
+$$
+\begin{bmatrix}
+    2 &   0 \\
+    0 &   3 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1 & x_2 \\
+  y_1 & y_2 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  2x_1 & 2x_2 \\
+  3y_1 & 3y_2 \\
+\end{bmatrix}
+$$
+I.e., right multiplication of diagonal matrix scales the rows.
+</p><ul>
+<li>
+Take LI set of eigenvectors as columns, invert that matrix, then the rows are <b>left</b> eigenvectors
+</li>
+<li>
+An eigenvector is still an eigenvector after being scaled; so any can be normalized
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_6" class="outline-3">
+<h3 id="sec-11_6"><span class="section-number-3">11.6</span> Modal form </h3>
+<div class="outline-text-3" id="text-11_6">
+
+<p>Take a LI set of eigenvectors from \(A\), shove them together as columns of new matrix \(T\) = ``\(A\) is diagonalizable by \(T\)''
+</p><ul>
+<li>
+can define new coordinates by \(x=T \tilde x\):
+</li>
+<li>
+\(\tilde x\) is coordinates of \(x\) in the \(T\) expansion; modal (or eigenvector) expansion
+<ul>
+<li>
+\(\tilde x\) is \(x\) in terms of the eigenvectors
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+$$
+T \dot{\tilde x}=AT \tilde x \Leftrightarrow \dot{ \tilde x}= T ^{-1} AT \tilde x \Leftrightarrow \dot{ \tilde x} = \Lambda \tilde x
+$$
+<ul>
+<li>
+in new coordinate system, system is diagonal (decoupled)
+</li>
+<li>
+normally, with \(\dot x=Ax\), there's a ton of cross-gains from input \(x_i\) to output \(y_j\), where all the outputs depend on all the inputs (assuming \(A\) has only non-zero entries)
+<ul>
+<li>
+diagonalized system decouples it; trajectory consists of \(n\) independent modes:
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+$$
+\tilde x_i (t) = e ^{\lambda_i t} \tilde x _{i} (0)
+$$
+</div>
+
+</div>
+
+<div id="outline-container-11_7" class="outline-3">
+<h3 id="sec-11_7"><span class="section-number-3">11.7</span> Real modal form </h3>
+<div class="outline-text-3" id="text-11_7">
+
+<p>when eigenvalues (&rArr; \(T\)) are complex
+</p><ul>
+<li>
+notes show block diagram of complex mode (note if real parts &sigma; are removed, you get harmonic oscillator)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_8" class="outline-3">
+<h3 id="sec-11_8"><span class="section-number-3">11.8</span> Diagonalization simplification </h3>
+<div class="outline-text-3" id="text-11_8">
+
+<p>Simplifies calculation of:
+</p><ul>
+<li>
+resolvent
+</li>
+<li>
+powers (\(A^k\))
+</li>
+<li>
+exponential (\(e ^{A}=T {\bf diag} (e ^{\lambda_1},\dots, e ^{\lambda_n}) T ^{-1}\))
+</li>
+<li>
+So, diagonalization is largely a conceptual tool, and sometimes gives great computational advantage
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_9" class="outline-3">
+<h3 id="sec-11_9"><span class="section-number-3">11.9</span> Simplify for analytical functions of a matrix </h3>
+<div class="outline-text-3" id="text-11_9">
+
+</div>
+
+</div>
+
+<div id="outline-container-11_10" class="outline-3">
+<h3 id="sec-11_10"><span class="section-number-3">11.10</span> Solution via diagonalization </h3>
+<div class="outline-text-3" id="text-11_10">
+
+<p>\(\dot x=Ax\) solution is \(x(t)=e ^{tA} x(0)\)
+</p><ul>
+<li>
+with diagonalization, solution given as
+</li>
+</ul>
+
+
+
+
+$$
+x(t) = \sum ^{n} _{i=1} e ^{\lambda_i t} (w_i ^{T} x(0))v_i
+$$ 
+</div>
+
+</div>
+
+<div id="outline-container-11_11" class="outline-3">
+<h3 id="sec-11_11"><span class="section-number-3">11.11</span> Interpretation </h3>
+<div class="outline-text-3" id="text-11_11">
+
+<ul>
+<li>
+(left eigenvectors) decompose initial state \(x(0)\) into modal components \(w ^{T} _{i} x(0)\)
+</li>
+<li>
+\(e ^{\lambda_i t}\) term propagates \(i\) th mode forward \(t\) seconds
+</li>
+<li>
+reconstruct state as linear combination of (right eigenvectors)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_12" class="outline-3">
+<h3 id="sec-11_12"><span class="section-number-3">11.12</span> Application </h3>
+<div class="outline-text-3" id="text-11_12">
+
+<p>Finding \(x(0)\) that gives stable solution.
+</p></div>
+
+</div>
+
+<div id="outline-container-11_13" class="outline-3">
+<h3 id="sec-11_13"><span class="section-number-3">11.13</span> Stability of discrete-time systems </h3>
+<div class="outline-text-3" id="text-11_13">
+
+<ul>
+<li>
+powers of complex numbers \(s^k\) go to zero if \(|s|&lt;1\)
+<ul>
+<li>
+imaginary part tells how much of a rotation at each step you get
+</li>
+</ul>
+</li>
+<li>
+\fbox{\(x(t+1) = Ax(t)\) is stable iff all eigenvalues of \(A\) have magnitude less than one}
+</li>
+<li>
+spectral radius of \(A:\rho (A)= {\bf max} |\lambda _i |\)
+<ul>
+<li>
+so it is a stable system iff \(\rho(A)&lt;1\)
+</li>
+<li>
+&rho; gives rough growth or decay
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11_14" class="outline-3">
+<h3 id="sec-11_14"><span class="section-number-3">11.14</span> Jordan Canonical form </h3>
+<div class="outline-text-3" id="text-11_14">
+
+<ul>
+<li>
+<i>Any</i> matrix \(A \in \mathbb{R}^{n\times n}\) can be expressed in Jordan-canonical form (via `similarity transformation,' for some invertible matrix \(T ^{-1}\))
+</li>
+</ul>
+
+
+
+
+$$
+T ^{-1} AT=J=
+\begin{bmatrix}
+  J_1 &        &     \\
+      & \ddots &     \\
+      &        & J_q \\
+\end{bmatrix}
+$$ 
+<p>
+where
+$$
+J_i =
+\begin{bmatrix}
+  \lambda_i &         1 &        &           \\
+            & \lambda_i & \ddots &           \\
+            &           & \ddots &         1 \\
+            &           &        & \lambda_i \\
+\end{bmatrix}
+\in \mathbb C ^{n_i \times n_i}
+$$ 
+</p><ul>
+<li>
+\(J\) is `upper bidiagonal'
+</li>
+<li>
+Jordan form is unique (up to permutations of blocks- blocks might be in different places in the diagonal)
+</li>
+<li>
+<i>Almost</i> strictly a conceptual tool; almost never used for numerical computations
+</li>
+<li>
+Jordan forms are inutil if the matrix is already diagonalizable
+</li>
+<li>
+When you get into Jordan form, you can use a chain of integrators to represent it in block diagram form
+</li>
+<li>
+Jordan blocks refer to dynamics blocks that cannot be decoupled
+</li>
+<li>
+Jordan blocks yield:
+<ul>
+<li>
+repeated poles in resolvent
+</li>
+<li>
+terms of form \(t ^{p} e ^{t\lambda}\) in \(e ^{tA}\)
+
+</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Appendix </h2>
+<div class="outline-text-2" id="text-12">
+
+<p>Some special things to remember.
+</p>
+</div>
+
+<div id="outline-container-12_1" class="outline-3">
+<h3 id="sec-12_1"><span class="section-number-3">12.1</span> Inverse, transpose properties </h3>
+<div class="outline-text-3" id="text-12_1">
+
+<ul>
+<li>
+\((AB) ^{-1} = B ^{-1} A ^{-1}\)
+</li>
+<li>
+\((A ^{-1}) ^{T} = (A ^{T}) ^{-1}= A ^{-T}\) 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-12_2" class="outline-3">
+<h3 id="sec-12_2"><span class="section-number-3">12.2</span> Invertibility implications </h3>
+<div class="outline-text-3" id="text-12_2">
+
+<p>For an \(n\)-by-\(n\) matrix \(A\) 
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Invertible</th><th scope="col" class="left">mnemonic</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">\(\vert A\vert \ne 0\)</td><td class="left">\(\vert A\vert = 0\) &rArr; you can't compute the inverse</td></tr>
+<tr><td class="left"></td><td class="left">- (remember base case 2 &times; 2 matrix inverse involves \(1/\vert A\vert\) term)</td></tr>
+<tr><td class="left">non-singular</td><td class="left">singular &rArr; the matrix sends a nontrivial subspace to the singular subspace, \{0\}</td></tr>
+<tr><td class="left">\(A\) is full rank</td><td class="left">linearly independent columns (invertibility &rArr; 1-to-1/injective)</td></tr>
+<tr><td class="left">\(\mathcal{N}(A)=\{0\}\)</td><td class="left">linearly independent columns</td></tr>
+<tr><td class="left">\(\mathcal R (A)= \mathbb{R}^{n}\)</td><td class="left">linearly independent columns</td></tr>
+<tr><td class="left">\(Ax=b\) has unique solution for every \(b\)</td><td class="left">- no more than one solution (can't add members of \(\mathcal N (A)\) for multiple \(b\))</td></tr>
+<tr><td class="left"></td><td class="left">- one solution, since \(\mathcal R (A)= \mathbb{R}^{n}\); everything reachable/surjective</td></tr>
+<tr><td class="left"></td><td class="left">- one solution found using the unique inverse of <i>A</i></td></tr>
+<tr><td class="left">rref(\(A)=I_n\)</td><td class="left"></td></tr>
+<tr><td class="left">\(A\) is a product of elementary matrices</td><td class="left"></td></tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Homework assignments </h2>
+<div class="outline-text-2" id="text-13">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw1sol.pdf">Homework 1</a></td><td class="left">Lecture 4</td><td class="left">2.1–2.4, 2.6, 2.9, 2.12, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw2sol.pdf">Homework 2</a></td><td class="left">Lecture 6</td><td class="left">3.2, 3.3, 3.10, 3.11, 3.16, 3.17, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw3sol.pdf">Homework 3</a></td><td class="left">Lecture 8</td><td class="left">2.17, 3.13, 4.1–4.3, 5.1, 6.9, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw4sol.pdf">Homework 4</a></td><td class="left">Lecture 10</td><td class="left">5.2, 6.2, 6.5, 6.12, 6.14, 6.26, 7.3, 8.2</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw5sol.pdf">Homework 5</a></td><td class="left">Lecture 13</td><td class="left">10.2, 10.3, 10.4, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw6sol.pdf">Homework 6</a></td><td class="left">Lecture 14</td><td class="left">9.9, 10.5, 10.6, 10.8, 10.14, 11.3, and 11.6a</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw7sol.pdf">Homework 7</a></td><td class="left">Lecture 16</td><td class="left">10.9, 10.11, 10.19, 11.13, 12.1, 13.1, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw8sol.pdf">Homework 8</a></td><td class="left">Lecture 18</td><td class="left">13.17, 14.2, 14.3, 14.4, 14.6, 14.8, 14.9, 14.11, 14.13, 14.21, 14.33, +</td></tr>
+<tr><td class="left"><a href="file:///Users/FingerMan/Desktop/Engineering/eng-control-and-cv/stanford hw/hw9sol.pdf">Homework 9</a></td><td class="left">Lecture 20</td><td class="left">14.16, 14.26, 15.2, 15.3, 15.6, 15.8, 15.10, and 15.11</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Chris Beard
+</p>
+<p class="date"> Date: 2011-08-09 03:56:11 EDT</p>
+<p class="creator">HTML generated by org-mode 7.4 in emacs 24</p>
+</div>
+</div>
+</body>
+</html>
