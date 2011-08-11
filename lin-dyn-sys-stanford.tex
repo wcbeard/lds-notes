@@ -1,4 +1,4 @@
-% Created 2011-08-08 Mon 21:40
+% Created 2011-08-10 Wed 22:19
 % BEGIN My Article Defaults
     \documentclass[10pt,letterpaper]{article}
     
@@ -52,7 +52,7 @@
 
 \title{Linear Dynamic Systems Notes}
 \author{Chris Beard}
-\date{08 August 2011}
+\date{10 August 2011}
 \maketitle
 
 \setcounter{tocdepth}{3}
@@ -62,8 +62,8 @@ Following notes from the \href{file://.~/Desktop/Engineering/kiet-ee-downloads/c
 
 \begin{center}
 \begin{tabular}{ll}
- \href{http://www.stanford.edu/~boyd/ee263/matlab/}{Matlab files}                                       &  \href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/linear-algebra-notes.pdf}{Linear Algebra}  \\
- \href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/index.html}{Index}  &                                                                                                      \\
+ \href{http://www.stanford.edu/~boyd/ee263/matlab/}{Matlab files}                                       &  \href{file://.~/Dropbox/AK-MBP/edu/systems/linear-algebra-notes.pdf}{Linear Algebra}  \\
+ \href{file:///Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/index.html}{Index}  &                                                                                        \\
 \end{tabular}
 \end{center}
 
@@ -1823,7 +1823,6 @@ J_i =
 \end{bmatrix}
 \in \mathbb C ^{n_i \times n_i}
 $$ 
-
 \begin{itemize}
 \item $J$ is `upper bidiagonal'
 \item Jordan form is unique (up to permutations of blocks- blocks might be in different places in the diagonal)
@@ -1831,27 +1830,64 @@ $$
 \item Jordan forms are inutil if the matrix is already diagonalizable
 \item When you get into Jordan form, you can use a chain of integrators to represent it in block diagram form
 \item Jordan blocks refer to dynamics blocks that cannot be decoupled
-\item Jordan blocks yield:
+\item \fbox{Jordan blocks yield:}
 
 \begin{itemize}
 \item repeated poles in resolvent
-\item terms of form $t ^{p} e ^{t\lambda}$ in $e ^{tA}$
+\item terms of form $t ^{p} e ^{t\lambda}$ in $e ^{tA}$: \fbox{solution to $\dot x=Ax$ is in form of polynomials, with $t^n e^{\lambda t}$ terms}
 \end{itemize}
 
 \end{itemize}
-\section{Appendix}
+\subsection{Jordan block example}
+\label{sec-11_15}
+
+$$
+\dot x=
+\begin{bmatrix}
+  0 & 1 &   &   &   \\
+    & 0 & 1 &   &   \\
+    &   & 0 & 1 &   \\
+    &   &   & 0 & 1 \\
+\end{bmatrix}
+x
+$$ 
+\begin{itemize}
+\item Eigenvalues are all zero
+\item in the solutions you should expect $t ^{p} e^0$ (`constant') terms: solution of form $t + t ^{2} + t ^{3}$
+\end{itemize}
+\section{Lecture 14}
 \label{sec-12}
+
+\begin{itemize}
+\item Jordan canonical form: `closest you can get to diagonalizable form, if matrix isn't diagonalizable'
+\item via inverse Laplace transform:
+\end{itemize}
+$$
+e ^{tJ_\lambda} = e ^{t \lambda} (I+t F_1 + \cdots + (t ^{k-1} /(k-1)!) F _{k-1})
+$$
+
+$$
+= e ^{t \lambda}
+\begin{bmatrix}
+  1 & t & \cdots & t ^{k-1}/(k-1)! \\
+    & 1 & \cdots & t ^{k-2}/(k-2)! \\
+    &   & \ddots & \vdots          \\
+    &   &        & 1               \\
+\end{bmatrix}
+$$ 
+\section{Appendix}
+\label{sec-13}
 
 Some special things to remember.
 \subsection{Inverse, transpose properties}
-\label{sec-12_1}
+\label{sec-13_1}
 
 \begin{itemize}
 \item $(AB) ^{-1} = B ^{-1} A ^{-1}$
 \item $(A ^{-1}) ^{T} = (A ^{T}) ^{-1}= A ^{-T}$
 \end{itemize}
 \subsection{Invertibility implications}
-\label{sec-12_2}
+\label{sec-13_2}
 
 For an $n$-by-$n$ matrix $A$ 
 
@@ -1872,8 +1908,20 @@ For an $n$-by-$n$ matrix $A$
  $A$ is a product of elementary matrices   &                                                                                                 \\
 \end{tabular}
 \end{center}
+\subsection{Tips}
+\label{sec-13_3}
+
+\begin{itemize}
+\item to sum up all the elements in matrix $A$, multiply by one vectors: $\displaystyle \sum _{i,j} (A) _{i,j} = {\bf 1} ^{T} A {\bf 1}$
+\item each row $i$ in $Z$ is a linear combination of rows $i,...,n$ in $Y: Z=UY$, where $U$ is upper triangular: $U _{ij} =0$ for $i>j$
+
+\begin{itemize}
+\item more in 2.24, hw2
+\end{itemize}
+
+\end{itemize}
 \section{Homework assignments}
-\label{sec-13}
+\label{sec-14}
 
 
 \begin{center}

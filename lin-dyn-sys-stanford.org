@@ -1001,11 +1001,38 @@ $$
 - Jordan forms are inutil if the matrix is already diagonalizable
 - When you get into Jordan form, you can use a chain of integrators to represent it in block diagram form
 - Jordan blocks refer to dynamics blocks that cannot be decoupled
-- Jordan blocks yield:
+- \fbox{Jordan blocks yield:}
   - repeated poles in resolvent
-  - terms of form $t ^{p} e ^{t\lambda}$ in $e ^{tA}$
+  - terms of form $t ^{p} e ^{t\lambda}$ in $e ^{tA}$: \fbox{solution to $\dot x=Ax$ is in form of polynomials, with $t^n e^{\lambda t}$ terms}
+** Jordan block example
+$$
+\dot x=
+\begin{bmatrix}
+  0 & 1 &   &   &   \\
+    & 0 & 1 &   &   \\
+    &   & 0 & 1 &   \\
+    &   &   & 0 & 1 \\
+\end{bmatrix}
+x
+$$ 
+- Eigenvalues are all zero
+- in the solutions you should expect $t ^{p} e^0$ ('constant') terms: solution of form $t + t ^{2} + t ^{3}$
+* Lecture 14
+- Jordan canonical form: `closest you can get to diagonalizable form, if matrix isn't diagonalizable'
+- via inverse Laplace transform:
+$$
+e ^{tJ_\lambda} = e ^{t \lambda} (I+t F_1 + \cdots + (t ^{k-1} /(k-1)!) F _{k-1})
+$$
 
-
+$$
+= e ^{t \lambda}
+\begin{bmatrix}
+  1 & t & \cdots & t ^{k-1}/(k-1)! \\
+    & 1 & \cdots & t ^{k-2}/(k-2)! \\
+    &   & \ddots & \vdots          \\
+    &   &        & 1               \\
+\end{bmatrix}
+$$ 
 * Appendix
 Some special things to remember.
 ** Inverse, transpose properties
@@ -1027,13 +1054,18 @@ For an $n$-by-$n$ matrix $A$
 | rref($A)=I_n$                            |                                                                                             |
 | $A$ is a product of elementary matrices  |                                                                                             |
 
+** Tips
+- to sum up all the elements in matrix $A$, multiply by one vectors: $\displaystyle \sum _{i,j} (A) _{i,j} = {\bf 1} ^{T} A {\bf 1}$ 
+- each row $i$ in $Z$ is a linear combination of rows $i,...,n$ in $Y: Z=UY$, where $U$ is upper triangular: $U _{ij} =0$ for $i>j$
+  - more in 2.24, hw2
+
 * Homework assignments
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw1sol.pdf][Homework 1]] | Lecture 4  | 2.1–2.4, 2.6, 2.9, 2.12, +                                               |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw2sol.pdf][Homework 2]] | Lecture 6  | 3.2, 3.3, 3.10, 3.11, 3.16, 3.17, +                                      |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw3sol.pdf][Homework 3]] | Lecture 8  | 2.17, 3.13, 4.1–4.3, 5.1, 6.9, +                                         |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw4sol.pdf][Homework 4]] | Lecture 10 | 5.2, 6.2, 6.5, 6.12, 6.14, 6.26, 7.3, 8.2                                |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw5sol.pdf][Homework 5]] | Lecture 13 | 10.2, 10.3, 10.4, +                                                      |
-|   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw6sol.pdf][Homework 6]] | Lecture 14 | 9.9, 10.5, 10.6, 10.8, 10.14, 11.3, and 11.6a                            |
+| * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw6sol.pdf][Homework 6]] | Lecture 14 | 9.9, 10.5, 10.6, 10.8, 10.14, 11.3, and 11.6a                            |
 |   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw7sol.pdf][Homework 7]] | Lecture 16 | 10.9, 10.11, 10.19, 11.13, 12.1, 13.1, +                                 |
 |   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw8sol.pdf][Homework 8]] | Lecture 18 | 13.17, 14.2, 14.3, 14.4, 14.6, 14.8, 14.9, 14.11, 14.13, 14.21, 14.33, + |
 |   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw9sol.pdf][Homework 9]] | Lecture 20 | 14.16, 14.26, 15.2, 15.3, 15.6, 15.8, 15.10, and 15.11                   |

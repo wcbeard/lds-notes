@@ -5,3 +5,6 @@ https://github.com/d10genes/emacs-starter-kit/blob/master/starter-kit-latex.org
 and especially 'My LaTeX stuff' in
 https://github.com/d10genes/emacs-starter-kit/blob/master/starter-kit-org.org
 for implementation details.
+
+LaTeX matrices were converted from Orgmode tables with `matrixify' function from
+https://github.com/d10genes/emacs-starter-kit/blob/master/starter-kit-defuns.org
