@@ -1,7 +1,7 @@
 #+TITLE: Linear Dynamic Systems Notes
 #+AUTHOR: Chris Beard
 #+LaTeX_CLASS: myarticle
-Following notes from the [[~/Desktop/Engineering/kiet-ee-downloads/current/ee263_course_reader.pdf][EE263 Course Reader]]. Orgmode \rightarrow \LaTeXe
+Following notes based on the [[~/Desktop/Engineering/kiet-ee-downloads/current/ee263_course_reader.pdf][EE263 Course Reader]]. Orgmode \rightarrow \LaTeXe
 | [[http://www.stanford.edu/~boyd/ee263/matlab/][Matlab files]] | [[~/Dropbox/AK-MBP/edu/systems/linear-algebra-notes.pdf][Linear Algebra]] |
 | [[~/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/index.html][Index]]        |                |
 * Lecture 2
@@ -519,9 +519,9 @@ Or, you know it's invertible, since it is full rank (and skinny) when you stack 
       - $D_v x$ measures vertical difference 
       - $D_h x$ measures horizontal difference 
       - Nullspace is vector where there is no variation between pixels
-  - minimize $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2}$
+  - minimize $\|A x-y\| ^{2} + \mu \| [D_h x \; D_v x]^{T} \| ^{2}$
     - if $\mu$ is turned way up, it'll be all smoothed out
-    - if you care about total size of image, you can add another parameter \lambda: $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2} + \lambda \|x\| ^{2}$
+    - if you care about total size of image, you can add another parameter \lambda: $\|A x-y\| ^{2} + \mu \| [D_h x \; D_v x]^{T} \| ^{2} + \lambda \|x\| ^{2}$
 ** Nonlinear least squares (NLLS) problem
 - find $x\in \mathbb{R}^{n}$ that minimizes $\displaystyle \| r(x) \| ^{2} = \sum ^{m} _{i=1} r _{i} (x) ^{2}$
 - $r(x)$ is vector of residuals; $r(x)= Ax-y \Rightarrow$ problem reduces to linear least squares problem
@@ -674,7 +674,7 @@ Equilibrium point corresponds to constant solution ($f(x_e)= 0, x(t)=x_e$)
 - Don't fully trust approximations on approximations (but hope they work)
 ** Example: pendulum linearization
 - $ml ^{2} \ddot{\theta}=-lmg \sin \theta$
-- rewrite as 1st order DE with state $x=[\theta \text{ } \dot \theta] ^{T} = [x_1 \text{ } x_2] ^{T}$:
+- rewrite as 1st order DE with state $x=[\theta \; \dot \theta] ^{T} = [x_1 \; x_2] ^{T}$:
 $$
 \dot x =
 \begin{bmatrix}
@@ -851,7 +851,7 @@ Probability vector $p \in \mathbb{R}^{n}$ that you're in each of $n$ states: $p(
 - $p _{i} (t)= {\bf Prob} (z(t)=i) \Rightarrow \sum ^{n} _{i=1} p _{i} (t) =1$ 
 - sum of each column is 1
   - called stochastic
-- i.e., $[1\text{ }1\text{ } \cdots 1]$ is a left eigenvector of $P$ with $\lambda = 1$
+- i.e., $[1\;1\; \cdots 1]$ is a left eigenvector of $P$ with $\lambda = 1$
 - so det($I-P$)=0, so there's also a nonzero right eigenvector s.t. $Pv=v$
   - $v$ can always be chosen to have non-negative elements, and can be normalized
 - *Interpretation*: $v$ is an equilibrium distribution; you don't change your /probability/ distribution in time; always in $v$ 
@@ -940,7 +940,7 @@ T \dot{\tilde x}=AT \tilde x \Leftrightarrow \dot{ \tilde x}= T ^{-1} AT \tilde 
 $$
 - in new coordinate system, system is diagonal (decoupled)
 - normally, with $\dot x=Ax$, there's a ton of cross-gains from input $x_i$ to output $y_j$, where all the outputs depend on all the inputs (assuming $A$ has only non-zero entries)
-  - diagonalized system decouples it; trajectory consists of $n$ independent modes:
+  - \fbox{diagonalized system decouples it}; trajectory consists of $n$ independent modes:
 $$
 \tilde x_i (t) = e ^{\lambda_i t} \tilde x _{i} (0)
 $$
@@ -1032,7 +1032,569 @@ $$
     &   & \ddots & \vdots          \\
     &   &        & 1               \\
 \end{bmatrix}
+$$
+
+Jordan-blocks should be associated in your mind with polynomials times $e ^{\lambda t}$ 
+- All FIR filters have Jordan blocks
+** J-C application: Caley-Hamilton theorem
+- if proving things about matrices, first show it for diagonalizable matrices, then with Jordan-Canonical form
+- for any $n\times n$ matrix $A$, the powers of $A: I,A ^{2}, A ^{3},...,A ^{n}$ span $\mathbb{R}^{n\times n}$
+  - $\mathcal X (A)=0$ (characteristic polynomial; by the time you get to $n$, you're getting dependent matrices)
+- wrong proof for evaluating characteristic polynomial $\mathcal X(s)= {\bf det} (sI-A)$ at $A$:
+  - $\mathcal X(A)= {\bf det} (AI-A)= {\bf det} (0)=0$ 
+  - wrong, since definition of $\mathcal X$ involves $sI$ term, which is diagonal matrix (so $A$ can't be plugged into it)
+- correct example for
+$$
+A= \begin{bmatrix}
+  1 & 2 \\
+  3 & 4 \\
+\end{bmatrix}
 $$ 
+\begin{eqnarray}
+  \mathcal X &=& A ^{2} -5A-2I \\
+&=&
+\begin{bmatrix}
+   7 & 10 \\
+  15 & 22 \\
+\end{bmatrix}
+-5
+\begin{bmatrix}
+  1 & 2 \\
+  3 & 4 \\
+\end{bmatrix}
+-2I \\
+&=& 0
+\end{eqnarray}
+- \fbox{Caley-Hamilton theorem: the square of a (square) matrix is a linear combination of the Identity matrix and itself}
+  - the inverse is also a linear combination of $I$ and powers of $A$:
+  - rewrite C-H theorem: $\mathcal X(A)= A ^{n} + a _{n-1} A ^{n-1} + \cdots + a _{0} I=0$ as
+    - $I=A\left( -(a_1 /a_0)I-(a_2 /a_0)A - \cdots -(1 /a_0) A ^{n-1} \right)$
+$$
+A ^{-1} =  -(a_1 /a_0)I-(a_2 /a_0)A - \cdots -(1 /a_0) A ^{n-1} 
+$$ 
+- Corollary: for every $p \in \mathbb Z_+$,
+$$A ^{p} \in {\bf span} \{I,A,A ^{2} ...,A ^{n-1} \}$$
+** Solving huge matrix equations
+- usually have a method for fast matrix vector multiplication: $Az$
+- if you can do a quick $Az$ calculation, you can also do a quick $A ^{2} z,...A ^{n-1} z$ calculation
+  - using C-H thm, you can put scalars in front of them to get $A^{-1}$ 
+** LTI system inputs & outputs
+LTI systems with input and outputs have the form $\dot x=Ax+Bu, y=Cx+Du$; $Ax$ is the /drift/ term, $Bu$ is the /input/ term. For 
+** Interpretations
+- state derivative $\dot x$ is the sum of the autonomous term $Ax$ and one term per input, $b_i u_i$
+  - if columns of $B$ are independent, each input $u_i$ gives another degree of freedom for $\dot x$
+  - column $i$ of $B$ represents how much input $i$ affects $\dot x$
+  - row $i$ of $B$ represents how much input $i$ affects the $i$ th component of $\dot x$
+- Good block diagram in notes, pg. 13-5
+** Transfer matrix
+- Solution to $\dot x=Ax+Bu$ via Laplace transform is \fbox{$\displaystyle x(t)= e ^{tA} x(0) + \int ^{t} _{0} e ^{(t-\tau) A} Bu (\tau) d\tau$ }
+  - $e ^{tA} x(0)$ is the (unforced or) autonomous response
+  - $e ^{tA} B$ is the `input-to-state impulse matrix'
+    - integral term is convolution
+  - $(sI-A) ^{-1} B$ is input-to-state /transfer matrix/; the resolvent \times $B$
+- Readout equation, $y=Cx+Du$ solution (via Laplacian)
+  - \fbox{$y(t) = C e ^{tA} x(0) + \int ^{t} _{0} C e ^{(t-\tau)A} B u(\tau) d\tau + Du(t)$}
+  - transfer function: $H(s)= C(sI-A) ^{-1} B+D$
+  - impulse matrix/impulse response: $h(t)= C e ^{tA} B + D \delta(t)$
+  - zero initial condition gives $Y(s)= H(s)U(s), y=h*u$
+    - $H _{ij}$ is transfer function from input $u _{j}$ to output $y _{i}$
+- Mnemonic for convolution intuition $\displaystyle y(t) = \int^{t}_{0} h(t-\tau) u(\tau) d\tau$:
+  - output is `linear combination' or `mixture' of input in the past $u(\tau)$, weighted by how many seconds ago something happened
+  - \tau is `seconds ago'
+  - example: if $h(7)$ is really big \rightarrow output depends a /lot/ on the input 7 seconds ago
+    - remember, the $h$ term has been delayed and flipped: $h(-(\tau-t))$ 
+  - if $h(t)$ decays, the system has /fading memory/ 
+** Impulse matrix
+- $h(t) = C e ^{tA} B+D \delta(t), x(0)=0,y=h*u$
+$$
+y_i(t) = \sum ^{m} _{j=1} \int ^{t} _{0} h _{ij} (t-\tau) u _{j} (\tau) d\tau
+$$ 
+- for rain/river metaphor, where rain is input and river level is output, this matrix is summed over the input, with different regions of rainfall $u_j$ and different locations of the river where rainfall is measured, $y_i(t)$ 
+** Step response
+$$
+s(t) = \int ^{t} _{0} h(\tau) d\tau
+$$ 
+** Spring dashpot example
+** RC circuit example
+* Lecture 15
+** DC or static gain matrix
+- transfer matrix at $s=0$ is $H(0)= -CA ^{-1} B + D \in \mathbb{R}^{m \times p}$
+- DC transfer matrix describes system under static conditions: $x,u,y$ constant
+  - $\Rightarrow y=H(0)u$
+  - if system is stable, $\displaystyle H(0)= \int ^{\infty} _{0} h(t) dt= \lim_{t\rightarrow \infty} s(t)$
+** Discretization with piecewise constant inputs
+** Causality
+** Idea of state
+- $x(t)$ is state of system at time $t$:
+  - future output depends only on /current state/ and /future output/
+    - sufficient statistic of what happened in the past to be able to predict the future
+  - bridge between past inputs and future outputs
+    - `past and future are conditionally independent, given the state' (-machine learning )
+** Change of coordinates
+- start with LDS $\dot x=Ax+Bu,y=Cx+Du$
+- change coordinates in $\mathbb{R}^{n}$ to $\tilde x$ with $x=T \tilde x$
+$$ 
+\dot{\tilde x} = T ^{-1} \dot x = T ^{-1} (Ax+Bu) = T ^{-1} AT \tilde x + T ^{-1} Bu
+$$
+- LDS can be expressed as
+$$
+\dot{\tilde x} = \tilde A \tilde x+\tilde B u, y= \tilde C \tilde x + \tilde D u
+$$
+where
+$$ 
+\tilde A = T ^{-1} A T, \tilde B= T ^{-1} B, \tilde C = CT, \tilde D=D
+$$ 
+- You might want to do this to, i.e., get an $A$ with a bunch of zeros, since the system might be much easier to implement
+** Standard forms for LDS
+Can change coordinates to put $A$ in various forms (diagonal, real modal, Jordan ...)
+** Discrete-time systems
+(Another block diagram in notes)
+** Z-transform
+** Discrete-time transfer function
+- re-derivation of stuff we know, using the frequency domain
+* Last Section, Singular Value Decomposition
+** Eigenvalues of symmetric matrices
+Given $A \in \mathbb{R}^{n\times n}:A=A ^{T}$ 
+- eigenvalues always real
+- $Av=\lambda v, v\ne 0,v\in \mathbb C^n$; remember conjugate transpose, $\bar v ^{T}=v ^{H} = v ^{*T}$, or, in MATLAB,
+: v'
+and remember, $\bar a a= |a| ^{2}$ 
+$$
+\Rightarrow v ^{H} Av= v ^{H} (Av) = \lambda v ^{H} v = \lambda \sum ^{n} _{i=1} |v_1| ^{2} 
+$$ 
+$$ 
+...= \bar \lambda \sum ^{n} _{i=1} |v_1| ^{2} 
+$$ 
+so $\lambda = \bar \lambda \Rightarrow \lambda \in \mathbb{R}^{n}$
+** Eigenvectors of symmetric matrices
+*fact:* There is a set of orthonormal eigenvectors of $A$, $q_1,...,q_n: Aq_i=\lambda_i q_i, q_i ^{T} q_j = \delta _{ij}$ 
+- In matrix form, \exists orthogonal $Q: Q ^{-1} AQ = Q ^{T} AQ = \Lambda$
+- or, rewrite /dyadic expansion of A/:
+$$
+A = Q \Lambda Q ^{T} = \sum ^{n} _{i=1} \lambda (q_i q_i ^{T})
+$$
+- /engineering etiquette aside/: ``The eigenvectors of a symmetric matrix are orthonormal" makes no sense; any matrix has zillions of eigenvectors
+  - but rather, ``you can choose the eigenvectors of a symmetric matrix to be orthonormal"
+** Interpretations
+Given $A=Q \Lambda Q ^{T}$. Remember, $Q ^{-1} =Q ^{T}$. (Notes have block diagram.)
+This means, to multiply a vector $x$ by $A$, first multiply it by $Q^T$, then \Lambda, then $Q$
+- first operation result $Q ^{T} x=Q ^{-1} x$ `resolves $x$ in the $q_i$ coordinates'
+- next: simple to multiply by diagonal matrix \Lambda (simply scaling the matrix)
+- last: multiplying by $Q$ `reconstitutes the output'
+- \fbox{multiplying by $Q ^{T}, \Lambda, Q$ represents a `coding,' scaling, reconstruction operation }
+- Application: in JPEG, do DCT transformation, quantize in middle, then decode the image in last step
+- Geometrically:
+  - rotate by $Q^T$
+  - dilation by $A$
+  - rotate back by $Q$
+Decomposition (review)
+$$ 
+A = \sum ^{n} _{i=1} \lambda _{i} q _{i} q _{i} ^{T} 
+$$
+expresses $A$ as linear combination of 1-dimensional projections.
+
+If a matrix is real and symmetric, (and the eigenvalues of a matrix are distinct,) then any set of associated eigenvectors is orthogonal (and can be normalized).
+$$ 
+A v _{i} =\lambda _{i} v _{i}, \|v_i\| = 1
+$$
+Then,
+$$ 
+v _{i} ^{T} (A v _{j} ) = \lambda _{j} v _{i} ^{T} v _{j} = (A v _{i} ) ^{T} v _{j} = \lambda _{i} v _{i} ^{T} v _{j} 
+$$
+so $(\lambda_i - \lambda_j) v _{i} ^{T} v _{j} =0$ for $i\ne j, \lambda _{i} \ne \lambda _{j}$ \fbox{$\Rightarrow v _{i} ^{T} v _{j} =0$ }
+So distinct eigenvectors of a symmetric real matrix are `orthogonal'
+** Example: RC circuit
+* Lecture 16
+** Quadratic forms
+Previously, we did mappings of form $y=Ax$, or $\dot x=Ax$. We're no longer doing problems with a linear structure.
+- New form is /quadratic form/
+$$
+f(x) = x ^{T} Ax= \sum ^{n} _{i,j=1} A _{ij} x _{i} x _{j} 
+$$
+- $(x ^{T} A x) ^{T} = x ^{T} A ^{T} x$
+- $x ^{T} Ax= x ^{T} ((A +A ^{T} )/2)x$ is another form of quadratic form; the middle part is the average of itself (member of $A$) and its associated trasposed self
+- weird etiquette: $A$ should be symmetric if you're dealing with quadratic forms
+  - often may want to symmetrize it to make it safe
+  - i.e., this quadratic form
+$$
+x ^{T}
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0 \\
+\end{bmatrix}
+x= x_1 x_2
+$$
+
+$$
+x ^{T}
+\begin{bmatrix}
+     0 & 3/2 \\
+  -1/2 & 0   \\
+\end{bmatrix}
+x= x_1 x_2
+$$
+But the canonical form would have 1/2 in the 2nd and 3rd entry (row-wise).
+- If $A$ is diagonal in LDS, $y=Ax$, it means there is no cross-coupling. If $A$ is diagonal in a quadratic form, it gives you a weighted sum of squares.
+- *uniqueness:* if $x ^{T} Ax=x ^{T} Bx$ for all $x \in \mathbb{R}^{n}$ and $A=A^T, B = B ^{T}$, then $A=B$
+** Examples of quadratic forms
+- $\| B x \| ^{2} = x ^{T} (B ^{T} B)x; B ^{T} B is already symmetric$
+- $\sum ^{n-1} _{i=1} (x _{i+1} - x _{i} ) ^{2}$. This measures `wiggliness' of signal; sum of squares of difference from one to the next signal
+  - to get in quadratic form, multiply out: $x ^{2} _{i+1} + x ^{2} _{i} - 2 x _{i} x _{i+1}$:
+$$
+\begin{bmatrix}
+  x_1 & x_2 & x_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+   1 & -1 &  0 \\
+  -1 &  2 & -1 \\
+   0 & -1 &  1 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1 \\
+  x_2 \\
+  x_3 \\
+\end{bmatrix}
+$$ 
+- Zeros in corners of matrix, since there is no product between $x_1,x_3$
+- $\| Fx \| ^{2} - \| Gx \| ^{2}$
+  - $x ^{T} (F ^{T} F-G ^{T} G) x$ 
+- quadratic surface: level set: $\{ x| f(x) = a\}$
+- quadratic region: $\{ x|f(x) \le a \}$
+  - unit ball: $\{x | x ^{T} x \le 1\}$ 
+  - unit sphere: $\{x | x ^{T} x = 1\}$ 
+** Inequalities for quadratic forms
+If $A = A ^{T}$, it is diagonalizable: $A = Q \Lambda Q ^{T}$ with sorted eigenvalues in \Lambda
+\begin{eqnarray}
+  x ^{T} Ax &=& x ^{T} Q \Lambda Q ^{T} x \\
+   &=& (Q^Tx) ^{T} \Lambda(Q ^{T}x) \\
+   &=& \sum ^{n} _{i=1} \lambda _{i} (q ^{T} _{i} x ) ^{2}  \\
+   &\le& \lambda _{1} \sum ^{n} _{i=1} (q _{i} ^{T} x) ^{2}  \\
+   &=& \lambda_1 \| x \| ^{2}\\
+\end{eqnarray}
+- So, how big can the quadratic form be?
+  - $x ^{T} Ax \le \lambda_1 x ^{T} x$
+- Another important inequality
+$$
+\lambda_n x ^{T} x \le x ^{T} Ax \le \lambda_1 x ^{T} x
+$$
+- \lambda_1 sometimes called \lambda _{max}, \lambda _{n} called \lambda _{min}
+- for \fbox{$A = A ^{T}$} $\in \mathbb{R}^{n\times n}$, $A$ is /positive semidefinite/ if $x ^{T} Ax \ge 0$ for all $x$
+  - notation: $A\ge0$
+  - iff $\lambda _{min} (A) \ge 0$: all eigenvalues nonnegative
+  - $A$ is /positive definite/ if $x ^{T} Ax >0$ for all $x\ne 0$
+- $A\ge 0 \Rightarrow A _{ij} \ge 0$
+- if $A$ not positive or negative [semi]definite, it is /indefinite/
+- matrices *can be* /incomparable/:
+  - $A \ngeq B$ *and* $B \ngeq A$, where it will depend on the $x$ (depend on the direction you're looking at it from)
+- $A \le B$ statement requires that both be square matrices, and probably symmetric (depending on social norms)
+  - if not symmetric, it means $\frac{A+A^T}{2} \le \frac{B+B^T}{2}$ 
+** Ellipsoids
+- if $A ^{T} > 0$, the set $\mathcal E = \{x | x ^{T} Ax \le 1 \}$ is an /ellipsoid/ in $\mathbb{R}^{n}$, centered at 0
+- semi-axes given by $s _{i} = \lambda _{i} ^{-1/2} q _{i}$
+  - eigenvectors determine directions of semiaxes
+  - eigenvalues determine lengths of semiaxes
+  - $\sqrt{\lambda_{max} / \lambda_{min}}$ gives maximum eccentricity
+- eigenvalue intuition in $\mathbb{R}^{3}$ 
+  - large pancake shape \Rightarrow one large eigenvalue, two slightly smaller eigenvalues
+  - long cigar shape \Rightarrow two large eigenvalues, one small eigenvalue
+** Gain of matrix in a direction
+For $A \in \mathbb{R}^{m\times n}$ (not necessarily symmetric anymore), for $x \in \mathbb{R}^{n}, \|Ax\| / \|x \|$ gives /amplification factor/ or /gain/ of $A$ in direction $x$, and will vary with different $x$ directions
+- Questions we will ask
+  - maximum gain of $A$
+    - \fbox{$\displaystyle \max _{x\ne 0} \frac{\|Ax\|}{\|x\|}$}
+    - /matrix norm/ or /spectral norm/, and denoted $\|A\|$ (overloading)
+    - $\displaystyle \max _{x\ne 0} \frac{\|Ax\|}{\|x\|} = \max _{x \ne 0} \frac{x^TA^TAx}{\|x\|^2} = \lambda _{\max} (A ^{T} A)$
+    - so, $\|A \|= \sqrt{\lambda _{\max} (A ^{T} A)}$ 
+  - minimum gain of $A$
+    - $\displaystyle \min _{x\ne 0} \|Ax\| / \|x\| = \sqrt{\lambda _{\min} (A ^{T} A)}$ 
+  - how does gain of $A$ vary with direction
+- Will give us a /quantitative way/ to talk about nullspace
+** Example
+** Properties of matrix norm
+- triangle inequality
+- scaling
+- definiteness: $\|A\|= 0 \Leftrightarrow A = 0$
+- norm of a product inequality
+* Lecture 17
+** SVD
+Singular value decomposition, for /any/ matrix $A$.
+$$
+A = U\Sigma V ^{T}
+$$
+where 
+- $A \in \mathbb{R}^{m\times n}, {\bf Rank} (A) = r$
+- $A \in \mathbb{R}^{m\times r}, U ^{T} U = I$
+- $V \in \mathbb{R}^{n\times r}, V ^{T} V = I$
+- $\Sigma = {\bf diag} (\sigma _{1} ,..., \sigma _{r} )$, where $\sigma _{1} \ge ... \ge \sigma _{r} > 0$
+** Dyadic expansion: ($U$ and $V$ have orthonormal columns)
+$$
+A = U \Sigma V ^{T} = \sum ^{r} _{i=1} \sigma _{i} u _{i} v _{i} ^{T} 
+$$
+- $\sigma _{i}$ are the nonzero /singular values/ of $A$ 
+- $v_i$ are the /right/ or /input singular vectors/ of $A$
+- $u _{i}$ are the /left/ or /output singular vectors/ of $A$
+$$
+A ^{T} A = (U \Sigma V ^{T} )^{T} (U \Sigma V ^{T}) = V \Sigma ^{2} V ^{T} 
+$$
+- $v _{i}$ are eigenvectors of $A ^{T}A$ corresponding to nonzero eigenvalues
+
+- $\sigma _{i} = \sqrt{\lambda _{i} (A ^{T} A) }$ (and $\lambda _{i} (A ^{T} A) = 0$ for $i>r$)
+- $\|A\| = \sigma _{1}$ 
+$$
+AA ^{T} = (U \Sigma V ^{T} ) (U \Sigma V ^{T} )^{T} = U \Sigma ^{2} U ^{T} 
+$$
+- $u _{i}$ are eigenvectors of $AA ^{T}$ corresponding to nonzero eigenvalues
+- $\sigma _{i} = \sqrt{\lambda _{i} (AA ^{T}) }$ (and $\lambda _{i} (AA ^{T}) = 0$ for $i>r$)
+
+- $u _{1} ,..., u _{r}$ are orthonormal basis for range($A$)
+- $v _{1} ,..., v _{r}$ are orthonormal basis for $\mathcal{N}(A) ^{\perp}$
+** Interpretations
+$A = U \Sigma V ^{T}$
+
+linear mapping $y=Ax$ can be decomposed as
+- compute coefficients of $x$ along input directions $v_1,...,v_r$
+- scale coefficients by $\sigma _{i}$
+- reconstitute along output directions $u _{1} ,..., u _{r}$
+- $u _{1}$ is highest gain output direction
+- $v_1$ is most sensitive (highest gain) input direction
+- $A v_1 = \sigma_1 u_1$ 
+
+SVD gives clearer picture of gain as function of input/output directions.
+** General pseudo-inverse
+- $A\ne 0\Rightarrow A=U\Sigma V ^{T}$
+General pseudo-inverse: \fbox{$A ^{\dagger} = V \Sigma ^{-1} U ^{T}$} is the pseudo-inverse of $A$.
+
+If $A$ is skinny and full rank,
+$$
+A ^{\dagger} = (A ^{T} A) ^{-1} A ^{T} 
+$$
+If $A$ is fat and full rank,
+$$
+A ^{\dagger} = A ^{T} (AA ^{T}) ^{-1} 
+$$
+In the general case, (if $A$ is not full-rank)
+$$
+X _{ls} = \{ z: \|Az-y\|= \min _{w} \|Aw-y\| \}
+$$
+is the set of least squares solutions.
+
+$x _{pinv} = A ^{\dagger} y\in X _{ls}$ has minimum norm on $X _{ls}$, so this is the minimum-norm, least squares solution
+** Pseudo-inverse via regularization
+Minimizer of $\|Ax-y\| ^{2} + \mu \|x\| ^{2}$ is given as
+$$
+x _{\mu} = (A ^{T} A + \mu I) ^{-1} A ^{T} y
+$$
+
+* Lecture 18
+** Sensitivity of linear equations to data error
+To perturbations $\delta x,\delta y$. Looking at /relative error/ gives us
+$$
+\frac{\|\delta x\|}{\|x\|} \le \|A\| \|A ^{-1} \| \frac{\| \delta y \|}{\|y\|} 
+$$
+
+$$
+\kappa(A) = \text{ cond}(A) = \|A \| \|A ^{-1} \| = \sigma _{\max} (A) /\sigma _{\min} (A)
+$$
+So, the relative error in solution $x \le$ condition number \cdot relative error in data $y$. In terms of # of bits of guaranteed accuracy, `# of bits accuracy in solution \approx # bits accuracy in data $-\log _{2} \kappa$.'
+** Low rank applications
+If you want to decompose $A$ into $A=BC$, you can remember $QR$ factorization (does skinny-fat factorization), but we'd also want an $A$ that is approximated by such a factorization. Suppose $A \in \mathbb{R}^{m\times n}, {\bf Rank} (A)= r$ with SVD $A=U\Sigma V ^{T} = \sum _{i=1} ^{r} \sigma _{i} u _{i} v _{i} ^{T}$, and we want $\hat A: {\bf Rank} (\hat A) \le p<r: \|A-\hat A\|$ is minimized.
+
+The optimal rank $p$ approximator of $A$ is
+$$
+\hat A=\sum ^{p} _{i=1} \sigma _{i} u _{i} v _{i} ^{T} 
+$$
+- $\|A-\hat A\|= \| \sum ^{r} _{i=p+1} \sigma _{i} u _{i} v _{i} ^{T} \| = \sigma _{p+1}$
+- SVD dyads $u _{i} v _{i} ^{T}$ are ranked in order of `importance'; take $p$ to get rank $p$ approximant
+- keep in mind Frobenius norm $\|A-\hat A\| _{F} = \| A(i)- \hat A(i)\| = \sqrt{\sum _{i,j} (A _{ij} - \hat A _{ij} ) ^{2} }$
+- If you have a set of 100 $\mathbb{R}^{10}$ prices that has dimension=3, it means there are 3 underlying factors; this would give you `stunning' predictive power
+- You would /almost/ (i.e., practically) have a dimension 3 matrix if the SVD \Sigma had 3 singular values that were significantly larger than the rest
+** State transfer
+** Reachability
+Consider state transfer from $x(0)= 0$ to $x(t)$ 
+- $x(t)$ is reachable in $t$ seconds
+- define $\mathcal R _{t} \subseteq \mathbb{R}^{n}$ as the set of points reachable in $t$ seconds for CT system $\dot x=Ax+Bu$,
+$$
+\mathcal R _{t} = \left\{\int ^{t} _{0} e ^{(t-\tau)A} Bu(\tau) d\tau \big| u:[0,t] \rightarrow \mathbb{R}^{m} \right\}
+$$
+and for DT system $x(t+1)= Ax(t) + Bu(t)$,
+$$
+\mathcal R _{t} = \left\{\sum ^{t-1} _{\tau=0} A ^{t-1-\tau} Bu(\tau) \big| u(t) \in \mathbb{R}^{m} \right\}
+$$
+If a state is reachable in 1 s, it's reachable in 2 s (just leave it at zero for the first second) if you're starting from zero initial state (in both CT and DT systems).
+** Reachability for discrete-time LDS
+DT system $x(t+1)= Ax(t)+Bu(t), x(t) \in \mathbb{R}^{n}$
+$$
+x(t)= \mathcal C_t
+\begin{bmatrix}
+  u(t-1) \\
+  \vdots \\
+  u(0)   \\
+\end{bmatrix}
+$$
+where $\mathcal C_t = [B \; Ab \; \cdots \; A ^{t-1} B]$. So reachable set at $t$ is $\mathcal{R}_t = \text{range} (\mathcal C_t)$
+
+\fbox{If we want to see if a state is reachable in 1 step, see if it's in the range of $B$.}
+
+\fbox{If we want to see if it's reachable in 2 steps, see if it's in the range of $B,AB$.}
+Caley-Hamilton theorem lets us express each $A ^{k}$ for $x\ge n$ as linear combination of $A ^{0} ,...,A ^{n-1}$.
+* Lecture 19
+But, you can't increase your reach after $t \ge n$ seconds (or epochs). I.e.,
+$$
+\mathcal R_t = \left\{
+\begin{matrix}
+  {\bf range} (\mathcal C_t) & \quad t<n    \\
+  {\bf range} (\mathcal C)   & \quad t\ge n \\
+\end{matrix}
+\right.
+$$
+where $\mathcal C=\mathcal C _{n}$ is the /controllability matrix/.
+** General state transfer
+$$
+x(t _{f}) = A ^{t_f-t_i} x(t_i) + \mathcal C_{t_f-t_i}
+\begin{bmatrix}
+  u(t_f-1) \\
+  \vdots   \\
+  u(t_i)   \\
+\end{bmatrix}
+$$
+- First term on rhs is what would happen without any input (the drift term)
+so we can transfer $x(t_i)$ to $x(t_f)=x _{des}$ iff
+$$
+x _{des} -A ^{t_f-t_i} x(t_i) \in \mathbb{R} _{t_f-t_i} 
+$$
+- we're not hoping $x_{des}$ is reachable, we want it minus the drift
+  - So it is possible to be able to reach a state in 4 steps, but not in 5
+- This reduces to the reachability problem
+- if system is controllable, any state transfer can be achieved in \le /n/ steps
+- important special case: driving state to zero
+** Minimum time control problem
+Given
+$$
+x(t+1) = Ax(t) + Bu(t), \quad x(0) = x_0
+$$
+how do you minimize $t$? Check if $A ^{t} x_0 \in \mathcal R ([B \; \cdots \; A ^{t-1} B])$ 
+** Least-norm input for reachability
+assume system is reachable, ${\bf Rank} (\mathcal C_t) = n$ to steer $x(0)=0$ to $x(t)= x _{des}$, inputs $u(0),...,u(t-1)$ to satisfy
+$$
+x _{des} = \mathcal C _{t}
+\begin{bmatrix}
+  u(t-1) \\
+  \vdots \\
+  u(0)   \\
+\end{bmatrix}
+$$
+among all $u$ that steer $x(0)= 0$ to $x(t)= x _{des}$, the one that minimizes
+$$
+\sum ^{t-1} _{\tau=0} \| u(\tau) \| ^{2}
+$$
+The least-square solution for the input is given by
+$$
+\begin{bmatrix}
+  u _{ln}(t-1) \\
+  \vdots       \\
+  u _{ln}(0)   \\
+\end{bmatrix}
+= \mathcal C ^{T} _{t} (\mathcal C _{t} \mathcal C^{T} _{t} ) ^{-1} x _{des} 
+$$
+** Stability
+** Continuous time reachability
+consider $\dot x = Ax+Bu$ with $x(t) \in \mathbb{R}^{n}$
+
+reachable set at time $t$ is
+$$
+\mathcal R _{t} = \left\{ \int ^{t} _{0} e ^{(t-\tau)A} Bu(\tau) d\tau \left| u: \right. [0,t] \rightarrow \mathbb{R}^{m} \right\}
+$$
+for $t>0$, $\mathcal R _{t} = \mathcal R = {\bf range} (\mathcal C)$ where
+$$
+\mathcal C = [B \; AB \; \cdots \; A ^{n-1} B]
+$$
+is the controllability matrix of $(A,B)$
+- According to the model, you can hit anything infinitely fast
+** Impulsive inputs
+** Example
+** Least-norm input for reachability
+Assume that $\dot x=Ax+Bu$ is reachable. We want $u$ that steers $x(0)=0$ to $x(t)=x _{des}$ and minimizes
+$$
+\int ^{t} _{0} \| u(\tau) \| ^{2} d\tau
+$$
+let's discretize system with interval $h=t/N$ (eventually let $N\rightarrow \infty$). So $u$ is piecewise constant:
+$$
+u(\tau) = u _{d} (k) \text{ for } xh \le \tau < (k+1)h,\quad k=0,...,N-1
+$$
+...Get long expression for least norm solution for $u$ 
+* Lecture 20
+** Observability and state estimation
+Consider DT system
+$$
+x(t+1) = Ax(t) + Bu(t) + w(t), \quad y(t)= Cx(t) +Du(t) + v(t)
+$$
+- $w$ is state disturbance/noise
+- $v$ is sensor noise/error
+- state estimation problem: estimate $x(s)$ from
+$$
+u(0),...,u(t-1), \quad y(0), ..., y(t-1)
+$$
+- $s=0$: estimate initial state
+- $s=t-1$: estimate current state
+- $s=t$: estimate/predict next state
+- estimate $\tilde x(s)$, called /observer/ or /state estimator/
+** Noiseless case
+Find $x(0)$, with no state or measurement noise
+$$
+x(t+1) = Ax(t) + Bu(t), \quad y(t)= Cx(t) + Du(t)
+$$
+then we have
+$$
+\begin{bmatrix}
+  y(0)   \\
+  \vdots \\
+  y(t-1) \\
+\end{bmatrix}
+=\mathcal O _{t} x(0) + \mathcal T _{t}
+\begin{bmatrix}
+  u(0)   \\
+  \vdots \\
+  u(t-1) \\
+\end{bmatrix}
+$$
+
+
+where
+$$
+\mathcal O_t =
+\begin{bmatrix}
+  C         \\
+  CA        \\
+  \vdots    \\
+  CA ^{t-1} \\
+\end{bmatrix}
+\quad
+\mathcal T _{t} =
+\begin{bmatrix}
+  D          & 0          & \cdots &        &   \\
+  CB         & D          & 0      & \cdots &   \\
+  \vdots     &            &        &        &   \\
+  CA ^{t-2}B & CA ^{t-3}B & \cdots & CB     & D \\
+\end{bmatrix}
+$$
+- $\mathcal O _t$ maps initial state into resulting output over $[0,t-1]$
+- $\mathcal T_t$ maps input to output over $[0,t-1]$ 
+** Observability matrix
+** Least-squares observers
+** Parting thoughts
+*** Linear algebra
+*** Levels of understanding
+- High school: 17 variables, 17 equations \rightarrow usually has unique solution
+  - 80 vars, 60 eqns \rightarrow probably 20 extra degrees of freedom
+- Platonic view (`math')
+  - singular, rank, range, nullspace, Jordan form, controllability
+  - stuff is true or false
+- Quantitative
+  - based on least-squares, SVD
+  - gives numerical measures for ideas like singularity, rank, etc
+  - interpretation depends on (practical) context
+  - very useful in practice
+
 * Appendix
 Some special things to remember.
 ** Inverse, transpose properties
@@ -1053,12 +1615,71 @@ For an $n$-by-$n$ matrix $A$
 |                                          | - one solution found using the unique inverse of /A/                                        |
 | rref($A)=I_n$                            |                                                                                             |
 | $A$ is a product of elementary matrices  |                                                                                             |
-
 ** Tips
 - to sum up all the elements in matrix $A$, multiply by one vectors: $\displaystyle \sum _{i,j} (A) _{i,j} = {\bf 1} ^{T} A {\bf 1}$ 
 - each row $i$ in $Z$ is a linear combination of rows $i,...,n$ in $Y: Z=UY$, where $U$ is upper triangular: $U _{ij} =0$ for $i>j$
   - more in 2.24, hw2
-
+- $E _{i,j} = e _{i} e _{j} ^{T} \in \mathbb{R}^{n\times n}, i,j=1,...,n$ is $n\times n$ matrix with a 1 in $i,j$ th entry, and zero elsewhere
+  - has $n^2$ dimensions
+- When you do a polynomial of a similarity matrix, you can pull out the outer matrices: $\mathcal X(T\Lambda T ^{-1} ) = T \mathcal X(\Lambda) T ^{-1}$
+- If $AB=0$, and each is full rank, (neither is zero), then $\mathcal R (B) \subseteq \mathcal N (A)$
+- $A ^{k} = 0, k\ge 1\Rightarrow$ eigenvalues of $A$ are zero. If $A$ is diagonalizable, then $A ^{k}$ can be expressed as $T \Lambda ^{k} T ^{-1}$, where \Lambda is diagonal, consisting of the eigenvalues multiplied by the $k$ th power, since $T$ is non-singular.
+  - ${\bf Rank}(A)=r \Rightarrow A \in \mathbb{R}^{n\times n}$ has exactly $r$ non-zero eigenvalues
+- Every eigenvalue of $AB$ is an eigenvalue of $BA$, if $A,B \in \mathbb{R}^{n\times n}$: Given \lambda is eigenvalue of $AB:ABv=\lambda v, BA(Bv)=B(AB)v=\lambda Bv$. Thus $Bv$ is an eigenvector of $BA$ assocated with \lambda
+- To check whether \fbox{$x\in \mathcal R(A)$}, check whether \fbox{$rank([A \;x])= rank(A)$ }
+- Least squares approximation that minimizes $x$ in $Ax=y, x _{ls} = (A ^{T} A) ^{-1} A ^{T} y$ is given in MATLAB by =xls=A\y;=
+  - only works if $A$ is skinny or square
+  - compute using QR (economy) factorization with
+    : [Q,R]=qr(A,0); % compute economy QR decomposition
+    : xls=R\(Q'*y);
+- Least norm solution, $x _{ln} = A ^{T} (AA ^{T} ) ^{-1} y$, can be computed by =xln=A'*inv(A*A')*y;=
+  - $A$ cannot be full rank or skinny
+  - via QR factorization:
+	: [Q,R]=qr(A',0);
+	: xln=Q*(R'\y);
+    - for more, see [[~/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/materials/lsoeldsee263/Additional5-sle_matlab.pdf][here]]
+** Unrelated stuff
+*** Series
+\begin{eqnarray}
+ S &=&\sum ^{N} _{k=0} a ^{k} =a ^{0} + a ^{1} + ...+ a ^{N} \\
+ aS &=&\sum ^{N} _{k=0} a ^{k} =a ^{1} + a ^{1} + ...+ a ^{N+1} \\
+ aS-S &=& -1+a ^{N+1} \\
+ S &=& \frac{a^{N+1}-1}{a-1}
+\end{eqnarray}
+*** Taylor/Mclauren
+Intuition for approximating a function at a point (say at $x=0$): assuming we know $f(0),f'(0),f''(0),f'''(0)$, put into polynomials
+\begin{eqnarray}
+  p_0(x) &=& f(0) \\
+  p_1(x) &=& f(0) + f'(0)x \\
+  p_2(x) &=& f(0) + f'(0)x + \frac{1}{2} f''(0)x^2 \\
+  p_3(x) &=& f(0) + f'(0)x + \frac{1}{2} f''(0)x^2 + \frac{1}{2} \frac{1}{3} f'''(0) x^3 \\
+\end{eqnarray}
+Our polynomial $p_n(x)$ will both have the same value at $x=0$, as well as the same /n/ th derivatives when evaluated at 0. I.e.,
+\begin{eqnarray}
+  p_2'(x) &=& f'(0) + f''(0) x \\
+  p_2'(0) &=& f'(0) \\
+\end{eqnarray}
+In general, the $n$ th order McLauren approximation polynomial of $f(x)$ at point $x_1$ will be given as
+$$
+f(x) \approx f(x_1) + f'(x_1)x + \frac{1}{2} f''(x_1) x ^{2} + \frac{1}{2\cdot 3} f ^{(3)} x ^{3} + ... + \frac{1}{n!} f ^{(n)} x ^{n} 
+$$ 
+In general, the $n$ th order Taylor approximation polynomial of $f(x)$ at point $c$ will be given as
+$$
+f(x) \approx f(c) + f'(c)(x-c) + \frac{1}{2} f''(c) (x-c) ^{2} + ... + \frac{1}{n!} f ^{(n)} (x-c) ^{n} 
+$$ 
+So when you evaluate derivatives at $x=c$, the higher order terms will still drop to zero, leaving you with the exact derivative value.
+**** Cosine McLauren (around 0)
+$$
+\cos (x) = 1- \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + ...
+$$ 
+**** Sine McLauren (around 0)
+$$
+\sin(x) = x- \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + ...
+$$ 
+**** e McLauren (around 0)
+$$
+e ^{x} = 1+x + \frac{x^2}{2!} + \frac{x^3}{3!} + ...
+$$ 
 * Homework assignments
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw1sol.pdf][Homework 1]] | Lecture 4  | 2.1–2.4, 2.6, 2.9, 2.12, +                                               |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw2sol.pdf][Homework 2]] | Lecture 6  | 3.2, 3.3, 3.10, 3.11, 3.16, 3.17, +                                      |
@@ -1066,11 +1687,6 @@ For an $n$-by-$n$ matrix $A$
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw4sol.pdf][Homework 4]] | Lecture 10 | 5.2, 6.2, 6.5, 6.12, 6.14, 6.26, 7.3, 8.2                                |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw5sol.pdf][Homework 5]] | Lecture 13 | 10.2, 10.3, 10.4, +                                                      |
 | * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw6sol.pdf][Homework 6]] | Lecture 14 | 9.9, 10.5, 10.6, 10.8, 10.14, 11.3, and 11.6a                            |
-|   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw7sol.pdf][Homework 7]] | Lecture 16 | 10.9, 10.11, 10.19, 11.13, 12.1, 13.1, +                                 |
-|   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw8sol.pdf][Homework 8]] | Lecture 18 | 13.17, 14.2, 14.3, 14.4, 14.6, 14.8, 14.9, 14.11, 14.13, 14.21, 14.33, + |
+| * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw7sol.pdf][Homework 7]] | Lecture 16 | 10.9, 10.11, 10.19, 11.13, 12.1, 13.1, +                                 |
+| * | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw8sol.pdf][Homework 8]] | Lecture 18 | 13.17, 14.2, 14.3, 14.4, 14.6, 14.8, 14.9, 14.11, 14.13, 14.21, 14.33, + |
 |   | [[~/Desktop/Engineering/eng-control-and-cv/stanford hw/hw9sol.pdf][Homework 9]] | Lecture 20 | 14.16, 14.26, 15.2, 15.3, 15.6, 15.8, 15.10, and 15.11                   |
-
-
-
-
-

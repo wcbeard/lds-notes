@@ -1,0 +1,176 @@
+\BOOKMARK [1][-]{section.1}{Lecture 2}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Interpretation for y=Ax}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Example in notes}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Linear elastic structure}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Force/Torque on rigid body}{subsection.1.2}% 5
+\BOOKMARK [3][-]{subsubsection.1.2.3}{Thermal System}{subsection.1.2}% 6
+\BOOKMARK [1][-]{section.2}{Lecture 3}{}% 7
+\BOOKMARK [2][-]{subsection.2.1}{Review of Linearization \(affine approximation\)}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Good intuition range-finding problem}{subsection.2.1}% 9
+\BOOKMARK [2][-]{subsection.2.2}{Intepretations of Ax=y}{section.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Computing C=AB}{subsection.2.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Zero nullspace \(in notes\)}{subsection.2.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Interpretations of nullspace}{subsection.2.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Range}{subsection.2.2}% 14
+\BOOKMARK [3][-]{subsubsection.2.2.5}{Rank of matrix}{subsection.2.2}% 15
+\BOOKMARK [3][-]{subsubsection.2.2.6}{Various wrap-up items}{subsection.2.2}% 16
+\BOOKMARK [1][-]{section.3}{Lecture 5}{}% 17
+\BOOKMARK [2][-]{subsection.3.1}{Geometric properties of orthonormal vectors}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.2}{Orthonormal basis for Rn}{section.3}% 19
+\BOOKMARK [2][-]{subsection.3.3}{Expansion in orthonormal basis}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.4}{Gram-Schmidt procedure}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.5}{QR decomposition}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.6}{General Gram Schmidt procedure \(`rank revealing QR algorithm'\)}{section.3}% 23
+\BOOKMARK [2][-]{subsection.3.7}{Applications}{section.3}% 24
+\BOOKMARK [2][-]{subsection.3.8}{Least Squares Approximation}{section.3}% 25
+\BOOKMARK [1][-]{section.4}{Lecture 6}{}% 26
+\BOOKMARK [2][-]{subsection.4.1}{Overdetermined equations}{section.4}% 27
+\BOOKMARK [2][-]{subsection.4.2}{Least Squares `Solution'}{section.4}% 28
+\BOOKMARK [2][-]{subsection.4.3}{Projection on R\(A\)}{section.4}% 29
+\BOOKMARK [2][-]{subsection.4.4}{Orthogonality principle}{section.4}% 30
+\BOOKMARK [2][-]{subsection.4.5}{Least-squares via QR factorization}{section.4}% 31
+\BOOKMARK [2][-]{subsection.4.6}{Full QR factorization}{section.4}% 32
+\BOOKMARK [2][-]{subsection.4.7}{Applications for least squares approximations}{section.4}% 33
+\BOOKMARK [2][-]{subsection.4.8}{BLUE: Best linear unbiased estimator}{section.4}% 34
+\BOOKMARK [2][-]{subsection.4.9}{Range-finding example}{section.4}% 35
+\BOOKMARK [2][-]{subsection.4.10}{Quantizer example}{section.4}% 36
+\BOOKMARK [2][-]{subsection.4.11}{Least Squares data-fitting}{section.4}% 37
+\BOOKMARK [2][-]{subsection.4.12}{Least-squares polynomial fitting}{section.4}% 38
+\BOOKMARK [1][-]{section.5}{Lecture 7}{}% 39
+\BOOKMARK [2][-]{subsection.5.1}{Least-squares polynomial fitting, cont'd}{section.5}% 40
+\BOOKMARK [2][-]{subsection.5.2}{Growing sets of regressors}{section.5}% 41
+\BOOKMARK [2][-]{subsection.5.3}{Least-squares system identification \(important topic\)}{section.5}% 42
+\BOOKMARK [2][-]{subsection.5.4}{Model order selection}{section.5}% 43
+\BOOKMARK [3][-]{subsubsection.5.4.1}{Cross-validation}{subsection.5.4}% 44
+\BOOKMARK [2][-]{subsection.5.5}{Growing sets of measurements}{section.5}% 45
+\BOOKMARK [2][-]{subsection.5.6}{Recursive ways to do least squares}{section.5}% 46
+\BOOKMARK [2][-]{subsection.5.7}{Fast update algorithm for recursive LS}{section.5}% 47
+\BOOKMARK [2][-]{subsection.5.8}{Multi-objective least squares}{section.5}% 48
+\BOOKMARK [1][-]{section.6}{Lecture 8}{}% 49
+\BOOKMARK [2][-]{subsection.6.1}{Plot of achievable objective pairs}{section.6}% 50
+\BOOKMARK [2][-]{subsection.6.2}{Minimizing weighted-sum objective}{section.6}% 51
+\BOOKMARK [2][-]{subsection.6.3}{Example: frictionless table}{section.6}% 52
+\BOOKMARK [2][-]{subsection.6.4}{Regularized least-squares}{section.6}% 53
+\BOOKMARK [2][-]{subsection.6.5}{Nonlinear least squares \(NLLS\) problem}{section.6}% 54
+\BOOKMARK [2][-]{subsection.6.6}{Gauss-Newton method for NLLS}{section.6}% 55
+\BOOKMARK [2][-]{subsection.6.7}{G-N example}{section.6}% 56
+\BOOKMARK [2][-]{subsection.6.8}{Underdetermined linear equations}{section.6}% 57
+\BOOKMARK [2][-]{subsection.6.9}{Least norm solution}{section.6}% 58
+\BOOKMARK [1][-]{section.7}{Lecture 9 pt 2}{}% 59
+\BOOKMARK [2][-]{subsection.7.1}{General norm minimization with equality constraints}{section.7}% 60
+\BOOKMARK [2][-]{subsection.7.2}{Autonomous linear dynamical systems}{section.7}% 61
+\BOOKMARK [2][-]{subsection.7.3}{Block diagrams}{section.7}% 62
+\BOOKMARK [2][-]{subsection.7.4}{Linear circuit example}{section.7}% 63
+\BOOKMARK [1][-]{section.8}{Lecture 10}{}% 64
+\BOOKMARK [2][-]{subsection.8.1}{Example: Series reaction A B C}{section.8}% 65
+\BOOKMARK [2][-]{subsection.8.2}{Discrete time Markov chain}{section.8}% 66
+\BOOKMARK [2][-]{subsection.8.3}{Numerical integration of continuous system}{section.8}% 67
+\BOOKMARK [2][-]{subsection.8.4}{Higher order linear dynamical systems \(=Ax\)}{section.8}% 68
+\BOOKMARK [2][-]{subsection.8.5}{Example: Mechanical systems}{section.8}% 69
+\BOOKMARK [2][-]{subsection.8.6}{Linearization near equilibrium point}{section.8}% 70
+\BOOKMARK [2][-]{subsection.8.7}{Example: pendulum linearization}{section.8}% 71
+\BOOKMARK [1][-]{section.9}{Lecture 11}{}% 72
+\BOOKMARK [2][-]{subsection.9.1}{Laplace transform}{section.9}% 73
+\BOOKMARK [2][-]{subsection.9.2}{Example: Harmonic oscillator}{section.9}% 74
+\BOOKMARK [2][-]{subsection.9.3}{Example: Double Integrator}{section.9}% 75
+\BOOKMARK [2][-]{subsection.9.4}{Characteristic polynomial}{section.9}% 76
+\BOOKMARK [2][-]{subsection.9.5}{Get eigenvalues of A and poles of resolvent}{section.9}% 77
+\BOOKMARK [2][-]{subsection.9.6}{Matrix exponential}{section.9}% 78
+\BOOKMARK [2][-]{subsection.9.7}{Time transfer property}{section.9}% 79
+\BOOKMARK [2][-]{subsection.9.8}{Application: sampling a continuous time system}{section.9}% 80
+\BOOKMARK [1][-]{section.10}{Lecture 12}{}% 81
+\BOOKMARK [2][-]{subsection.10.1}{Stability}{section.10}% 82
+\BOOKMARK [2][-]{subsection.10.2}{Eigenvectors and diagonalization}{section.10}% 83
+\BOOKMARK [2][-]{subsection.10.3}{Scaling intepretation}{section.10}% 84
+\BOOKMARK [2][-]{subsection.10.4}{Dynamic intepretation}{section.10}% 85
+\BOOKMARK [2][-]{subsection.10.5}{Invariant set}{section.10}% 86
+\BOOKMARK [2][-]{subsection.10.6}{Complex eigenvectors}{section.10}% 87
+\BOOKMARK [2][-]{subsection.10.7}{Dynamic interpretation: left eigenvectors}{section.10}% 88
+\BOOKMARK [2][-]{subsection.10.8}{Summary:}{section.10}% 89
+\BOOKMARK [2][-]{subsection.10.9}{Example- companion matrix}{section.10}% 90
+\BOOKMARK [1][-]{section.11}{Lecture 13}{}% 91
+\BOOKMARK [2][-]{subsection.11.1}{Example: Markov chain}{section.11}% 92
+\BOOKMARK [2][-]{subsection.11.2}{Diagonalization}{section.11}% 93
+\BOOKMARK [2][-]{subsection.11.3}{Not all matrices diagonalizable}{section.11}% 94
+\BOOKMARK [2][-]{subsection.11.4}{Distinct eigenvalues}{section.11}% 95
+\BOOKMARK [2][-]{subsection.11.5}{Diagonalization and left eigenvectors}{section.11}% 96
+\BOOKMARK [2][-]{subsection.11.6}{Modal form}{section.11}% 97
+\BOOKMARK [2][-]{subsection.11.7}{Real modal form}{section.11}% 98
+\BOOKMARK [2][-]{subsection.11.8}{Diagonalization simplification}{section.11}% 99
+\BOOKMARK [2][-]{subsection.11.9}{Simplify for analytical functions of a matrix}{section.11}% 100
+\BOOKMARK [2][-]{subsection.11.10}{Solution via diagonalization}{section.11}% 101
+\BOOKMARK [2][-]{subsection.11.11}{Interpretation}{section.11}% 102
+\BOOKMARK [2][-]{subsection.11.12}{Application}{section.11}% 103
+\BOOKMARK [2][-]{subsection.11.13}{Stability of discrete-time systems}{section.11}% 104
+\BOOKMARK [2][-]{subsection.11.14}{Jordan Canonical form}{section.11}% 105
+\BOOKMARK [2][-]{subsection.11.15}{Jordan block example}{section.11}% 106
+\BOOKMARK [1][-]{section.12}{Lecture 14}{}% 107
+\BOOKMARK [2][-]{subsection.12.1}{J-C application: Caley-Hamilton theorem}{section.12}% 108
+\BOOKMARK [2][-]{subsection.12.2}{Solving huge matrix equations}{section.12}% 109
+\BOOKMARK [2][-]{subsection.12.3}{LTI system inputs \046 outputs}{section.12}% 110
+\BOOKMARK [2][-]{subsection.12.4}{Interpretations}{section.12}% 111
+\BOOKMARK [2][-]{subsection.12.5}{Transfer matrix}{section.12}% 112
+\BOOKMARK [2][-]{subsection.12.6}{Impulse matrix}{section.12}% 113
+\BOOKMARK [2][-]{subsection.12.7}{Step response}{section.12}% 114
+\BOOKMARK [2][-]{subsection.12.8}{Spring dashpot example}{section.12}% 115
+\BOOKMARK [2][-]{subsection.12.9}{RC circuit example}{section.12}% 116
+\BOOKMARK [1][-]{section.13}{Lecture 15}{}% 117
+\BOOKMARK [2][-]{subsection.13.1}{DC or static gain matrix}{section.13}% 118
+\BOOKMARK [2][-]{subsection.13.2}{Discretization with piecewise constant inputs}{section.13}% 119
+\BOOKMARK [2][-]{subsection.13.3}{Causality}{section.13}% 120
+\BOOKMARK [2][-]{subsection.13.4}{Idea of state}{section.13}% 121
+\BOOKMARK [2][-]{subsection.13.5}{Change of coordinates}{section.13}% 122
+\BOOKMARK [2][-]{subsection.13.6}{Standard forms for LDS}{section.13}% 123
+\BOOKMARK [2][-]{subsection.13.7}{Discrete-time systems}{section.13}% 124
+\BOOKMARK [2][-]{subsection.13.8}{Z-transform}{section.13}% 125
+\BOOKMARK [2][-]{subsection.13.9}{Discrete-time transfer function}{section.13}% 126
+\BOOKMARK [1][-]{section.14}{Last Section, Singular Value Decomposition}{}% 127
+\BOOKMARK [2][-]{subsection.14.1}{Eigenvalues of symmetric matrices}{section.14}% 128
+\BOOKMARK [2][-]{subsection.14.2}{Eigenvectors of symmetric matrices}{section.14}% 129
+\BOOKMARK [2][-]{subsection.14.3}{Interpretations}{section.14}% 130
+\BOOKMARK [2][-]{subsection.14.4}{Example: RC circuit}{section.14}% 131
+\BOOKMARK [1][-]{section.15}{Lecture 16}{}% 132
+\BOOKMARK [2][-]{subsection.15.1}{Quadratic forms}{section.15}% 133
+\BOOKMARK [2][-]{subsection.15.2}{Examples of quadratic forms}{section.15}% 134
+\BOOKMARK [2][-]{subsection.15.3}{Inequalities for quadratic forms}{section.15}% 135
+\BOOKMARK [2][-]{subsection.15.4}{Ellipsoids}{section.15}% 136
+\BOOKMARK [2][-]{subsection.15.5}{Gain of matrix in a direction}{section.15}% 137
+\BOOKMARK [2][-]{subsection.15.6}{Example}{section.15}% 138
+\BOOKMARK [2][-]{subsection.15.7}{Properties of matrix norm}{section.15}% 139
+\BOOKMARK [1][-]{section.16}{Lecture 17}{}% 140
+\BOOKMARK [2][-]{subsection.16.1}{SVD}{section.16}% 141
+\BOOKMARK [2][-]{subsection.16.2}{Dyadic expansion: \(U and V have orthonormal columns\)}{section.16}% 142
+\BOOKMARK [2][-]{subsection.16.3}{Interpretations}{section.16}% 143
+\BOOKMARK [2][-]{subsection.16.4}{General pseudo-inverse}{section.16}% 144
+\BOOKMARK [2][-]{subsection.16.5}{Pseudo-inverse via regularization}{section.16}% 145
+\BOOKMARK [1][-]{section.17}{Lecture 18}{}% 146
+\BOOKMARK [2][-]{subsection.17.1}{Sensitivity of linear equations to data error}{section.17}% 147
+\BOOKMARK [2][-]{subsection.17.2}{Low rank applications}{section.17}% 148
+\BOOKMARK [2][-]{subsection.17.3}{State transfer}{section.17}% 149
+\BOOKMARK [2][-]{subsection.17.4}{Reachability}{section.17}% 150
+\BOOKMARK [2][-]{subsection.17.5}{Reachability for discrete-time LDS}{section.17}% 151
+\BOOKMARK [1][-]{section.18}{Lecture 19}{}% 152
+\BOOKMARK [2][-]{subsection.18.1}{General state transfer}{section.18}% 153
+\BOOKMARK [2][-]{subsection.18.2}{Minimum time control problem}{section.18}% 154
+\BOOKMARK [2][-]{subsection.18.3}{Least-norm input for reachability}{section.18}% 155
+\BOOKMARK [2][-]{subsection.18.4}{Stability}{section.18}% 156
+\BOOKMARK [2][-]{subsection.18.5}{Continuous time reachability}{section.18}% 157
+\BOOKMARK [2][-]{subsection.18.6}{Impulsive inputs}{section.18}% 158
+\BOOKMARK [2][-]{subsection.18.7}{Example}{section.18}% 159
+\BOOKMARK [2][-]{subsection.18.8}{Least-norm input for reachability}{section.18}% 160
+\BOOKMARK [1][-]{section.19}{Lecture 20}{}% 161
+\BOOKMARK [2][-]{subsection.19.1}{Observability and state estimation}{section.19}% 162
+\BOOKMARK [2][-]{subsection.19.2}{Noiseless case}{section.19}% 163
+\BOOKMARK [2][-]{subsection.19.3}{Observability matrix}{section.19}% 164
+\BOOKMARK [2][-]{subsection.19.4}{Least-squares observers}{section.19}% 165
+\BOOKMARK [2][-]{subsection.19.5}{Parting thoughts}{section.19}% 166
+\BOOKMARK [3][-]{subsubsection.19.5.1}{Linear algebra}{subsection.19.5}% 167
+\BOOKMARK [3][-]{subsubsection.19.5.2}{Levels of understanding}{subsection.19.5}% 168
+\BOOKMARK [1][-]{section.20}{Appendix}{}% 169
+\BOOKMARK [2][-]{subsection.20.1}{Inverse, transpose properties}{section.20}% 170
+\BOOKMARK [2][-]{subsection.20.2}{Invertibility implications}{section.20}% 171
+\BOOKMARK [2][-]{subsection.20.3}{Tips}{section.20}% 172
+\BOOKMARK [2][-]{subsection.20.4}{Unrelated stuff}{section.20}% 173
+\BOOKMARK [3][-]{subsubsection.20.4.1}{Series}{subsection.20.4}% 174
+\BOOKMARK [3][-]{subsubsection.20.4.2}{Taylor/Mclauren}{subsection.20.4}% 175
+\BOOKMARK [1][-]{section.21}{Homework assignments}{}% 176

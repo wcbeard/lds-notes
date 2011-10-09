@@ -1,0 +1,589 @@
+#+TITLE: Linear Dynamic Systems Notes
+#+AUTHOR: Chris Beard
+#+LaTeX_CLASS: myarticle
+Following notes from the [[~/Desktop/Engineering/kiet-ee-downloads/current/ee263_course_reader.pdf][EE263 Course Reader]]
+* Lecture 2
+[[/Users/FingerMan/Dropbox/AK-MBP/edu/systems/IntroToLinearDynamicalSys/materials/lsoeldsee263/02-lin-fcts.pdf][Official Lecture Notes]]
+** Interpretation for $y=Ax$
+- $A$ a transformation matrix
+- $y$ an observed measurement, $x$ an unknown
+- $x$ is input, $y$ is output; for rows $i$ and columns $j$ in $A$, ${\bf i \rightarrow y}$, ${\bf j \rightarrow x}$
+  - indexed as \bf output, input
+- Lower diagonal Matrix should make you expect or have a vague thought about causality.
+  - $a_{ij}=0$ for $i<j \Rightarrow y_i$ only depends on $x_1,...,x_i$ 
+  - $A$ is diagonal; output only depends on input
+- Sparcity pattern (block of zeroes) in a matrix should have you wonder why...usually not coincidental
+- $A_{35}$ positive $\Rightarrow x_5$ increased corresponds to an increase in 3rd output, $y_3$
+** Example in notes
+*** Linear elastic structure
+- $a_{11}$ probably positive
+  - $x_1$ input gives positive push to $y_1$ output
+*** Force/Torque on rigid body
+- Net torque/force on body is linearly related to force inputs
+*** Thermal System
+- despite normally needing a Poisson equation, the steady state heat of the different locations can be represented as a linear system $Ax=y$
+
+* Lecture 3
+** Review of Linearization (affine approximation)
+#+BEGIN_LATEX
+  \begin{enumerate}
+  \item  If $f: {\bf R}^{n} \rightarrow {\bf R}^{m} $ is differentiable at $x_{0} \in {\bf R} ^{n}$, then
+  $x$ near $x_{0} \Rightarrow f(x)$ very near $f(x_{0}) + D f(x_{0})(x-x_{0})$
+  where
+  $$
+  Df(x_{0})_{ij}= \frac{\partial f_{i}}{\partial x_{j}} \bigg|_{x_{0}}
+  $$
+  is the derivative (Jacobian) matrix.
+  
+  \item with $y=f(x), y_{0}=f(x_{0})$, define `input deviation' $\delta x := x-x_{0}$, `output deviation' $\delta y:= y-y_{0}$
+  \item then we have $\delta y \approx Df(x_{0})\delta x$
+  \subitem i.e., we get a linear function for looking at how the output changes with small changes in the input
+  \item When deviations are small, they are approximately related by a linear function
+  
+  \end{enumerate}
+#+END_LATEX
+*** Good intuition range-finding problem
+** Intepretations of $Ax=y$
+- Scaled combination of columns in $A$
+
+#+BEGIN_LATEX
+  $A=[ a_1 a_{2} ... a_{n}] \rightarrow y=x_{1}a_{1}+x_{2}a_{2}+...+x_{n}a_{n}$
+#+END_LATEX
+- Looking at the rows: the multiplication is the inner product of rows and vector $x$
+- I/O ordering is backwards in control; in $A_{ij}$, $j$ refers to input and $i$ refers to output
+  - indexing is likewise backwards in block diagram indexing
+#+BEGIN_LATEX
+  $AB=I$; $\tilde a_{i}^{T} \cdot b_{j}=0$ if $i\ne j$, where $\tilde a_{i}$ is the $ith$ row in $A$, and $b_{j}$ is $jth$ column in $B$ 
+#+END_LATEX
+
+*** Computing $C=AB$
+How to compute this faster than using formula $c_{ij}=\sum_{k=1} A_{ik} B_{kj}$: have computer break it up into submatrices and do the multiplication on them
+
+*** Zero nullspace (in notes)
+- if 0 is only element in $\mathcal{N}(A)$ 
+  - $A$ is one-to-one
+    - linear transformation doesn't lose information
+  - columns of $A$ are independent, and basis for their span
+  - $A$ has a left inverse $\Rightarrow$ you can use this to undo the transformation and find the input $x$, given the output $y$
+  - $|A^T A|\ne0$ 
+*** Interpretations of nullspace
+supposing $z \in \mathcal{N}(A)$ 
+- Measurements
+  - $z$ is undetectable from sensors
+  - $x$ and $x+z$ are indistinguishable from sensors: $Ax = A(x+z)$
+  - the nullspace characterizes ambiguity in $x$ from measurement $y=Ax$
+    - large nullspace is bad
+- $y=Ax$ is output from input $x$
+  - $z$ is input with no result
+  - $x$ and $x+z$ have same result
+  - the nullspace characterizes freedom of input choice for given result
+    - large nullspace is good: more room for optimization because of more input possibilities
+*** Range
+Range of $A \in \mathbb{R}^{m\times n}$ defined as $\mathcal{R}(A)=\{Ax | x \in \mathbb{R}^n\} \subseteq \mathbb{R}^m$ 
+- The set of vectors that can be `hit' by linear mapping $y=Ax$
+- span of columns of $A$
+- set of vectors $y$ for which $Ax=y$ has a solution
+- possible sensor measurement
+  - in design, you'll want to throw an exception if a measurement is outside the range; the sensor is bad
+  - test for a bad 13th sensor: remove 13th row in $A$; if the reduced $y$ is in the range of the reduced matrix, the 13th sensor might not have been bad
+**** Onto matrices
+$A$ is `onto' if $\mathcal{R}(A)=\mathbb{R}^m$
+- you can solve $Ax=y$ for any $y$
+- columns of $A$ span $\mathbb{R}^m$
+- $A$ has a right inverse $B$ s.t. $AB=I$
+  - can do $ABy=A(By)=y$: you want an $x$ that gives you $y$? Here it is.
+  - Design procedure
+- rows of $A$ are independent
+  - a.k.a., $\mathcal{N}(A^T)=\{0\}$
+- $|AA^T|\ne 0$ 
+**** Interpretations of range
+- supposing $v \in \mathcal{R}(A)$
+  - $v$ reachable
+  - else, not reachable
+
+**** Inverse
+Note: square matrices are impractical for engineering. They don't let you take advantoge of redundant sensors/controllers, or let you build a robust system to take care of broken sensors
+- $A \in \mathbb{R}^{n \times n}$ is invertible or nonsingular if det $A \ne 0$
+  - columns of $A$ are basis for $\mathbb{R}^n$ 
+  - rows of $A$ are basis for $\mathbb{R}^n$
+  - $y=Ax$ has a unique solution $x$ for every $y \in \mathbb{R}^n$
+  - $A$ has left and right inverse $A^{-1} \in \mathbb{R}^{n\times n}$, s.t. $AA^{-1}=A^{-1}A=I$
+  - $\mathcal{N}(A)= \{0\}$
+  - $\mathcal{R}(A)=\mathbb{R}^n$
+  - det $A^T A= |AA^T| \ne 0$
+***** Dual basis intepretation of inverse
+$a_i$ are columns of $A$, and $\tilde b_i^T$ are rows of $B=A^{-1}$
+- $y=Ax$, column by column, looks like $y=x_1 a_1 + ... + x_n a_n$
+  - multiply both sides of $y=Ax$ by $A^{-1}=B$ gives $x=By$
+  - so $x_i=\tilde b_i^T y$
+
+\[
+\begin{bmatrix}
+  \vdots & \vdots & \vdots & \vdots \\
+  a_1    & a_2    & ...    & a_n    \\
+  \vdots & \vdots & \vdots & \vdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+x=A^{-1} y
+\]
+
+\[
+\begin{bmatrix}
+  x_1      \\
+  x_2      \\
+  \vdots   \\
+  x_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \cdots & \tilde b^T_1 & \cdots \\
+  \cdots & \tilde b^T_2 & \cdots \\
+  \cdots & \vdots       & \cdots \\
+  \cdots & \tilde b^T_n & \cdots \\
+\end{bmatrix}
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+\]
+
+\[
+\begin{bmatrix}
+  y_1      \\
+  y_2      \\
+  \vdots   \\
+  y_n      \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_1 a_1 + ... + x_n a_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+(\tilde b^T_1 y) a_1 + ... + (\tilde b^T_n y) a_n
+\end{bmatrix}
+\]
+
+Beautiful thing:
+\[
+y=\sum_{i=1}^n (\tilde b_i ^T y) a_i
+\]
+
+*** Rank of matrix
+Rank of $A \in \mathbb{R}^{m \times n}$ as ${\bf rank}(A)= {\bf dim} \mathcal{R}(A)$
+- ${\bf rank} (A)= {\bf rank} (A^T)$
+- ${\bf rank} (A)$ is maximum number of independent columns or rows of $A$: ${\bf rank} (A) \le {\bf min} (m,n)$
+- ${\bf rank} (A)+ {\bf dim} \mathcal{N}(A)=n$
+
+**** Conservation of degrees of freedom (dimension)
+- ${\bf rank} (A)$ is dimension of set `hit' by mapping $y=Ax$
+- ${\bf dim} \mathcal{N}(A)$ is dimension of set of $x$ `crushed' to zero by $y=Ax$
+***** Example
+- $A \in \mathbb{R}^{20 \times 10} {\bf rank} (A)=8$
+  - you can do 8 dimensions worth of stuff
+  - 10 knobs, 2 redundant knobs, which is ${\bf dim} \mathcal{N}(A)=2$
+**** Coding interpretation of rank
+- rank of product: ${\bf rank} (BC) \le {\bf min} \{ {\bf rank} (B), {\bf rank} (C)\}$
+- supposedly really cool stuff based on this
+- low rank matrices let you do fast computations
+*** Various wrap-up items
+**** RMS
+\[
+{\bf rms} (x) = \left( \frac{1}{n} \sum^n _{i=1} \right) ^{1/2} = \frac{\| x \|}{\sqrt{n}} 
+\]
+**** Inner product
+$\langle x,y \rangle := x_1 y_1 + x_2 y_2 + \cdots + x_n y_n = x ^{T} y$ 
+- intepretation of inner product signs:
+- $x ^{T} y > 0$: acute; roughly point in same direction
+- $x ^{T} y > 0$: obtuse; roughly point in opposite direction
+**** Orthonormal set of vectors
+- set of $k$ vectors $u_1, u_2, ..., u_k \in \mathbb{R}^{n}$ orthonormal; $U= [u_1 \cdots u_k]$
+- $U^T U= I_k \leftrightarrow$ set of column vectors of $U$ are orthonormal
+- ${\bf warning}$: $U U ^{T} \ne I_k$ if $k<n$ 
+  - say $U$ is $10\times 3$, $U^T$ is $3 \times 10$, rank of $U$ is 3 $\Rightarrow$ rank of $UU^T$ is at most 3
+  - but $UU^T$ will be a $10\times 10$ matrix, so it can't be the identity matrix
+
+* Lecture 5
+A good source for more on orthogonality at [[http://www.math.umn.edu/~olver/aims_/qr.pdf][University of Minnesota]]
+
+** Geometric properties of orthonormal vectors
+- columns of $U$ are ON $\Rightarrow$ mapping under $U$ preserves distances
+  - $w=Uz \Rightarrow \|w \| = \| z \|$
+- Also preserves inner product
+- Also preserves angles
+- Something like a rigid transformation
+** Orthonormal basis for $\mathbb{R}^{n}$
+- if there are $n$ orthonormal vectors (remember, with dimension $n$), it forms an orthonormal basis for $\mathbb{R}^{n}$
+- $U^{-1}=U^T$
+  - \fbox{$U^T U=I \Leftrightarrow U$'s column vectors form an orthonormal basis for $\mathbb{R}^{n}$}
+  - $\displaystyle \sum _{i=1} ^{n} u_i u_i^T = I \in \mathbb{R}^{n \times n}$ (known as a dyad, or outer product; inner products reverses the two and gives a scalar, outer gives a matrix)
+  - outer products take 2 vectors, possibly of different sizes, and multiplies every combination of elements one with another
+** Expansion in orthonormal basis
+- $U$ orthogonal $\Rightarrow x=UU^T$
+- $\displaystyle x= \sum ^{n} _{i=1} \left( u ^{T} _{i} x\right) u _{i}$
+  - because $U^TU=I$, the thing in sum is really $u_i u_i^T x$
+  - $u_i^T x$ is really a scalar, so this can be moved to the front of $u_i$, giving our result
+  - This says $x$ is a linear combination of $u_i$'s
+** Gram-Schmidt procedure
+- $a_1, ..., a_k \in \mathbb{R}^{n}$ are LI; G-S finds ON vectors $q_1,..., q_k$ s.t. $$ {\bf span} (a_1,...,a_r)= {\bf span} (q_1,...,q_r)$$ for $r \le k$
+- so $q_1, ..., q_r$ is an ON basis for span($a_1, ...,a_r$)
+- Basic method: orthogonalize each vector wrt the previous ones, then normalize result
+  1. $\tilde q_1 = a_1$
+  2. normalize: $q_1 = \tilde q_1/ \|\tilde q_1 \|$
+  3. remove $q_1$ component from $a_2$: $\tilde q_2 = a_2 - (q_1^T a_2) q_1$
+  4. normalize $q_2$
+  5. remove $q_1, q_2$ components: $\tilde q_3= a_3 - (q_1^T a_3) q_1 - (q_2^T a_3)q_2$ 
+  6. normalize $q_3$ 
+- $a_i= (q_1^T a_i) q_1 + (q_2^T a_i)q_2 + \cdots + (q_{i-1}^T a_i)q_{i-1} + \| \tilde q_i \| q_i$
+  - $= r_{1i} q_1 + r_{2i} q_2 + \cdots + r_{ii} q_i$ ($r_{ii} \ge 0$ is the length of $\tilde q_i$)
+** $QR$ decomposition
+This can be written as $A=QR$, where $A \in \mathbb{R}^{n \times k}, Q \in \mathbb{R}^{n \times k} , R \in \mathbb{R}^{k\times k}$
+
+\[
+\begin{bmatrix}
+  a_1 & a_2 & \cdots & a_k \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  q_1 & q_2 & \cdots & q_k \\
+\end{bmatrix}
+\begin{bmatrix}
+  r_{11} & r_{12} & \cdots & r_{1k} \\
+         0 & r_{22} & \cdots & r_{2k} \\
+    \vdots & \vdots   & \ddots & \vdots   \\
+         0 & 0        & \cdots & r_{kk} \\
+\end{bmatrix}
+\]
+- $R$ triangular because computation of $a_i$ only involves up to $q_i$
+  - a sort of causality, since you can calculate $q_7$ without seeing $q_8$
+- Columns of $Q$ are ON basis for $\mathcal{R}(A)$
+** General Gram Schmidt procedure (`rank revealing QR algorithm')
+- Basically the same, but if one of the $\tilde q_i$'s is zero (meaning $a_i$ is dependent on previous $a$ vectors), then just go to the next column
+- referring to notes, upper staircase notation shows which vectors are dependent on previous ones (columns without the x's)
+  - entries with x are `corner' entries
+** Applications
+- check if $b \in {\bf span} (a_1, a2, ..., a_k)$
+- Factorize matrix $A$
+** Least Squares Approximation
+- Overdetermined linear equation (tall, skinny, more equations than unknowns, dimensionally redundant system of equations)
+
+* Lecture 6
+On skinny, full rank matrices
+** Overdetermined equations
+- Skinny, more equations than unknowns
+- Given $y=Ax, A\in \mathbb{R}^{m\times n}$, a randomly-chosen $y$ in $\mathbb{R}^{m}$ has 0 probability of being in the range of $A$
+- To $approximately$ solve for $y$, minimize norm of error (residual) $r=Ax-y$
+- find $x=x _{ls}$ (least squares approx.) that minimizes $\|r\|$
+** Least Squares `Solution'
+- square $\|r\|$, get expansion, set gradient wrt $x$ equal to zero
+- \fbox{$x _{ls} = (A ^{T} A) ^{-1} A ^{T} y$ } $=B_{ls} y$ (linear operation)
+- $A ^{T} A$ should be invertible, square, full rank
+- $(A ^{T} A)^{-1} A ^{T}$ is a generalized inverse (is only inverse for square matrices, though)
+  - Also known as the $A^\dagger$, `pseudo-inverse'
+  - Which is a left inverse of $A$
+** Projection on $\mathcal{R}(A)$
+$Ax _{ls}$ is the point closest to $y$ (i.e., projection of $y$ onto $\mathcal{R}(A)$)
+- $A x _{ls} = {\bf proj} _{ \mathcal{R}(A)} (y)= \left(A(A ^{T} A) ^{-1} A ^{T} \right)y$ 
+** Orthogonality principle
+The optimal residual is orthogonal to $C(A)$
+- $r = A x _{ls} -y = (A(A ^{T} A) ^{-1} A ^{T} -I)y$ orthogonal to $C(A)$
+- $\langle r, Az \rangle = y ^{T} (A(A ^{T} A) ^{-1} A ^{T} -I) ^{T} Az = 0$ for all $z \in \mathbb{R}^{n}$ 
+** Least-squares via $QR$ factorization
+$A$ is still skinny, full rank
+- Factor as $A=QR$; $Q^TQ=I_n, R \in \mathbb{R}^{n\times n}$ upper triangular, invertible
+- pseudo-inverse: $(A ^{T} A) ^{-1} A ^{T} = R ^{-1} Q ^{T} \Rightarrow$ \fbox{$R ^{-1} Q ^{T} y = x _{ls}$}
+- Pretty straight-forward
+- Matlab for least squares approximation
+    : xl = inv(A' * A)*A'y; # So common that has shorthand in MATLAB
+    : xl = A\y;                 # Works for non-skinny matrices, may do unexpected things
+** Full $QR$ factorization
+- $A= \begin{bmatrix}Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix}$
+  - New $Q$ is square, orthogonal matrix; $R_1$ is square, upper triangular, invertible
+- Remember, multiplying by orthogonal matrix doesn't changet the norm:
+  - $\| A x-y \| ^{2} = \| R_1 x - Q ^{T} _{1} y \|^2 + \| Q ^{T} _{2} y \| ^{2}$
+  - Find least squares approximation with $x _{ls} = R ^{-1} _{1} Q ^{T} _{1} y$ (zeroes first term)
+
+** Applications for least squares approximations
+- if there is some noise $v$ in $y = Ax+v$
+  - you can't reconstruct $x$, but you can get close with the approximation
+- Estimation: choose some $\hat x$ that minimizes $\| A \hat x - y\|$, which is the deviation between the think we observed, and what we would have observed in the absence of noise
+** BLUE: Best linear unbiased estimator
+- $A$ still full rank and skinny; have a `linear estimator' $\hat x= By$ ($B$ is fat)
+  - $\hat x = B(Ax+v)$
+- Called unbiased if there is no estimation error when there's no noise; the estimator works perfectly in the absence of noise
+  - if $v=0$ and $BA=I$; $B$ is left inverse/perfect reconstructor
+- Estimation error uf unbiased linear estimator is $x- \hat x= sBv$, so we want $B$ to be small and $BA=I$; small means error isn't sensitive to the noise
+- The pseudo-inverse is the smallest left inverse of $A$:
+  - $A ^{\dagger} = (A ^{T} A) ^{-1} A ^{T}$
+  - $\displaystyle \sum _{i,j} B ^{2} _{ij} \ge \sum _{i,j} A _{ij} ^{\dagger 2}$
+** Range-finding example
+- Find ranges to 4 beacons from an unknown position $x$
+- $y = - \begin{bmatrix}
+           k _{1} ^{T} \\ k _{2 } ^{T} \\ k _{3} ^{T} \\ k _{4} ^{T} 
+         \end{bmatrix} x + v$
+- actual position $x=(5.59, 10.58)$; measurement $y=(-11.95, -2.84, -9.81, 2.81)$
+  - these numbers aren't consistent in $Ax=y$, since there's also the error; there is no such $x$ value that can give this $y$ value
+- There are 2 redundant sensors (2 more $y$ values than $x$ values); one method for estimating $\hat x$ is `just enough' method: you only need 2 $y$ values; take inverse of top half of $A$ and pad the rest of the matrix with 0's
+- use $\hat x = B _{just enough} y = \begin{bmatrix}\begin{bmatrix} k_1 ^{T} \\ k_2 ^{T} \end{bmatrix} ^{-1} \begin{matrix} 0 & 0 \\ 0 & 0 \end{matrix}\end{bmatrix} = \begin{bmatrix}
+                                           0 & -1.0 & 0 & 0 \\ -1.12 &   .5 & 0 & 0 \\   
+                                     \end{bmatrix} y = \begin{bmatrix} 2.84 \\ 11.9 \end{bmatrix}$
+- Least Squares method: $\hat x A ^{\dagger} y =$ this has a much smaller norm of error
+- Just enough estimator doesn't seem to have good performance...unless last two measurements were really off, since JEM only takes 2 measurements into account
+
+** Quantizer example
+Super-impressive least squares estimate; more precise than A-D converter
+** Least Squares data-fitting
+- use functions $f_1, f_2, ..., f_n:S \rightarrow \mathbb{R}$ are called regressors or basis functions
+- applications
+  - interpolation- , extrapolation, smoothing of data
+| Applications                   |                                                                                  |
+|--------------------------------+----------------------------------------------------------------------------------|
+| interpolation                  | don't have sensors in specific location, but want the temperature                |
+| extrapolation                  | get good basis functions for better interpolation                                |
+| data smoothing                 | de-noise measurements                                                            |
+| simple, approximate data model | Get a million samples, use the data-fitting to get a simple approximate function |
+
+** Least-squares polynomial fitting
+- Vandermonde matrix?
+* Lecture 7
+** Least-squares polynomial fitting, cont'd
+- have data samples $(t_i, y_i), i=1,...,m$
+- fit coefficients $a_i$ of polynomial $p(t)= a_0 + a_1 t + \cdots + a _{n-1} t ^{t-1}$ so that when evaluated at $t_i$ it will give you the associated $y$ value
+- basis functions are $f_j(t)= t ^{j-1}, j=1,...,n$
+- use Vandermonde matrix $A$ (`polynomial evaluator matrix'):
+\[
+A=
+\begin{bmatrix}
+  1 & t_1    & t_1^2 & ... & t_1^{n-1} \\
+  1 & t_2    & t_2^2 & ... & t_2^{n-1} \\
+    & \vdots &       &     & \vdots    \\
+  1 & t_m    & t_m^2 & ... & t_m^{n-1} \\
+\end{bmatrix}
+\]
+- side note: use this when you want to fit throughout an interval, use a Taylor series fit if you want it close to a point
+** Growing sets of regressors
+- Given ordered set of vectors; find best fit with first vector, then best fit with first and second, then best fit with first three...
+- These vectors called /regressors/, or columns
+- Say you have some /master list/ $A$ with $n$ columns, and $A ^{(p)}$ will be the matrix with the first $p$ columns of it
+  - we want to minimize different sets of $\| A ^{(p)} x-y \|$
+  - i.e., project $y$ onto a growing span $\{a_1, a_2, ..., a_p\}$
+- Solution for each $p \le n$ given by $x _{ls} ^{(p)} = (A ^{T} _{p} A _{p} )^{-1} A _{p} ^{T} y = R ^{-1} _{p} Q ^{T} _{p} y$
+  - In MATLAB, =A(:,1:p)\y=, though technically it's faster to do a sort of =for= loop
+- Residual, $\| \sum ^{p} _{i=1} x_i a_i -y \|$ reduces as $p$ (number of columns) increases
+  - though it may be same as residual with previous value of $p$ if the optimal $x_1=0$, when $y \perp a_1$
+  - if the residual drops 15% from that of previous value of $p$, you say that $a_1$ explains 15% of $y$
+** Least-squares system identification (important topic)
+- measure input, output $u(t), y(t)$ for $t=0,...,N$ of unknown system, and try to get a model of system
+- example: moving average (MA) model with $n$ delays (try to approximate what are the weights $h_i$ for each delay)
+  - see equation/matrix in notes, though there are different ways to write it
+  - get best answer with LSA
+** Model order selection
+- how large should $n$ be?
+- the larger, the smaller prediction error on /data used to form model/
+- but at a certain point, predictive ability of model on other I/O data from same system worsens
+- probably best to choose the `knee' on the graph on notes slide for prediction of new data
+*** Cross-validation
+- check with new data, only if you're getting small residuals on data you've already seen
+- when $n$ gets too large (greater than $n=10$ on graph), the error with `validation data' actually gets larger
+- this example is ideal, since $n=10$ is the obvious order for the model
+- *Application note*: in medical, many industries, there's a firm wall between validation data and model-developing data, so someone /else/ tests your model
+- in this example, it is known as /overfit/ when the validation data error gets larger for $n$ too large
+** Growing sets of measurements
+- similar to GSo Regressors, except you add new rows, not columns
+- this would happen if we're estimating a parameter $x$ (which is constant)
+- Solution: $\displaystyle x_{ls} = \left( \sum ^{m} _{i=1} a_i a_i ^{T} \right) ^{-1} \sum ^{m} _{i=1} y_i a_i$
+- new way to think of least squares equation
+** Recursive ways to do least squares
+- don't have to re-add for each new measurement
+  - i.e., memory is bounded
+  - use equation from notes; solution is $x _{ls} (m) = P(m) ^{-1} q(m)$
+** Fast update algorithm for recursive LS
+- Was a big deal back in the day; somewhat still
+** Multi-objective least squares
+- Sometimes you have 2+ objectives to minimize
+  - say $J_1 = \| Ax-y\| ^{2}$ (what we've done so far)
+  - and $J_2 = \| Fx-g\| ^{2}$
+  - these are usually competing (minimize one at cost of other)
+- Variable in question is $x \in \mathbb{R}^{n}$
+- Plot in notes shows plot of $(J_1(x_i), J_2(x_i))$
+- Some points are unambiguously worse than others, but there is some ambiguity when $J_1(x_1) < J_1(x_2)$, while $J_2(x_1) > J_2(x_2)$
+- Fix this ambiguity with `weighted-sum objective'
+- $J_1 + \mu J_2 = \| Ax-y\| ^{2} + \mu \| Fx-g\| ^{2}$
+  - Say, there's a trade-off between smoothness (no noise) and better fit; $\mu$ can have different dimensions if $J_2$ does
+- Use slope of $\mu$ in graph (`indifference curve', in economics) [slide 7-6]
+* Lecture 8
+Multi-objective least-squares
+** Plot of achievable objective pairs
+- if it approximates an L shape (has a `knee'), the knee is usually the obvious optimal location, so least-squares isn't as helpful
+  - optimal point isn't very sensitive to \mu
+- Other extreme: trade-off curve looks linear (negative slope), where it's zero-sum
+  - optimal point very sensitive to \mu
+  - slope commonly called /exchange rate curve/
+- In this class, they must be convex curves (cup up/outward)
+- To find Pareto optimal points, minimize $J_1 + \mu J_2 = \alpha$
+  - on plot, can have level curves with slope \mu
+  - Find point on Pareto Optimal Curve that has slope \mu
+** Minimizing weighted-sum objective
+- note: norm-squared of a stacked vector is norm-square of the top+norm-square of bottom
+$$\| Ax - y \| ^{2} + \mu \| Fx - g \| ^{2} = \left\|
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+x-
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\right\| ^{2} 
+$$
+\[
+= \left\| \tilde Ax- \tilde y \right\|
+\]
+where
+\[
+\tilde A =
+\begin{bmatrix}
+  A           \\
+  \sqrt \mu F \\
+\end{bmatrix}
+, \tilde y =
+\begin{bmatrix}
+  y \\
+  \sqrt \mu g \\
+\end{bmatrix}
+\]
+If $\tilde A$ is full rank,
+\begin{eqnarray}
+x &=& \left( \tilde A ^{T} \tilde A \right)^{-1} \tilde A ^{T} \tilde y \\
+  &=& ( A ^{T} A + \mu F ^{T} F) ^{-1} (A ^{T} y + \mu F ^{T} g)
+\end{eqnarray}
+In MATLAB, =[A; sqrt(mu) * F]\[y;sqrt(mu) * g]=
+** Example: frictionless table
+- $y$ is final position at $t=10$; $y=a ^{T} x$, $a\in \mathbb{R}^{10}$ 
+- $J_1 = (y-1) ^{2}$, (final position difference from $y=1$ squared)
+- $J_2 = \|x\| ^{2}$ sum of force squares
+- Q: Why do we often care about sum of squares? A: *It's easy to analyze* (not necessarily because it corresponds to energy)
+  - max $| x_i |$ corresponds to maximum thrust
+  - $\sum |x_i|$ corresponds to fuel use
+- Optimal tradeoff curve is quadratic
+** Regularized least-squares
+- famous example of multi-objective least squares
+  - second $J$ term is simply $J_2 = \|x\|$, though first is the same: $J_1 = \|Ax-y\| ^{2}$ 
+- Tychonov regularization works for /any/ $A$
+  - /regularized/ least-squares solution: $x = (A ^{T} A + \mu I) ^{-1} A ^{T} y$
+Show $(A ^{T} A + \mu I)$ is invertible, no matter what size/values of $A$ (assuming $\mu > 0$ ): 
+If this is /not/ invertible (singular), it means some nonzero vector $z$ gets mapped to zero ($z \in \mathcal{N}(A)$)
+\begin{eqnarray}
+(A ^{T} A + \mu I) z= 0, z \ne 0 \\
+z ^{T} (A ^{T} A + \mu I) z = 0 \text{ since } z^T \vec{0} =0 \\
+z ^{T} A ^{T} A z + \mu z ^{T} z = 0 \\
+\| A z \| ^{2} + \mu \| z \| ^{2} = 0 \\
+z = \vec{0} 
+\end{eqnarray}
+So, $z$ can only be zero, meaning $\mathcal{N}(A) = \{0\} \Rightarrow (A ^{T} A -\mu I)$ is invertible. This is also why \mu must be positive.
+Or, you know it's invertible, since it is full rank (and skinny) when you stack $\mu I$ below it (see definition of $\tilde A$).
+- Application of Regularized least-squares
+  - estimation/inversion
+  - $Ax-y$ is sensor residual
+  - prior information that $x$ is really small
+  - or, model only accurate for small $x$
+  - Tychonov solution trades off sensor fit and size of $x$
+- Image processing example
+  - Laplacian regularization
+    - image reconstruction problem
+  - $x$ is vectorized version of image
+  - $\|A x - y\| ^{2}$ is difference from real image
+  - Want new objective to minimize roughness
+    - vector $Dx$ (from new matrix $D$) which has difference between neighboring pixels as elements
+      - $D_v x$ measures vertical difference 
+      - $D_h x$ measures horizontal difference 
+      - Nullspace is vector where there is no variation between pixels
+  - minimize $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2}$
+    - if $\mu$ is turned way up, it'll be all smoothed out
+    - if you care about total size of image, you can add another parameter \lambda: $\|A x-y\| ^{2} + \mu \| [D_h x \text{ } D_v x]^{T} \| ^{2} + \lambda \|x\| ^{2}$
+** Nonlinear least squares (NLLS) problem
+- find $x\in \mathbb{R}^{n}$ that minimizes $\displaystyle \| r(x) \| ^{2} = \sum ^{m} _{i=1} r _{i} (x) ^{2}$
+- $r(x)$ is vector of residuals; $r(x)= Ax-y \Rightarrow$ problem reduces to linear least squares problem
+- in general, can't *really* solve a NLLS problem, but can find good heuristics to get a locally optimal solution
+** Gauss-Newton method for NLLS
+- Start guess for $x$
+- Loop
+  - linearize $r$ near current guess
+  - new guess is linear LS solution, using linearized $r$
+  - if convergence, stop
+- Linearize?
+  - Jacobian: $(Dr) _{ij} = \partial r _{i} / \partial x_j$
+  - Linearization: $r (x) \approx r(x ^{(k)}) + Dr(x ^{(k)} ) (x-x ^{(k)} )$
+  - Set this linearized approximation equal to $r(x) \approx A ^{(k)} x-b ^{(k)}$
+    - $A ^{(k)} = Dr(x ^{(k)})$
+    - $b ^{(k)} = Dr (x ^{(k)}) x ^{(k)} -r(x ^{(k)})$ 
+  - See rest in notes
+  - At $k$ th iteration, approximate NLLS problem by linear LS problem:
+    - $\| r (x) \| ^{2} \approx \left\| A ^{(k)} x-b ^{(k)} \right\| ^{2}$
+      - if you wanna make this really cool add a $\mu \|x-x ^{(k)} \| ^{2}$ term on RHS
+      - called a `trust region term';
+      - first (original) part says to minimize sum of squares for /model/
+      - trust region term says `but don't go far from where you are now'
+- Could also linearize without calculus; works really well 
+  - See `particle filter'
+** G-N example
+- Nice graph and residual plot
+- As practical matter, good to run simulation several times (with different initial guesses)
+- `exuastive simulation'
+** Underdetermined linear equations
+- $A \in \mathbb{R}^{m \times n}, m<n$ ($A$ is fat)
+- more variables than equations
+- $x$ is underspecified
+- For this sectian *assume $A$ is full rank*
+- Set of all solutions has form $\{x | Ax=y\} = \{x_p + z | z \in \mathcal{N}(A) \}$
+- solution has dim $\mathcal{N}(A)= n-m$ `degrees of freedom'
+  - many DOF: good for design (flexibility), bad for estimation (stuff you don't/can't know with available measurements)
+** Least norm solution
+- \fbox{$x _{ls} = A ^{T} (AA ^{T}) ^{-1} y$}
+  - similar to our familiar skinny $A$ version: $x _{ls} = (A^{T} A) ^{-1} A ^{T} y$
+  - mnemonic: $(\cdot) ^{-1}$ thing must be square
+    - if $A$ skinny, both $A A ^{T} and $ $A^TA$ could be square (syntactically)
+    - semantically, you need the up and down patterns that will form the smallest square, i.e., full rank matrix
+* Lecture 9 Fucking Schun
+Piece of shit city
+** General norm minimization with equality constraints
+- Problem: minimize $\|A x-b\|$ subject to $Cx=d$, with variable $x$
+- Least squares/least norm are special cases
+  - Least norm: set $A=I, b=0$, then you just have norm of $x$ subject to some linear equations
+- Same as: minimize $(1/2) \|Ax-b\| ^{2}$ subject to $Cx=d$
+- Lagrangian is...long ugly thing...look at notes
+  - a bit easier to look at block matrix format
+- recover least squares (mayxbe) by eliminating $C$ from matrix (not setting to zero, but only having 1 row/column in first matrix)
+\[
+\begin{bmatrix}
+  A ^{T} A & C ^{T} \\
+  C        & 0      \\
+\end{bmatrix}
+\begin{bmatrix}
+  x       \\
+  \lambda \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  A ^{T} b \\
+  d        \\
+\end{bmatrix}
+\]
